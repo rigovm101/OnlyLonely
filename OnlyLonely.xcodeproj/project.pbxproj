@@ -8,7 +8,38 @@
 
 /* Begin PBXBuildFile section */
 		952142B82633954600F8E696 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142B72633954600F8E696 /* main.swift */; };
+		952142DC2633957C00F8E696 /* OnlyLonelyParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142D12633957C00F8E696 /* OnlyLonelyParser.swift */; };
+		952142DD2633957C00F8E696 /* OnlyLonelyLexerATN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142D32633957C00F8E696 /* OnlyLonelyLexerATN.swift */; };
+		952142DE2633957C00F8E696 /* OnlyLonelyParserATN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142D42633957C00F8E696 /* OnlyLonelyParserATN.swift */; };
+		952142DF2633957C00F8E696 /* OnlyLonelyBaseListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142D52633957C00F8E696 /* OnlyLonelyBaseListener.swift */; };
+		952142E02633957C00F8E696 /* OnlyLonelyLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142D72633957C00F8E696 /* OnlyLonelyLexer.swift */; };
+		952142E12633957C00F8E696 /* OnlyLonelyListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142DB2633957C00F8E696 /* OnlyLonelyListener.swift */; };
+		952142E62633959500F8E696 /* Antlr4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952142C72633955700F8E696 /* Antlr4.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		952142C62633955700F8E696 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 952142BF2633955700F8E696 /* Antlr4.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "Antlr4::Antlr4::Product";
+			remoteInfo = Antlr4;
+		};
+		952142C82633955700F8E696 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 952142BF2633955700F8E696 /* Antlr4.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "Antlr4::Antlr4Tests::Product";
+			remoteInfo = Antlr4Tests;
+		};
+		952142E32633958B00F8E696 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 952142BF2633955700F8E696 /* Antlr4.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = "Antlr4::Antlr4";
+			remoteInfo = Antlr4;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		952142B22633954600F8E696 /* CopyFiles */ = {
@@ -25,6 +56,18 @@
 /* Begin PBXFileReference section */
 		952142B42633954600F8E696 /* OnlyLonely */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OnlyLonely; sourceTree = BUILT_PRODUCTS_DIR; };
 		952142B72633954600F8E696 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		952142BF2633955700F8E696 /* Antlr4.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Antlr4.xcodeproj; path = ../../../../../../Desktop/antlr4/runtime/Swift/Antlr4.xcodeproj; sourceTree = "<group>"; };
+		952142D12633957C00F8E696 /* OnlyLonelyParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyParser.swift; sourceTree = "<group>"; };
+		952142D22633957C00F8E696 /* OnlyLonely.interp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnlyLonely.interp; sourceTree = "<group>"; };
+		952142D32633957C00F8E696 /* OnlyLonelyLexerATN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyLexerATN.swift; sourceTree = "<group>"; };
+		952142D42633957C00F8E696 /* OnlyLonelyParserATN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyParserATN.swift; sourceTree = "<group>"; };
+		952142D52633957C00F8E696 /* OnlyLonelyBaseListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyBaseListener.swift; sourceTree = "<group>"; };
+		952142D62633957C00F8E696 /* OnlyLonelyLexer.interp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnlyLonelyLexer.interp; sourceTree = "<group>"; };
+		952142D72633957C00F8E696 /* OnlyLonelyLexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyLexer.swift; sourceTree = "<group>"; };
+		952142D82633957C00F8E696 /* OnlyLonelyLexer.tokens */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnlyLonelyLexer.tokens; sourceTree = "<group>"; };
+		952142D92633957C00F8E696 /* OnlyLonely.g4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnlyLonely.g4; sourceTree = "<group>"; };
+		952142DA2633957C00F8E696 /* OnlyLonely.tokens */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnlyLonely.tokens; sourceTree = "<group>"; };
+		952142DB2633957C00F8E696 /* OnlyLonelyListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyListener.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				952142E62633959500F8E696 /* Antlr4.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +85,10 @@
 		952142AB2633954600F8E696 = {
 			isa = PBXGroup;
 			children = (
+				952142BF2633955700F8E696 /* Antlr4.xcodeproj */,
 				952142B62633954600F8E696 /* OnlyLonely */,
 				952142B52633954600F8E696 /* Products */,
+				952142E52633959500F8E696 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +103,44 @@
 		952142B62633954600F8E696 /* OnlyLonely */ = {
 			isa = PBXGroup;
 			children = (
+				952142CF2633956900F8E696 /* Compiler */,
 				952142B72633954600F8E696 /* main.swift */,
 			);
 			path = OnlyLonely;
+			sourceTree = "<group>";
+		};
+		952142C02633955700F8E696 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				952142C72633955700F8E696 /* Antlr4.framework */,
+				952142C92633955700F8E696 /* Antlr4Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		952142CF2633956900F8E696 /* Compiler */ = {
+			isa = PBXGroup;
+			children = (
+				952142D92633957C00F8E696 /* OnlyLonely.g4 */,
+				952142D22633957C00F8E696 /* OnlyLonely.interp */,
+				952142DA2633957C00F8E696 /* OnlyLonely.tokens */,
+				952142D52633957C00F8E696 /* OnlyLonelyBaseListener.swift */,
+				952142D62633957C00F8E696 /* OnlyLonelyLexer.interp */,
+				952142D72633957C00F8E696 /* OnlyLonelyLexer.swift */,
+				952142D82633957C00F8E696 /* OnlyLonelyLexer.tokens */,
+				952142D32633957C00F8E696 /* OnlyLonelyLexerATN.swift */,
+				952142DB2633957C00F8E696 /* OnlyLonelyListener.swift */,
+				952142D12633957C00F8E696 /* OnlyLonelyParser.swift */,
+				952142D42633957C00F8E696 /* OnlyLonelyParserATN.swift */,
+			);
+			path = Compiler;
+			sourceTree = "<group>";
+		};
+		952142E52633959500F8E696 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -76,6 +157,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				952142E42633958B00F8E696 /* PBXTargetDependency */,
 			);
 			name = OnlyLonely;
 			productName = OnlyLonely;
@@ -107,6 +189,12 @@
 			mainGroup = 952142AB2633954600F8E696;
 			productRefGroup = 952142B52633954600F8E696 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 952142C02633955700F8E696 /* Products */;
+					ProjectRef = 952142BF2633955700F8E696 /* Antlr4.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				952142B32633954600F8E696 /* OnlyLonely */,
@@ -114,16 +202,47 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		952142C72633955700F8E696 /* Antlr4.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Antlr4.framework;
+			remoteRef = 952142C62633955700F8E696 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		952142C92633955700F8E696 /* Antlr4Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = file;
+			path = Antlr4Tests.xctest;
+			remoteRef = 952142C82633955700F8E696 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXSourcesBuildPhase section */
 		952142B02633954600F8E696 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				952142DD2633957C00F8E696 /* OnlyLonelyLexerATN.swift in Sources */,
+				952142E12633957C00F8E696 /* OnlyLonelyListener.swift in Sources */,
+				952142DE2633957C00F8E696 /* OnlyLonelyParserATN.swift in Sources */,
 				952142B82633954600F8E696 /* main.swift in Sources */,
+				952142E02633957C00F8E696 /* OnlyLonelyLexer.swift in Sources */,
+				952142DF2633957C00F8E696 /* OnlyLonelyBaseListener.swift in Sources */,
+				952142DC2633957C00F8E696 /* OnlyLonelyParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		952142E42633958B00F8E696 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Antlr4;
+			targetProxy = 952142E32633958B00F8E696 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		952142B92633954600F8E696 /* Debug */ = {

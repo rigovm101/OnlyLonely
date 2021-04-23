@@ -6,6 +6,30 @@
 //
 
 import Foundation
+import Antlr4
 
-print("Hello, World!")
+let input = """
+programa TheOnlyLonely;
+variables
+i,j,p : entero;
+valor : flotante;
 
+entero funcion fact(j:entero)
+variables i : entero;
+{
+
+}
+
+principal(){
+escribe(2);
+}
+"""
+
+let inputStream = ANTLRInputStream(input)
+let lexer = OnlyLonelyLexer(inputStream)
+let tokenStream = CommonTokenStream(lexer)
+
+let parser = try OnlyLonelyParser(tokenStream)
+let expressionContext = try parser.root()
+
+print(expressionContext.toStringTree(parser))
