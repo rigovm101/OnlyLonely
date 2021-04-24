@@ -30,7 +30,7 @@ let lexer = OnlyLonelyLexer(inputStream)
 let tokenStream = CommonTokenStream(lexer)
 
 let parser = try OnlyLonelyParser(tokenStream)
-let miList = OnlyLonelyBaseListener()
+let miList = MyCustomListener()
 parser.addParseListener(miList)
 let expressionContext = try parser.root()
 
