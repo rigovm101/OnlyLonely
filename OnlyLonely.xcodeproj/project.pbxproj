@@ -121,6 +121,29 @@
 		952142CF2633956900F8E696 /* Compiler */ = {
 			isa = PBXGroup;
 			children = (
+				952142E926339A2700F8E696 /* Antlr Code */,
+				952142E826339A0900F8E696 /* Dev Code */,
+			);
+			path = Compiler;
+			sourceTree = "<group>";
+		};
+		952142E52633959500F8E696 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		952142E826339A0900F8E696 /* Dev Code */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Dev Code";
+			sourceTree = "<group>";
+		};
+		952142E926339A2700F8E696 /* Antlr Code */ = {
+			isa = PBXGroup;
+			children = (
 				952142D92633957C00F8E696 /* OnlyLonely.g4 */,
 				952142D22633957C00F8E696 /* OnlyLonely.interp */,
 				952142DA2633957C00F8E696 /* OnlyLonely.tokens */,
@@ -133,14 +156,7 @@
 				952142D12633957C00F8E696 /* OnlyLonelyParser.swift */,
 				952142D42633957C00F8E696 /* OnlyLonelyParserATN.swift */,
 			);
-			path = Compiler;
-			sourceTree = "<group>";
-		};
-		952142E52633959500F8E696 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
+			path = "Antlr Code";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
