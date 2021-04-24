@@ -10,7 +10,13 @@ import Antlr4
 
 open class MyCustomListener : OnlyLonelyListener {
     
-    init() {}
+    var functionTable : [String: String]
+    var variableTable : [String: String]
+    
+    init() {
+        functionTable = [:]
+        variableTable = [:]
+    }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
         print("Start Parsing")
@@ -18,6 +24,10 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
         print("End Parsing")
+        print("Diccionario de Funciones")
+        print(functionTable)
+        print("Diccionario de Variables")
+        print(variableTable)
     }
     
     public func enterDecVar(_ ctx: OnlyLonelyParser.DecVarContext) {
@@ -32,8 +42,31 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func obtenerIdsLista(_ listaNodos: Tree?) -> [Tree] {
+        if listaNodos?.getChild(0) == nil {
+            var lista = [Tree]()
+            return lista
+        }else {
+            var lista = [Tree]()
+            lista.append((listaNodos?.getChild(0)?.getChild(0))!)
+            lista.append(contentsOf: obtenerIdsLista(listaNodos?.getChild(2)))
+            return lista
+        }
+    }
+    
     public func exitListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
-        
+        let listaIds = ctx.getChild(0)
+        let cantIds = listaIds?.getChildCount()
+        if cantIds == 1 {
+            let idVar = (listaIds?.getChild(0)?.getChild(0)?.toStringTree())!
+            variableTable[idVar] = (ctx.tipo()?.getChild(0)?.toStringTree())!
+        }else{
+            let lista = obtenerIdsLista(listaIds)
+            for i in 0...lista.count-1{
+                let idVar = lista[i].toStringTree()
+                variableTable[idVar] = ctx.tipo()?.getChild(0)?.toStringTree()
+            }
+        }
     }
     
     public func enterListaIds(_ ctx: OnlyLonelyParser.ListaIdsContext) {
@@ -65,7 +98,14 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
-        
+        if let idFunc = ctx.Id() {
+            let tipoRet = ctx.tipoRet()?.getChild(0)
+            if (functionTable[idFunc.description] != nil) {
+                //Manda Error
+            }else{
+                functionTable[idFunc.description] = tipoRet!.toStringTree()
+            }
+        }
     }
     
     public func enterCuerpo(_ ctx: OnlyLonelyParser.CuerpoContext) {
