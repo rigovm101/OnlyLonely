@@ -70,6 +70,7 @@
 		952142DA2633957C00F8E696 /* OnlyLonely.tokens */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnlyLonely.tokens; sourceTree = "<group>"; };
 		952142DB2633957C00F8E696 /* OnlyLonelyListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyLonelyListener.swift; sourceTree = "<group>"; };
 		952142EF2633A23400F8E696 /* MyCustomListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomListener.swift; sourceTree = "<group>"; };
+		952142F32633D2B200F8E696 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 			children = (
 				952142CF2633956900F8E696 /* Compiler */,
 				952142B72633954600F8E696 /* main.swift */,
+				952142F32633D2B200F8E696 /* README.md */,
 			);
 			path = OnlyLonely;
 			sourceTree = "<group>";

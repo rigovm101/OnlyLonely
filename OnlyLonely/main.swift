@@ -15,7 +15,7 @@ i,j,p : entero;
 valor : flotante;
 
 entero funcion fact(j:entero)
-variables i : entero;
+variables x : entero;
 {
 
 }
@@ -34,4 +34,4 @@ let miList = MyCustomListener()
 parser.addParseListener(miList)
 let expressionContext = try parser.root()
 
-print(expressionContext.toStringTree(parser))
+//print(expressionContext.toStringTree(parser))
