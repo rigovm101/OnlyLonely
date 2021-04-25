@@ -10,7 +10,7 @@ import Antlr4
 
 open class MyCustomListener : OnlyLonelyListener {
     
-    var functionTable : [String: String]
+    var functionTable : [String: [String : [String : String]]]
     var variableTable : [String: String]
     
     init() {
@@ -19,11 +19,10 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
-        print("Start Parsing")
+
     }
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
-        print("End Parsing")
         print("Diccionario de Funciones")
         print(functionTable)
         print("Diccionario de Variables")
@@ -42,26 +41,26 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
-    public func obtenerIdsLista(_ listaNodos: Tree?) -> [Tree] {
-        if listaNodos?.getChild(0) == nil {
-            var lista = [Tree]()
-            return lista
+    public func extractListIds(_ nodesList: Tree?) -> [Tree] {
+        if nodesList?.getChild(0) == nil {
+            let list = [Tree]()
+            return list
         }else {
-            var lista = [Tree]()
-            lista.append((listaNodos?.getChild(0)?.getChild(0))!)
-            lista.append(contentsOf: obtenerIdsLista(listaNodos?.getChild(2)))
-            return lista
+            var list = [Tree]()
+            list.append((nodesList?.getChild(0)?.getChild(0))!)
+            list.append(contentsOf: extractListIds(nodesList?.getChild(2)))
+            return list
         }
     }
     
     public func exitListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
-        let listaIds = ctx.getChild(0)
-        let cantIds = listaIds?.getChildCount()
-        if cantIds == 1 {
-            let idVar = (listaIds?.getChild(0)?.getChild(0)?.toStringTree())!
+        let listIds = ctx.getChild(0)
+        let idsAmount = listIds?.getChildCount()
+        if idsAmount == 1 {
+            let idVar = (listIds?.getChild(0)?.getChild(0)?.toStringTree())!
             variableTable[idVar] = (ctx.tipo()?.getChild(0)?.toStringTree())!
         }else{
-            let lista = obtenerIdsLista(listaIds)
+            let lista = extractListIds(listIds)
             for i in 0...lista.count-1{
                 let idVar = lista[i].toStringTree()
                 variableTable[idVar] = ctx.tipo()?.getChild(0)?.toStringTree()
@@ -97,13 +96,44 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func extractParameters(_ context: OnlyLonelyParser.ParametrosContext) -> [String: String]{
+        if (context == nil){
+            return [:]
+        }else{
+            let id = (context.getChild(0)?.toStringTree())!
+            let tipo = (context.getChild(2)?.getChild(0)?.toStringTree())!;
+            var elemento = [id:tipo]
+            if(context.parametros() == nil){
+                return elemento
+            } else{
+                let rest = extractParameters(context.parametros()!)
+                elemento.merge(dict: rest)
+                return elemento
+            }
+        }
+    }
+    
     public func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
         if let idFunc = ctx.Id() {
+            let params = ctx.parametros()
             let tipoRet = ctx.tipoRet()?.getChild(0)
-            if (functionTable[idFunc.description] != nil) {
-                //Manda Error
+            if params?.getChildCount() == 0 {
+                //No tiene parametros
+                if (functionTable[idFunc.description] != nil) {
+                    //Manda Error
+                    print("Error, función \(idFunc.description) ya declarada")
+                }else{
+                    functionTable[idFunc.description] = [tipoRet!.toStringTree() : [:]]
+                }
             }else{
-                functionTable[idFunc.description] = tipoRet!.toStringTree()
+                //Checar Parametros
+                let paramsList = extractParameters(params!)
+                if (functionTable[idFunc.description] != nil) {
+                    //Manda Error
+                    print("Error, función \(idFunc.description) ya declarada")
+                }else{
+                    functionTable[idFunc.description] = [tipoRet!.toStringTree() : paramsList]
+                }
             }
         }
     }
