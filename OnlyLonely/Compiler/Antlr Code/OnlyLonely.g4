@@ -56,7 +56,9 @@ variable : Id | (Id AbreCorchete exp CierraCorchete);
 
 decFunc : tFuncion*;
 
-tFuncion : tipoRet Funcion (Id | IdFunc) AbreParentesis parametros CierraParentesis decVar AbreLlave cuerpo CierraLlave;
+tFuncion : tipoRet Funcion (Id | IdFunc) AbreParentesis parametros CierraParentesis decVarLocal AbreLlave cuerpo CierraLlave;
+
+decVarLocal : Variables listaVTipo |;
 
 cuerpo : estatuto*;
 

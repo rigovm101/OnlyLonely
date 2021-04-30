@@ -91,6 +91,18 @@ public protocol OnlyLonelyListener: ParseTreeListener {
 	 */
 	func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext)
 	/**
+	 * Enter a parse tree produced by {@link OnlyLonelyParser#decVarLocal}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext)
+	/**
+	 * Exit a parse tree produced by {@link OnlyLonelyParser#decVarLocal}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext)
+	/**
 	 * Enter a parse tree produced by {@link OnlyLonelyParser#cuerpo}.
 	 - Parameters:
 	   - ctx: the parse tree

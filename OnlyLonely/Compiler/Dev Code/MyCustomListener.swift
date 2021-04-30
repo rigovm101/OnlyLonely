@@ -12,10 +12,12 @@ open class MyCustomListener : OnlyLonelyListener {
     
     var functionTable : [String: [String : [String : String]]]
     var variableTable : [String: String]
+    let semanticCube : SemanticCube
     
     init() {
         functionTable = [:]
         variableTable = [:]
+        semanticCube = SemanticCube()
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -40,32 +42,15 @@ open class MyCustomListener : OnlyLonelyListener {
     public func enterListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
         
     }
-    
-    public func extractListIds(_ nodesList: Tree?) -> [Tree] {
-        if nodesList?.getChild(0) == nil {
-            let list = [Tree]()
-            return list
-        }else {
-            var list = [Tree]()
-            list.append((nodesList?.getChild(0)?.getChild(0))!)
-            list.append(contentsOf: extractListIds(nodesList?.getChild(2)))
-            return list
-        }
+
+    public func exitListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
+        
     }
     
-    public func exitListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
-        let listIds = ctx.getChild(0)
-        let idsAmount = listIds?.getChildCount()
-        if idsAmount == 1 {
-            let idVar = (listIds?.getChild(0)?.getChild(0)?.toStringTree())!
-            variableTable[idVar] = (ctx.tipo()?.getChild(0)?.toStringTree())!
-        }else{
-            let lista = extractListIds(listIds)
-            for i in 0...lista.count-1{
-                let idVar = lista[i].toStringTree()
-                variableTable[idVar] = ctx.tipo()?.getChild(0)?.toStringTree()
-            }
-        }
+    public func enterDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) {
+    }
+    
+    public func exitDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) {
     }
     
     public func enterListaIds(_ ctx: OnlyLonelyParser.ListaIdsContext) {
@@ -115,26 +100,8 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
         if let idFunc = ctx.Id() {
-            let params = ctx.parametros()
             let tipoRet = ctx.tipoRet()?.getChild(0)
-            if params?.getChildCount() == 0 {
-                //No tiene parametros
-                if (functionTable[idFunc.description] != nil) {
-                    //Manda Error
-                    print("Error, función \(idFunc.description) ya declarada")
-                }else{
-                    functionTable[idFunc.description] = [tipoRet!.toStringTree() : [:]]
-                }
-            }else{
-                //Checar Parametros
-                let paramsList = extractParameters(params!)
-                if (functionTable[idFunc.description] != nil) {
-                    //Manda Error
-                    print("Error, función \(idFunc.description) ya declarada")
-                }else{
-                    functionTable[idFunc.description] = [tipoRet!.toStringTree() : paramsList]
-                }
-            }
+            functionTable[idFunc.description] = [tipoRet!.toStringTree() : [:]]
         }
     }
     

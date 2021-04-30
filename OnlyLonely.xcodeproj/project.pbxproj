@@ -17,6 +17,7 @@
 		952142E62633959500F8E696 /* Antlr4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952142C72633955700F8E696 /* Antlr4.framework */; };
 		952142F02633A23400F8E696 /* MyCustomListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142EF2633A23400F8E696 /* MyCustomListener.swift */; };
 		95773DFF2634E738008E0419 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95773DFE2634E738008E0419 /* SwiftExtensions.swift */; };
+		95FFF045263C628E00F3E54D /* SemanticCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FFF044263C628E00F3E54D /* SemanticCube.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		952142EF2633A23400F8E696 /* MyCustomListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomListener.swift; sourceTree = "<group>"; };
 		952142F32633D2B200F8E696 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		95773DFE2634E738008E0419 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
+		95FFF044263C628E00F3E54D /* SemanticCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticCube.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				952142EF2633A23400F8E696 /* MyCustomListener.swift */,
+				95FFF044263C628E00F3E54D /* SemanticCube.swift */,
 				95773DFE2634E738008E0419 /* SwiftExtensions.swift */,
 			);
 			path = "Dev Code";
@@ -195,7 +198,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					952142B32633954600F8E696 = {
 						CreatedOnToolsVersion = 12.4;
@@ -250,6 +253,7 @@
 			files = (
 				952142F02633A23400F8E696 /* MyCustomListener.swift in Sources */,
 				952142DD2633957C00F8E696 /* OnlyLonelyLexerATN.swift in Sources */,
+				95FFF045263C628E00F3E54D /* SemanticCube.swift in Sources */,
 				952142E12633957C00F8E696 /* OnlyLonelyListener.swift in Sources */,
 				952142DE2633957C00F8E696 /* OnlyLonelyParserATN.swift in Sources */,
 				952142B82633954600F8E696 /* main.swift in Sources */,
@@ -389,6 +393,7 @@
 		952142BC2633954600F8E696 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 78CSEY7K5Q;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -400,6 +405,7 @@
 		952142BD2633954600F8E696 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 78CSEY7K5Q;
 				ENABLE_HARDENED_RUNTIME = YES;

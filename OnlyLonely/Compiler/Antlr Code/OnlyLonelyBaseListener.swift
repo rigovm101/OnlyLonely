@@ -106,6 +106,19 @@ open class OnlyLonelyBaseListener: OnlyLonelyListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	open func enterDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	open func enterCuerpo(_ ctx: OnlyLonelyParser.CuerpoContext) { }
 	/**
 	 * {@inheritDoc}
