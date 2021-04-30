@@ -36,7 +36,19 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitDecVar(_ ctx: OnlyLonelyParser.DecVarContext) {
-        
+        let values = ctx.listaVTipo()?.getText()
+        let types = (values?.split(separator: ";"))!
+        for type in types {
+            let tType = type.split(separator: ":")
+            let ids = tType[0].split(separator: ",")
+            for id in ids {
+                if variableTable[String(id)] == nil{
+                    variableTable[String(id)] = String(tType[1])
+                }else{
+                    print("Error, variable \(id) ya ha sido declarada en este contexto")
+                }
+            }
+        }
     }
     
     public func enterListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
