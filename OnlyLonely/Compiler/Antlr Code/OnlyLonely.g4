@@ -96,8 +96,8 @@ exp : expRel | (expRel (TokenOr | TokenAnd) exp);
 
 expRel : expArit | (expArit (MayorQue | MenorQue | IgualQue | DiferenteQue) expRel);
 
-expArit : termino | (termino (Suma | Resta) expArit);
+expArit : termino | (termino (Suma {myListener.foundSuma()} | Resta {myListener.foundResta()}) expArit);
 
-termino : factor | (factor (Multiplicacion | Division) termino);
+termino : factor | (factor (Multiplicacion {myListener.foundMultiplicacion()} | Division {myListener.foundDivision()}) termino);
 
-factor : Id | (Id AbreCorchete exp CierraCorchete) | NumFlotante | Numero | (AbreParentesis exp CierraParentesis);
+factor : Id | (Id AbreCorchete exp CierraCorchete) | NumFlotante | Numero | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});

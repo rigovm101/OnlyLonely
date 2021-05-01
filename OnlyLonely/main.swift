@@ -11,8 +11,8 @@ import Antlr4
 let input = """
 programa TheOnlyLonely;
 variables
-i,j,p : entero;
-valor : flotante;
+a,b,c,d,e,f,g : entero;
+h,i,j,k : flotante;
 
 entero funcion fact(j:entero)
 variables x : entero;
@@ -21,7 +21,10 @@ variables x : entero;
 }
 
 principal(){
-escribe(2);
+a = b + c * d;
+h = a / g;
+escribe(a - b);
+lee(a,b);
 }
 """
 
@@ -30,8 +33,6 @@ let lexer = OnlyLonelyLexer(inputStream)
 let tokenStream = CommonTokenStream(lexer)
 
 let parser = try OnlyLonelyParser(tokenStream)
-let miList = MyCustomListener()
-parser.addParseListener(miList)
+let myListener = MyCustomListener()
+parser.addParseListener(myListener)
 let expressionContext = try parser.root()
-
-//print(expressionContext.toStringTree(parser))

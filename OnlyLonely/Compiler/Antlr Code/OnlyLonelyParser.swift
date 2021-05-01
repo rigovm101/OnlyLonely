@@ -136,7 +136,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func root() throws -> RootContext {
-        let _localctx: RootContext = RootContext(_ctx, getState())
+		let _localctx: RootContext = RootContext(_ctx, getState())
 		try enterRule(_localctx, 0, OnlyLonelyParser.RULE_root)
 		defer {
 	    		try! exitRule()
@@ -194,7 +194,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func decVar() throws -> DecVarContext {
-        let _localctx: DecVarContext = DecVarContext(_ctx, getState())
+		let _localctx: DecVarContext = DecVarContext(_ctx, getState())
 		try enterRule(_localctx, 2, OnlyLonelyParser.RULE_decVar)
 		defer {
 	    		try! exitRule()
@@ -272,7 +272,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func listaVTipo() throws -> ListaVTipoContext {
-        let _localctx: ListaVTipoContext = ListaVTipoContext(_ctx, getState())
+		let _localctx: ListaVTipoContext = ListaVTipoContext(_ctx, getState())
 		try enterRule(_localctx, 4, OnlyLonelyParser.RULE_listaVTipo)
 		defer {
 	    		try! exitRule()
@@ -353,7 +353,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func listaIds() throws -> ListaIdsContext {
-        let _localctx: ListaIdsContext = ListaIdsContext(_ctx, getState())
+		let _localctx: ListaIdsContext = ListaIdsContext(_ctx, getState())
 		try enterRule(_localctx, 6, OnlyLonelyParser.RULE_listaIds)
 		defer {
 	    		try! exitRule()
@@ -427,7 +427,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func variable() throws -> VariableContext {
-        let _localctx: VariableContext = VariableContext(_ctx, getState())
+		let _localctx: VariableContext = VariableContext(_ctx, getState())
 		try enterRule(_localctx, 8, OnlyLonelyParser.RULE_variable)
 		defer {
 	    		try! exitRule()
@@ -495,7 +495,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func decFunc() throws -> DecFuncContext {
-        let _localctx: DecFuncContext = DecFuncContext(_ctx, getState())
+		let _localctx: DecFuncContext = DecFuncContext(_ctx, getState())
 		try enterRule(_localctx, 10, OnlyLonelyParser.RULE_decFunc)
 		var _la: Int = 0
 		defer {
@@ -597,7 +597,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func tFuncion() throws -> TFuncionContext {
-        let _localctx: TFuncionContext = TFuncionContext(_ctx, getState())
+		let _localctx: TFuncionContext = TFuncionContext(_ctx, getState())
 		try enterRule(_localctx, 12, OnlyLonelyParser.RULE_tFuncion)
 		var _la: Int = 0
 		defer {
@@ -675,7 +675,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func decVarLocal() throws -> DecVarLocalContext {
-        let _localctx: DecVarLocalContext = DecVarLocalContext(_ctx, getState())
+		let _localctx: DecVarLocalContext = DecVarLocalContext(_ctx, getState())
 		try enterRule(_localctx, 14, OnlyLonelyParser.RULE_decVarLocal)
 		defer {
 	    		try! exitRule()
@@ -738,7 +738,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func cuerpo() throws -> CuerpoContext {
-        let _localctx: CuerpoContext = CuerpoContext(_ctx, getState())
+		let _localctx: CuerpoContext = CuerpoContext(_ctx, getState())
 		try enterRule(_localctx, 16, OnlyLonelyParser.RULE_cuerpo)
 		var _la: Int = 0
 		defer {
@@ -816,7 +816,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func parametros() throws -> ParametrosContext {
-        let _localctx: ParametrosContext = ParametrosContext(_ctx, getState())
+		let _localctx: ParametrosContext = ParametrosContext(_ctx, getState())
 		try enterRule(_localctx, 18, OnlyLonelyParser.RULE_parametros)
 		defer {
 	    		try! exitRule()
@@ -911,7 +911,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func tPrincipal() throws -> TPrincipalContext {
-        let _localctx: TPrincipalContext = TPrincipalContext(_ctx, getState())
+		let _localctx: TPrincipalContext = TPrincipalContext(_ctx, getState())
 		try enterRule(_localctx, 20, OnlyLonelyParser.RULE_tPrincipal)
 		defer {
 	    		try! exitRule()
@@ -977,7 +977,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func tipoRet() throws -> TipoRetContext {
-        let _localctx: TipoRetContext = TipoRetContext(_ctx, getState())
+		let _localctx: TipoRetContext = TipoRetContext(_ctx, getState())
 		try enterRule(_localctx, 22, OnlyLonelyParser.RULE_tipoRet)
 		var _la: Int = 0
 		defer {
@@ -1044,7 +1044,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func tipo() throws -> TipoContext {
-        let _localctx: TipoContext = TipoContext(_ctx, getState())
+		let _localctx: TipoContext = TipoContext(_ctx, getState())
 		try enterRule(_localctx, 24, OnlyLonelyParser.RULE_tipo)
 		var _la: Int = 0
 		defer {
@@ -1127,7 +1127,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func estatuto() throws -> EstatutoContext {
-        let _localctx: EstatutoContext = EstatutoContext(_ctx, getState())
+		let _localctx: EstatutoContext = EstatutoContext(_ctx, getState())
 		try enterRule(_localctx, 26, OnlyLonelyParser.RULE_estatuto)
 		defer {
 	    		try! exitRule()
@@ -1249,7 +1249,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func tAsignacion() throws -> TAsignacionContext {
-        let _localctx: TAsignacionContext = TAsignacionContext(_ctx, getState())
+		let _localctx: TAsignacionContext = TAsignacionContext(_ctx, getState())
 		try enterRule(_localctx, 28, OnlyLonelyParser.RULE_tAsignacion)
 		defer {
 	    		try! exitRule()
@@ -1359,7 +1359,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func llamadaVoid() throws -> LlamadaVoidContext {
-        let _localctx: LlamadaVoidContext = LlamadaVoidContext(_ctx, getState())
+		let _localctx: LlamadaVoidContext = LlamadaVoidContext(_ctx, getState())
 		try enterRule(_localctx, 30, OnlyLonelyParser.RULE_llamadaVoid)
 		var _la: Int = 0
 		defer {
@@ -1463,7 +1463,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func argumentos() throws -> ArgumentosContext {
-        let _localctx: ArgumentosContext = ArgumentosContext(_ctx, getState())
+		let _localctx: ArgumentosContext = ArgumentosContext(_ctx, getState())
 		try enterRule(_localctx, 32, OnlyLonelyParser.RULE_argumentos)
 		defer {
 	    		try! exitRule()
@@ -1541,7 +1541,7 @@ open class OnlyLonelyParser: Parser {
 	}
 	@discardableResult
 	 open func retornoFunc() throws -> RetornoFuncContext {
-        let _localctx: RetornoFuncContext = RetornoFuncContext(_ctx, getState())
+		let _localctx: RetornoFuncContext = RetornoFuncContext(_ctx, getState())
 		try enterRule(_localctx, 34, OnlyLonelyParser.RULE_retornoFunc)
 		defer {
 	    		try! exitRule()
@@ -2321,14 +2321,13 @@ open class OnlyLonelyParser: Parser {
 	 open func expArit() throws -> ExpAritContext {
 		let _localctx: ExpAritContext = ExpAritContext(_ctx, getState())
 		try enterRule(_localctx, 52, OnlyLonelyParser.RULE_expArit)
-		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(285)
+		 	setState(290)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,16, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,17, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
 		 		setState(280)
@@ -2339,20 +2338,26 @@ open class OnlyLonelyParser: Parser {
 		 		try enterOuterAlt(_localctx, 2)
 		 		setState(281)
 		 		try termino()
-		 		setState(282)
-		 		_la = try _input.LA(1)
-		 		if (!(//closure
-		 		 { () -> Bool in
-		 		      let testSet: Bool = _la == OnlyLonelyParser.Tokens.Suma.rawValue || _la == OnlyLonelyParser.Tokens.Resta.rawValue
-		 		      return testSet
-		 		 }())) {
-		 		try _errHandler.recoverInline(self)
+		 		setState(286)
+		 		try _errHandler.sync(self)
+		 		switch (OnlyLonelyParser.Tokens(rawValue: try _input.LA(1))!) {
+		 		case .Suma:
+		 			setState(282)
+		 			try match(OnlyLonelyParser.Tokens.Suma.rawValue)
+		 			myListener.foundSuma()
+
+		 			break
+
+		 		case .Resta:
+		 			setState(284)
+		 			try match(OnlyLonelyParser.Tokens.Resta.rawValue)
+		 			myListener.foundResta()
+
+		 			break
+		 		default:
+		 			throw ANTLRException.recognition(e: NoViableAltException(self))
 		 		}
-		 		else {
-		 			_errHandler.reportMatch(self)
-		 			try consume()
-		 		}
-		 		setState(283)
+		 		setState(288)
 		 		try expArit()
 
 
@@ -2407,38 +2412,43 @@ open class OnlyLonelyParser: Parser {
 	 open func termino() throws -> TerminoContext {
 		let _localctx: TerminoContext = TerminoContext(_ctx, getState())
 		try enterRule(_localctx, 54, OnlyLonelyParser.RULE_termino)
-		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(292)
+		 	setState(302)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,17, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,19, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(287)
+		 		setState(292)
 		 		try factor()
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(288)
+		 		setState(293)
 		 		try factor()
-		 		setState(289)
-		 		_la = try _input.LA(1)
-		 		if (!(//closure
-		 		 { () -> Bool in
-		 		      let testSet: Bool = _la == OnlyLonelyParser.Tokens.Multiplicacion.rawValue || _la == OnlyLonelyParser.Tokens.Division.rawValue
-		 		      return testSet
-		 		 }())) {
-		 		try _errHandler.recoverInline(self)
+		 		setState(298)
+		 		try _errHandler.sync(self)
+		 		switch (OnlyLonelyParser.Tokens(rawValue: try _input.LA(1))!) {
+		 		case .Multiplicacion:
+		 			setState(294)
+		 			try match(OnlyLonelyParser.Tokens.Multiplicacion.rawValue)
+		 			myListener.foundMultiplicacion()
+
+		 			break
+
+		 		case .Division:
+		 			setState(296)
+		 			try match(OnlyLonelyParser.Tokens.Division.rawValue)
+		 			myListener.foundDivision()
+
+		 			break
+		 		default:
+		 			throw ANTLRException.recognition(e: NoViableAltException(self))
 		 		}
-		 		else {
-		 			_errHandler.reportMatch(self)
-		 			try consume()
-		 		}
-		 		setState(290)
+		 		setState(300)
 		 		try termino()
 
 
@@ -2513,48 +2523,50 @@ open class OnlyLonelyParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(306)
+		 	setState(318)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,18, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,20, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(294)
+		 		setState(304)
 		 		try match(OnlyLonelyParser.Tokens.Id.rawValue)
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(295)
+		 		setState(305)
 		 		try match(OnlyLonelyParser.Tokens.Id.rawValue)
-		 		setState(296)
+		 		setState(306)
 		 		try match(OnlyLonelyParser.Tokens.AbreCorchete.rawValue)
-		 		setState(297)
+		 		setState(307)
 		 		try exp()
-		 		setState(298)
+		 		setState(308)
 		 		try match(OnlyLonelyParser.Tokens.CierraCorchete.rawValue)
 
 
 		 		break
 		 	case 3:
 		 		try enterOuterAlt(_localctx, 3)
-		 		setState(300)
+		 		setState(310)
 		 		try match(OnlyLonelyParser.Tokens.NumFlotante.rawValue)
 
 		 		break
 		 	case 4:
 		 		try enterOuterAlt(_localctx, 4)
-		 		setState(301)
+		 		setState(311)
 		 		try match(OnlyLonelyParser.Tokens.Numero.rawValue)
 
 		 		break
 		 	case 5:
 		 		try enterOuterAlt(_localctx, 5)
-		 		setState(302)
+		 		setState(312)
 		 		try match(OnlyLonelyParser.Tokens.AbreParentesis.rawValue)
-		 		setState(303)
+		 		myListener.foundAbreParentesis()
+		 		setState(314)
 		 		try exp()
-		 		setState(304)
+		 		setState(315)
 		 		try match(OnlyLonelyParser.Tokens.CierraParentesis.rawValue)
+		 		myListener.foundCierraParentesis()
 
 
 		 		break

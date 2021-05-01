@@ -39,6 +39,7 @@ class SemanticCube {
         cube["entero"]!["entero"]!["=="] = "bool"
         cube["entero"]!["entero"]!["&"] = "bool"
         cube["entero"]!["entero"]!["|"] = "bool"
+        cube["entero"]!["entero"]!["="] = "entero"
         
         //Entero Flotante
         cube["entero"]!["flotante"]!["+"] = "flotante"
@@ -50,6 +51,7 @@ class SemanticCube {
         cube["entero"]!["flotante"]!["=="] = "bool"
         cube["entero"]!["flotante"]!["&"] = "bool"
         cube["entero"]!["flotante"]!["|"] = "bool"
+        cube["entero"]!["flotante"]!["="] = "flotante"
         
         cube["flotante"]!["entero"]!["+"] = "flotante"
         cube["flotante"]!["entero"]!["-"] = "flotante"
@@ -60,6 +62,7 @@ class SemanticCube {
         cube["flotante"]!["entero"]!["=="] = "bool"
         cube["flotante"]!["entero"]!["&"] = "bool"
         cube["flotante"]!["entero"]!["|"] = "bool"
+        cube["flotante"]!["entero"]!["="] = "flotante"
         
         //Entero Char
         cube["entero"]!["char"]!["+"] = nil
@@ -71,6 +74,7 @@ class SemanticCube {
         cube["entero"]!["char"]!["=="] = nil
         cube["entero"]!["char"]!["&"] = nil
         cube["entero"]!["char"]!["|"] = nil
+        cube["entero"]!["char"]!["="] = nil
         
         cube["char"]!["entero"]!["+"] = nil
         cube["char"]!["entero"]!["-"] = nil
@@ -81,6 +85,7 @@ class SemanticCube {
         cube["char"]!["entero"]!["=="] = nil
         cube["char"]!["entero"]!["&"] = nil
         cube["char"]!["entero"]!["|"] = nil
+        cube["char"]!["entero"]!["="] = nil
         
         //Flotante Flotante
         cube["flotante"]!["flotante"]!["+"] = "flotante"
@@ -92,6 +97,7 @@ class SemanticCube {
         cube["flotante"]!["flotante"]!["=="] = "bool"
         cube["flotante"]!["flotante"]!["&"] = "bool"
         cube["flotante"]!["flotante"]!["|"] = "bool"
+        cube["flotante"]!["flotante"]!["="] = "flotante"
         
         //Flotante Char
         cube["flotante"]!["char"]!["+"] = nil
@@ -103,6 +109,7 @@ class SemanticCube {
         cube["flotante"]!["char"]!["=="] = nil
         cube["flotante"]!["char"]!["&"] = nil
         cube["flotante"]!["char"]!["|"] = nil
+        cube["flotante"]!["char"]!["="] = nil
         
         cube["char"]!["flotante"]!["+"] = nil
         cube["char"]!["flotante"]!["-"] = nil
@@ -113,6 +120,7 @@ class SemanticCube {
         cube["char"]!["flotante"]!["=="] = nil
         cube["char"]!["flotante"]!["&"] = nil
         cube["char"]!["flotante"]!["|"] = nil
+        cube["char"]!["flotante"]!["="] = nil
         
         //Char Char
         cube["char"]!["char"]!["+"] = nil
@@ -124,9 +132,10 @@ class SemanticCube {
         cube["char"]!["char"]!["=="] = "bool"
         cube["char"]!["char"]!["&"] = nil
         cube["char"]!["char"]!["|"] = nil
+        cube["char"]!["char"]!["="] = "char"
     }
     
-    func chekCube(leftType:String, rightType: String, operand: String) -> String {
-        return cube[leftType]![rightType]![operand]!
+    func chekCube(leftType:String, rightType: String, myOperator: String) -> String? {
+        return cube[leftType]![rightType]![myOperator]
     }
 }

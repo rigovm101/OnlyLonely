@@ -13,11 +13,21 @@ open class MyCustomListener : OnlyLonelyListener {
     var functionTable : [String: [String : [String : String]]]
     var variableTable : [String: String]
     let semanticCube : SemanticCube
+    var quadruples : [Quadruple]
+    var operandStack : Stack<String>
+    var typeStack : Stack<String>
+    var operatorStack : Stack<String>
+    let myTempVarGenerator : TemporalVariableGenerator
     
     init() {
         functionTable = [:]
         variableTable = [:]
         semanticCube = SemanticCube()
+        quadruples = []
+        operandStack = Stack<String>()
+        typeStack = Stack<String>()
+        operatorStack = Stack<String>()
+        myTempVarGenerator = TemporalVariableGenerator()
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -29,6 +39,23 @@ open class MyCustomListener : OnlyLonelyListener {
         print(functionTable)
         print("Diccionario de Variables")
         print(variableTable)
+//        print("Pila de Operandos")
+//        while (operandStack.top() != nil) {
+//            print(operandStack.pop()!)
+//        }
+//        print("Pila de Tipos")
+//        while (typeStack.top() != nil) {
+//            print(typeStack.pop()!)
+//        }
+//        print("Pila de Operadores")
+//        while (operatorStack.top() != nil) {
+//            print(operatorStack.pop()!)
+//        }
+        print("Cuadruplos")
+        for quad in quadruples{
+            print("\(quad.operationCode) \(quad.leftOperand) \(quad.rightOperand) \(quad.result)")
+        }
+        
     }
     
     public func enterDecVar(_ ctx: OnlyLonelyParser.DecVarContext) {
@@ -93,23 +120,6 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
-    public func extractParameters(_ context: OnlyLonelyParser.ParametrosContext) -> [String: String]{
-        if (context == nil){
-            return [:]
-        }else{
-            let id = (context.getChild(0)?.toStringTree())!
-            let tipo = (context.getChild(2)?.getChild(0)?.toStringTree())!;
-            var elemento = [id:tipo]
-            if(context.parametros() == nil){
-                return elemento
-            } else{
-                let rest = extractParameters(context.parametros()!)
-                elemento.merge(dict: rest)
-                return elemento
-            }
-        }
-    }
-    
     public func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
         if let idFunc = ctx.Id() {
             let tipoRet = ctx.tipoRet()?.getChild(0)
@@ -170,7 +180,16 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitTAsignacion(_ ctx: OnlyLonelyParser.TAsignacionContext) {
-        
+        let id = ctx.Id()?.description
+        let type = variableTable[id!]
+        let resultType = semanticCube.chekCube(leftType: type!, rightType: typeStack.top()!, myOperator: "=")
+        if (resultType != nil) {
+            quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
+            variableTable[id!] = resultType!
+            typeStack.pop()
+        }else{
+            print("Error, tipos \(type!) y \(typeStack.pop()!) no son compatibles")
+        }
     }
     
     public func enterLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext) {
@@ -202,7 +221,15 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitLectura(_ ctx: OnlyLonelyParser.LecturaContext) {
-        
+        let text = ctx.argumentos()?.getText()
+        let ids = text?.split(separator: ",")
+        for id in ids! {
+            if (variableTable[String(id)] != nil) {
+                quadruples.append(Quadruple("lee", "_", "_", String(id)))
+            }else{
+                print("Error, la variable \(String(id)) no se ha declarado")
+            }
+        }
     }
     
     public func enterEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) {
@@ -210,7 +237,16 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) {
-        
+        if (ctx.String() != nil) {
+            let str = ctx.String()?.description
+            quadruples.append(Quadruple("escribe", "_", "_", str!))
+        }else{
+            let operand = operandStack.pop()
+            typeStack.pop()
+            if operand != nil {
+                quadruples.append(Quadruple("escribe", "_", "_", operand!))
+            }
+        }
     }
     
     public func enterEstDesicion(_ ctx: OnlyLonelyParser.EstDesicionContext) {
@@ -253,6 +289,34 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func foundMultiplicacion(){
+        operatorStack.push("*")
+    }
+    
+    public func foundDivision(){
+        operatorStack.push("/")
+    }
+    
+    public func foundSuma(){
+        operatorStack.push("+")
+    }
+    
+    public func foundResta(){
+        operatorStack.push("-")
+    }
+    
+    public func foundAbreParentesis(){
+        operatorStack.push("(")
+    }
+    
+    public func foundCierraParentesis(){
+        if operatorStack.top() == "(" {
+            operatorStack.pop()
+        }else{
+            print("Error, no se esperaba )")
+        }
+    }
+    
     public func enterExpRel(_ ctx: OnlyLonelyParser.ExpRelContext) {
         
     }
@@ -274,7 +338,22 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitTermino(_ ctx: OnlyLonelyParser.TerminoContext) {
-        
+        if (operatorStack.top() == "+" || operatorStack.top() == "-"){
+            let rightOperand = operandStack.pop()!
+            let rightType = typeStack.pop()!
+            let leftOperand = operandStack.pop()!
+            let leftType = typeStack.pop()!
+            let myOperator = operatorStack.pop()!
+            if semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator) != nil{
+                let resultType = semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator)
+                let myTempVar = myTempVarGenerator.getTemporalVariable()
+                quadruples.append(Quadruple(myOperator, leftOperand, rightOperand, myTempVar))
+                operandStack.push(myTempVar)
+                typeStack.push(resultType!)
+            }else{
+                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+            }
+        }
     }
     
     public func enterFactor(_ ctx: OnlyLonelyParser.FactorContext) {
@@ -282,7 +361,29 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitFactor(_ ctx: OnlyLonelyParser.FactorContext) {
-        
+        let id = ctx.getText()
+        if let type = variableTable[id] {
+            operandStack.push(id)
+            typeStack.push(type)
+        }else{
+            print("Error, la variable \(id) no ha sido declarada")
+        }
+        if (operatorStack.top() == "*" || operatorStack.top() == "/"){
+            let rightOperand = operandStack.pop()!
+            let rightType = typeStack.pop()!
+            let leftOperand = operandStack.pop()!
+            let leftType = typeStack.pop()!
+            let myOperator = operatorStack.pop()!
+            if semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator) != nil{
+                let resultType = semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator)
+                let myTempVar = myTempVarGenerator.getTemporalVariable()
+                quadruples.append(Quadruple(myOperator, leftOperand, rightOperand, myTempVar))
+                operandStack.push(myTempVar)
+                typeStack.push(resultType!)
+            }else{
+                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+            }
+        }
     }
     
     public func visitTerminal(_ node: TerminalNode) {
