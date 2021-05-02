@@ -84,7 +84,7 @@ lectura : Lee AbreParentesis argumentos CierraParentesis PuntoComa;
 
 escritura : (Escribe AbreParentesis exp CierraParentesis PuntoComa) | (Escribe AbreParentesis String CierraParentesis PuntoComa);
 
-estDesicion : (Si AbreParentesis exp CierraParentesis Entonces AbreLlave cuerpo CierraLlave tSino) | (Si AbreParentesis exp CierraParentesis Entonces AbreLlave cuerpo CierraLlave);
+estDesicion : (Si AbreParentesis exp CierraParentesis Entonces AbreLlave cuerpo CierraLlave tSino) | (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentesis Entonces AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
 tSino : (Sino AbreLlave cuerpo CierraLlave);
 
@@ -92,9 +92,9 @@ tMientras : Mientras AbreParentesis exp CierraParentesis Hacer AbreLlave cuerpo 
 
 tDesde : Desde Id Asignacion exp Hasta exp Hacer AbreLlave cuerpo CierraLlave;
 
-exp : expRel | (expRel (TokenOr | TokenAnd) exp);
+exp : expRel | (expRel (TokenOr {myListener.foundTokenOr()} | TokenAnd {myListener.foundTokenAnd()}) exp);
 
-expRel : expArit | (expArit (MayorQue | MenorQue | IgualQue | DiferenteQue) expRel);
+expRel : expArit | (expArit (MayorQue {myListener.foundMayorQue()} | MenorQue {myListener.foundMenorQue()} | IgualQue {myListener.foundIgualQue()}| DiferenteQue {myListener.foundDiferenteQue()}) expRel);
 
 expArit : termino | (termino (Suma {myListener.foundSuma()} | Resta {myListener.foundResta()}) expArit);
 

@@ -19,4 +19,8 @@ class Quadruple {
         self.rightOperand = rightOperand
         self.result = result
     }
+    
+    func setResult(_ result: String){
+        self.result = result
+    }
 }

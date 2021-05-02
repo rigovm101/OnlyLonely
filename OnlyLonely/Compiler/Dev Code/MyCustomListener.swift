@@ -17,6 +17,7 @@ open class MyCustomListener : OnlyLonelyListener {
     var operandStack : Stack<String>
     var typeStack : Stack<String>
     var operatorStack : Stack<String>
+    var jumpStack : Stack<Int>
     let myTempVarGenerator : TemporalVariableGenerator
     
     init() {
@@ -28,6 +29,7 @@ open class MyCustomListener : OnlyLonelyListener {
         typeStack = Stack<String>()
         operatorStack = Stack<String>()
         myTempVarGenerator = TemporalVariableGenerator()
+        jumpStack = Stack<Int>()
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -182,10 +184,9 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitTAsignacion(_ ctx: OnlyLonelyParser.TAsignacionContext) {
         let id = ctx.Id()?.description
         let type = variableTable[id!]
-        let resultType = semanticCube.chekCube(leftType: type!, rightType: typeStack.top()!, myOperator: "=")
-        if (resultType != nil) {
+        if let resultType = semanticCube.chekCube(leftType: type!, rightType: typeStack.top()!, myOperator: "=") {
             quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
-            variableTable[id!] = resultType!
+            variableTable[id!] = resultType
             typeStack.pop()
         }else{
             print("Error, tipos \(type!) y \(typeStack.pop()!) no son compatibles")
@@ -249,6 +250,21 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    public func saveJumpPoint(){
+        if typeStack.pop() == "bool" {
+            quadruples.append(Quadruple("gotof", operandStack.pop()!, "_", "?"))
+            jumpStack.push(quadruples.count-1)
+        }else{
+            print("Error, se espera una expresión de tipo bool")
+        }
+    }
+    
+    public func writeSavePoint(){
+        if let position = jumpStack.pop(){
+            quadruples[position].setResult(String(quadruples.count))
+        }
+    }
+    
     public func enterEstDesicion(_ ctx: OnlyLonelyParser.EstDesicionContext) {
         
     }
@@ -309,6 +325,30 @@ open class MyCustomListener : OnlyLonelyListener {
         operatorStack.push("(")
     }
     
+    public func foundMenorQue(){
+        operatorStack.push("<")
+    }
+    
+    public func foundMayorQue(){
+        operatorStack.push(">")
+    }
+    
+    public func foundIgualQue(){
+        operatorStack.push("==")
+    }
+    
+    public func foundDiferenteQue(){
+        operatorStack.push("!=")
+    }
+    
+    public func foundTokenOr(){
+        operatorStack.push("|")
+    }
+    
+    public func foundTokenAnd(){
+        operatorStack.push("&")
+    }
+    
     public func foundCierraParentesis(){
         if operatorStack.top() == "(" {
             operatorStack.pop()
@@ -322,7 +362,22 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitExpRel(_ ctx: OnlyLonelyParser.ExpRelContext) {
-        
+        if (operatorStack.top() == "|" || operatorStack.top() == "&"){
+            let rightOperand = operandStack.pop()!
+            let rightType = typeStack.pop()!
+            let leftOperand = operandStack.pop()!
+            let leftType = typeStack.pop()!
+            let myOperator = operatorStack.pop()!
+            if semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator) != nil{
+                let resultType = semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator)
+                let myTempVar = myTempVarGenerator.getTemporalVariable()
+                quadruples.append(Quadruple(myOperator, leftOperand, rightOperand, myTempVar))
+                operandStack.push(myTempVar)
+                typeStack.push(resultType!)
+            }else{
+                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+            }
+        }
     }
     
     public func enterExpArit(_ ctx: OnlyLonelyParser.ExpAritContext) {
@@ -330,7 +385,22 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitExpArit(_ ctx: OnlyLonelyParser.ExpAritContext) {
-        
+        if (operatorStack.top() == "<" || operatorStack.top() == ">" || operatorStack.top() == "==" || operatorStack.top() == "!="){
+            let rightOperand = operandStack.pop()!
+            let rightType = typeStack.pop()!
+            let leftOperand = operandStack.pop()!
+            let leftType = typeStack.pop()!
+            let myOperator = operatorStack.pop()!
+            if semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator) != nil{
+                let resultType = semanticCube.chekCube(leftType: leftType, rightType: rightType, myOperator: myOperator)
+                let myTempVar = myTempVarGenerator.getTemporalVariable()
+                quadruples.append(Quadruple(myOperator, leftOperand, rightOperand, myTempVar))
+                operandStack.push(myTempVar)
+                typeStack.push(resultType!)
+            }else{
+                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+            }
+        }
     }
     
     public func enterTermino(_ ctx: OnlyLonelyParser.TerminoContext) {

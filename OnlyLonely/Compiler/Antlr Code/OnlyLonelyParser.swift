@@ -1794,7 +1794,7 @@ open class OnlyLonelyParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(239)
+		 	setState(241)
 		 	try _errHandler.sync(self)
 		 	switch(try getInterpreter().adaptivePredict(_input,13, _ctx)) {
 		 	case 1:
@@ -1828,16 +1828,18 @@ open class OnlyLonelyParser: Parser {
 		 		try match(OnlyLonelyParser.Tokens.AbreParentesis.rawValue)
 		 		setState(232)
 		 		try exp()
-		 		setState(233)
-		 		try match(OnlyLonelyParser.Tokens.CierraParentesis.rawValue)
+		 		myListener.saveJumpPoint()
 		 		setState(234)
-		 		try match(OnlyLonelyParser.Tokens.Entonces.rawValue)
+		 		try match(OnlyLonelyParser.Tokens.CierraParentesis.rawValue)
 		 		setState(235)
-		 		try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
+		 		try match(OnlyLonelyParser.Tokens.Entonces.rawValue)
 		 		setState(236)
-		 		try cuerpo()
+		 		try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
 		 		setState(237)
+		 		try cuerpo()
+		 		setState(238)
 		 		try match(OnlyLonelyParser.Tokens.CierraLlave.rawValue)
+		 		myListener.writeSavePoint()
 
 
 		 		break
@@ -1896,13 +1898,13 @@ open class OnlyLonelyParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(241)
-		 	try match(OnlyLonelyParser.Tokens.Sino.rawValue)
-		 	setState(242)
-		 	try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
 		 	setState(243)
-		 	try cuerpo()
+		 	try match(OnlyLonelyParser.Tokens.Sino.rawValue)
 		 	setState(244)
+		 	try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
+		 	setState(245)
+		 	try cuerpo()
+		 	setState(246)
 		 	try match(OnlyLonelyParser.Tokens.CierraLlave.rawValue)
 
 
@@ -1975,21 +1977,21 @@ open class OnlyLonelyParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(246)
-		 	try match(OnlyLonelyParser.Tokens.Mientras.rawValue)
-		 	setState(247)
-		 	try match(OnlyLonelyParser.Tokens.AbreParentesis.rawValue)
 		 	setState(248)
-		 	try exp()
+		 	try match(OnlyLonelyParser.Tokens.Mientras.rawValue)
 		 	setState(249)
-		 	try match(OnlyLonelyParser.Tokens.CierraParentesis.rawValue)
+		 	try match(OnlyLonelyParser.Tokens.AbreParentesis.rawValue)
 		 	setState(250)
-		 	try match(OnlyLonelyParser.Tokens.Hacer.rawValue)
+		 	try exp()
 		 	setState(251)
-		 	try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
+		 	try match(OnlyLonelyParser.Tokens.CierraParentesis.rawValue)
 		 	setState(252)
-		 	try cuerpo()
+		 	try match(OnlyLonelyParser.Tokens.Hacer.rawValue)
 		 	setState(253)
+		 	try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
+		 	setState(254)
+		 	try cuerpo()
+		 	setState(255)
 		 	try match(OnlyLonelyParser.Tokens.CierraLlave.rawValue)
 
 		}
@@ -2069,25 +2071,25 @@ open class OnlyLonelyParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(255)
-		 	try match(OnlyLonelyParser.Tokens.Desde.rawValue)
-		 	setState(256)
-		 	try match(OnlyLonelyParser.Tokens.Id.rawValue)
 		 	setState(257)
-		 	try match(OnlyLonelyParser.Tokens.Asignacion.rawValue)
+		 	try match(OnlyLonelyParser.Tokens.Desde.rawValue)
 		 	setState(258)
-		 	try exp()
+		 	try match(OnlyLonelyParser.Tokens.Id.rawValue)
 		 	setState(259)
-		 	try match(OnlyLonelyParser.Tokens.Hasta.rawValue)
+		 	try match(OnlyLonelyParser.Tokens.Asignacion.rawValue)
 		 	setState(260)
 		 	try exp()
 		 	setState(261)
-		 	try match(OnlyLonelyParser.Tokens.Hacer.rawValue)
+		 	try match(OnlyLonelyParser.Tokens.Hasta.rawValue)
 		 	setState(262)
-		 	try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
+		 	try exp()
 		 	setState(263)
-		 	try cuerpo()
+		 	try match(OnlyLonelyParser.Tokens.Hacer.rawValue)
 		 	setState(264)
+		 	try match(OnlyLonelyParser.Tokens.AbreLlave.rawValue)
+		 	setState(265)
+		 	try cuerpo()
+		 	setState(266)
 		 	try match(OnlyLonelyParser.Tokens.CierraLlave.rawValue)
 
 		}
@@ -2138,38 +2140,43 @@ open class OnlyLonelyParser: Parser {
 	 open func exp() throws -> ExpContext {
 		let _localctx: ExpContext = ExpContext(_ctx, getState())
 		try enterRule(_localctx, 48, OnlyLonelyParser.RULE_exp)
-		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(271)
+		 	setState(278)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,14, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,15, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(266)
+		 		setState(268)
 		 		try expRel()
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(267)
-		 		try expRel()
-		 		setState(268)
-		 		_la = try _input.LA(1)
-		 		if (!(//closure
-		 		 { () -> Bool in
-		 		      let testSet: Bool = _la == OnlyLonelyParser.Tokens.TokenOr.rawValue || _la == OnlyLonelyParser.Tokens.TokenAnd.rawValue
-		 		      return testSet
-		 		 }())) {
-		 		try _errHandler.recoverInline(self)
-		 		}
-		 		else {
-		 			_errHandler.reportMatch(self)
-		 			try consume()
-		 		}
 		 		setState(269)
+		 		try expRel()
+		 		setState(274)
+		 		try _errHandler.sync(self)
+		 		switch (OnlyLonelyParser.Tokens(rawValue: try _input.LA(1))!) {
+		 		case .TokenOr:
+		 			setState(270)
+		 			try match(OnlyLonelyParser.Tokens.TokenOr.rawValue)
+		 			myListener.foundTokenOr()
+
+		 			break
+
+		 		case .TokenAnd:
+		 			setState(272)
+		 			try match(OnlyLonelyParser.Tokens.TokenAnd.rawValue)
+		 			myListener.foundTokenAnd()
+
+		 			break
+		 		default:
+		 			throw ANTLRException.recognition(e: NoViableAltException(self))
+		 		}
+		 		setState(276)
 		 		try exp()
 
 
@@ -2232,41 +2239,57 @@ open class OnlyLonelyParser: Parser {
 	 open func expRel() throws -> ExpRelContext {
 		let _localctx: ExpRelContext = ExpRelContext(_ctx, getState())
 		try enterRule(_localctx, 50, OnlyLonelyParser.RULE_expRel)
-		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(278)
+		 	setState(294)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,15, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,17, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(273)
+		 		setState(280)
 		 		try expArit()
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(274)
+		 		setState(281)
 		 		try expArit()
-		 		setState(275)
-		 		_la = try _input.LA(1)
-		 		if (!(//closure
-		 		 { () -> Bool in
-		 		      let testSet: Bool = {  () -> Bool in
-		 		   let testArray: [Int] = [_la, OnlyLonelyParser.Tokens.MayorQue.rawValue,OnlyLonelyParser.Tokens.MenorQue.rawValue,OnlyLonelyParser.Tokens.IgualQue.rawValue,OnlyLonelyParser.Tokens.DiferenteQue.rawValue]
-		 		    return  Utils.testBitLeftShiftArray(testArray, 0)
-		 		}()
-		 		      return testSet
-		 		 }())) {
-		 		try _errHandler.recoverInline(self)
+		 		setState(290)
+		 		try _errHandler.sync(self)
+		 		switch (OnlyLonelyParser.Tokens(rawValue: try _input.LA(1))!) {
+		 		case .MayorQue:
+		 			setState(282)
+		 			try match(OnlyLonelyParser.Tokens.MayorQue.rawValue)
+		 			myListener.foundMayorQue()
+
+		 			break
+
+		 		case .MenorQue:
+		 			setState(284)
+		 			try match(OnlyLonelyParser.Tokens.MenorQue.rawValue)
+		 			myListener.foundMenorQue()
+
+		 			break
+
+		 		case .IgualQue:
+		 			setState(286)
+		 			try match(OnlyLonelyParser.Tokens.IgualQue.rawValue)
+		 			myListener.foundIgualQue()
+
+		 			break
+
+		 		case .DiferenteQue:
+		 			setState(288)
+		 			try match(OnlyLonelyParser.Tokens.DiferenteQue.rawValue)
+		 			myListener.foundDiferenteQue()
+
+		 			break
+		 		default:
+		 			throw ANTLRException.recognition(e: NoViableAltException(self))
 		 		}
-		 		else {
-		 			_errHandler.reportMatch(self)
-		 			try consume()
-		 		}
-		 		setState(276)
+		 		setState(292)
 		 		try expRel()
 
 
@@ -2325,31 +2348,31 @@ open class OnlyLonelyParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(290)
+		 	setState(306)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,17, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,19, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(280)
+		 		setState(296)
 		 		try termino()
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(281)
+		 		setState(297)
 		 		try termino()
-		 		setState(286)
+		 		setState(302)
 		 		try _errHandler.sync(self)
 		 		switch (OnlyLonelyParser.Tokens(rawValue: try _input.LA(1))!) {
 		 		case .Suma:
-		 			setState(282)
+		 			setState(298)
 		 			try match(OnlyLonelyParser.Tokens.Suma.rawValue)
 		 			myListener.foundSuma()
 
 		 			break
 
 		 		case .Resta:
-		 			setState(284)
+		 			setState(300)
 		 			try match(OnlyLonelyParser.Tokens.Resta.rawValue)
 		 			myListener.foundResta()
 
@@ -2357,7 +2380,7 @@ open class OnlyLonelyParser: Parser {
 		 		default:
 		 			throw ANTLRException.recognition(e: NoViableAltException(self))
 		 		}
-		 		setState(288)
+		 		setState(304)
 		 		try expArit()
 
 
@@ -2416,31 +2439,31 @@ open class OnlyLonelyParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(302)
+		 	setState(318)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,19, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,21, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(292)
+		 		setState(308)
 		 		try factor()
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(293)
+		 		setState(309)
 		 		try factor()
-		 		setState(298)
+		 		setState(314)
 		 		try _errHandler.sync(self)
 		 		switch (OnlyLonelyParser.Tokens(rawValue: try _input.LA(1))!) {
 		 		case .Multiplicacion:
-		 			setState(294)
+		 			setState(310)
 		 			try match(OnlyLonelyParser.Tokens.Multiplicacion.rawValue)
 		 			myListener.foundMultiplicacion()
 
 		 			break
 
 		 		case .Division:
-		 			setState(296)
+		 			setState(312)
 		 			try match(OnlyLonelyParser.Tokens.Division.rawValue)
 		 			myListener.foundDivision()
 
@@ -2448,7 +2471,7 @@ open class OnlyLonelyParser: Parser {
 		 		default:
 		 			throw ANTLRException.recognition(e: NoViableAltException(self))
 		 		}
-		 		setState(300)
+		 		setState(316)
 		 		try termino()
 
 
@@ -2523,48 +2546,48 @@ open class OnlyLonelyParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(318)
+		 	setState(334)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,20, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,22, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(304)
+		 		setState(320)
 		 		try match(OnlyLonelyParser.Tokens.Id.rawValue)
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(305)
+		 		setState(321)
 		 		try match(OnlyLonelyParser.Tokens.Id.rawValue)
-		 		setState(306)
+		 		setState(322)
 		 		try match(OnlyLonelyParser.Tokens.AbreCorchete.rawValue)
-		 		setState(307)
+		 		setState(323)
 		 		try exp()
-		 		setState(308)
+		 		setState(324)
 		 		try match(OnlyLonelyParser.Tokens.CierraCorchete.rawValue)
 
 
 		 		break
 		 	case 3:
 		 		try enterOuterAlt(_localctx, 3)
-		 		setState(310)
+		 		setState(326)
 		 		try match(OnlyLonelyParser.Tokens.NumFlotante.rawValue)
 
 		 		break
 		 	case 4:
 		 		try enterOuterAlt(_localctx, 4)
-		 		setState(311)
+		 		setState(327)
 		 		try match(OnlyLonelyParser.Tokens.Numero.rawValue)
 
 		 		break
 		 	case 5:
 		 		try enterOuterAlt(_localctx, 5)
-		 		setState(312)
+		 		setState(328)
 		 		try match(OnlyLonelyParser.Tokens.AbreParentesis.rawValue)
 		 		myListener.foundAbreParentesis()
-		 		setState(314)
+		 		setState(330)
 		 		try exp()
-		 		setState(315)
+		 		setState(331)
 		 		try match(OnlyLonelyParser.Tokens.CierraParentesis.rawValue)
 		 		myListener.foundCierraParentesis()
 

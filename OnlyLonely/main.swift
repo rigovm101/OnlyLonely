@@ -13,6 +13,7 @@ programa TheOnlyLonely;
 variables
 a,b,c,d,e,f,g : entero;
 h,i,j,k : flotante;
+miChar : char;
 
 entero funcion fact(j:entero)
 variables x : entero;
@@ -21,10 +22,10 @@ variables x : entero;
 }
 
 principal(){
-a = b + c * d;
-h = a / g;
-escribe(a - b);
-lee(a,b);
+si(a)entonces{
+a = b + c;
+}
+b = c + d;
 }
 """
 
