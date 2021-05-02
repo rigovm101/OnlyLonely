@@ -84,9 +84,9 @@ lectura : Lee AbreParentesis argumentos CierraParentesis PuntoComa;
 
 escritura : (Escribe AbreParentesis exp CierraParentesis PuntoComa) | (Escribe AbreParentesis String CierraParentesis PuntoComa);
 
-estDesicion : (Si AbreParentesis exp CierraParentesis Entonces AbreLlave cuerpo CierraLlave tSino) | (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentesis Entonces AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
+estDesicion : (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentesis Entonces AbreLlave cuerpo CierraLlave {myListener.writeElseSavePoint()} tSino) | (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentesis Entonces AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
-tSino : (Sino AbreLlave cuerpo CierraLlave);
+tSino : (Sino AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
 tMientras : Mientras AbreParentesis exp CierraParentesis Hacer AbreLlave cuerpo CierraLlave;
 

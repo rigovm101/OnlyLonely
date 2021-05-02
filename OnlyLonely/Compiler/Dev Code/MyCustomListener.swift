@@ -259,6 +259,14 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    public func writeElseSavePoint(){
+        if let position = jumpStack.pop(){
+            quadruples[position].setResult(String(quadruples.count))
+        }
+        quadruples.append(Quadruple("goto", "_", "_", "?"))
+        jumpStack.push(quadruples.count-1)
+    }
+    
     public func writeSavePoint(){
         if let position = jumpStack.pop(){
             quadruples[position].setResult(String(quadruples.count))

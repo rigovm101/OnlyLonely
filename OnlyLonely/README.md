@@ -10,4 +10,5 @@ está planeada nada más por el momento, no ha sido implementada.
 Para este avance quedó lista la generación de código para las expresiones aritméticas y estatutos
 secuenciales. Ya se generan los cuádruplos respectivos. Agregué algunas clases que utlizo como la
 del cubo semántico y un generador de variables temporales, que más adelante se adaptará para el
-uso de memoria. También quedó implementado la generación de código intermedio del estatuto de condición simple.
+uso de memoria. También quedó implementado la generación de código intermedio del estatuto de condición simple,
+así como la condición con "else".
