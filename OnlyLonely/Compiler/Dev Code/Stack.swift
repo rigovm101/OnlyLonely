@@ -19,6 +19,10 @@ struct Stack<Element> {
         return array.popLast()
     }
     
+    mutating func simplePop() {
+        _ = array.popLast()
+    }
+    
     func top() -> Element? {
         return array.last
     }

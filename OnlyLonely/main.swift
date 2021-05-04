@@ -16,19 +16,11 @@ h,i,j,k : flotante;
 miChar : char;
 
 principal(){
-
-k = 1.2;
-
-si(k == 1.2) entonces {
-k = k - 2;
-}sino{
-k = 1.2;
-}
-
-mientras (i < 10) hacer {
+k = 2.2;
+desde a = 2 hasta 9 hacer {
 i = i + 1;
 }
-g = i + 2;
+h = 2.233;
 }
 """
 

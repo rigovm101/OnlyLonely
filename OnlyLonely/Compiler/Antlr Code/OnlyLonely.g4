@@ -90,7 +90,7 @@ tSino : (Sino AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
 tMientras : Mientras AbreParentesis {myListener.saveWhileCondStart()} exp CierraParentesis Hacer AbreLlave {myListener.saveWhileBodyStart()} cuerpo CierraLlave {myListener.saveWhileBodyEnd()};
 
-tDesde : Desde Id Asignacion exp Hasta exp Hacer AbreLlave cuerpo CierraLlave;
+tDesde : Desde Id Asignacion exp {myListener.varDeclarationForLoop($Id.text)} Hasta exp {myListener.conditionForLoop()} Hacer AbreLlave cuerpo CierraLlave {myListener.endForLoop()};
 
 exp : expRel | (expRel (TokenOr {myListener.foundTokenOr()} | TokenAnd {myListener.foundTokenAnd()}) exp);
 

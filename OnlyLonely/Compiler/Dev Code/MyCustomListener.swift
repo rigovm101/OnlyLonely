@@ -187,7 +187,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if let resultType = semanticCube.chekCube(leftType: type!, rightType: typeStack.top()!, myOperator: "=") {
             quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
             variableTable[id!] = resultType
-            typeStack.pop()
+            typeStack.simplePop()
         }else{
             print("Error, tipos \(type!) y \(typeStack.pop()!) no son compatibles")
         }
@@ -243,7 +243,7 @@ open class MyCustomListener : OnlyLonelyListener {
             quadruples.append(Quadruple("escribe", "_", "_", str!))
         }else{
             let operand = operandStack.pop()
-            typeStack.pop()
+            typeStack.simplePop()
             if operand != nil {
                 quadruples.append(Quadruple("escribe", "_", "_", operand!))
             }
@@ -317,6 +317,34 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func varDeclarationForLoop(_ id: String){
+        if typeStack.pop() == "entero" {
+            quadruples.append(Quadruple("=", id, "_", operandStack.pop()!))
+            operandStack.push(id)
+            typeStack.push("entero")
+        }
+    }
+    
+    public func conditionForLoop(){
+        if typeStack.pop() == "entero" {
+            jumpStack.push(quadruples.count+1)
+            let right = operandStack.pop()
+            let left = operandStack.pop()
+            let temp = myTempVarGenerator.getTemporalVariable()
+            quadruples.append(Quadruple("<", left!, right!, temp))
+            jumpStack.push(quadruples.count-1)
+            typeStack.simplePop()
+            quadruples.append(Quadruple("gotof", temp, "_", "?"))
+        }
+    }
+    
+    public func endForLoop(){
+        let begin = jumpStack.pop()
+        quadruples.append(Quadruple("goto", "_", "_", String(begin!)))
+        let trail = jumpStack.pop()
+        quadruples[trail!].setResult(String(quadruples.count))
+    }
+    
     public func enterTDesde(_ ctx: OnlyLonelyParser.TDesdeContext) {
         
     }
@@ -379,7 +407,7 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func foundCierraParentesis(){
         if operatorStack.top() == "(" {
-            operatorStack.pop()
+            operatorStack.simplePop()
         }else{
             print("Error, no se esperaba )")
         }
