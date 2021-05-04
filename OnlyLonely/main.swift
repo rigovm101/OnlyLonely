@@ -15,16 +15,17 @@ a,b,c,d,e,f,g : entero;
 h,i,j,k : flotante;
 miChar : char;
 
-entero funcion fact(j:entero)
-variables x : entero;
-{
+principal(){
 
+k = 1.2;
+
+si(k == 1.2) entonces {
+k = k - 2;
+}sino{
+k = 1.2;
 }
 
-principal(){
-a = 21;
-e = 92 + a;
-mientras (i < 3) hacer {
+mientras (i < 10) hacer {
 i = i + 1;
 }
 g = i + 2;

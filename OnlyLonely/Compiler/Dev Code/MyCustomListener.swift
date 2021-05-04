@@ -55,7 +55,7 @@ open class MyCustomListener : OnlyLonelyListener {
         //        }
         print("Cuadruplos")
         for quad in quadruples{
-            print("\(quad.operationCode) \(quad.leftOperand) \(quad.rightOperand) \(quad.result)")
+            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
         }
         
     }
@@ -261,7 +261,7 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func writeElseSavePoint(){
         if let position = jumpStack.pop(){
-            quadruples[position].setResult(String(quadruples.count))
+            quadruples[position].setResult(String(quadruples.count+1))
         }
         quadruples.append(Quadruple("goto", "_", "_", "?"))
         jumpStack.push(quadruples.count-1)
