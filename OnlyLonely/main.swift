@@ -22,12 +22,12 @@ variables x : entero;
 }
 
 principal(){
-si(a<b)entonces{
-e = f + g;
-}sino{
-h = i + j;
+a = 21;
+e = 92 + a;
+mientras (i < 3) hacer {
+i = i + 1;
 }
-k = a + c;
+g = i + 2;
 }
 """
 

@@ -33,7 +33,7 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
-
+        
     }
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -41,18 +41,18 @@ open class MyCustomListener : OnlyLonelyListener {
         print(functionTable)
         print("Diccionario de Variables")
         print(variableTable)
-//        print("Pila de Operandos")
-//        while (operandStack.top() != nil) {
-//            print(operandStack.pop()!)
-//        }
-//        print("Pila de Tipos")
-//        while (typeStack.top() != nil) {
-//            print(typeStack.pop()!)
-//        }
-//        print("Pila de Operadores")
-//        while (operatorStack.top() != nil) {
-//            print(operatorStack.pop()!)
-//        }
+        //        print("Pila de Operandos")
+        //        while (operandStack.top() != nil) {
+        //            print(operandStack.pop()!)
+        //        }
+        //        print("Pila de Tipos")
+        //        while (typeStack.top() != nil) {
+        //            print(typeStack.pop()!)
+        //        }
+        //        print("Pila de Operadores")
+        //        while (operatorStack.top() != nil) {
+        //            print(operatorStack.pop()!)
+        //        }
         print("Cuadruplos")
         for quad in quadruples{
             print("\(quad.operationCode) \(quad.leftOperand) \(quad.rightOperand) \(quad.result)")
@@ -83,7 +83,7 @@ open class MyCustomListener : OnlyLonelyListener {
     public func enterListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
         
     }
-
+    
     public func exitListaVTipo(_ ctx: OnlyLonelyParser.ListaVTipoContext) {
         
     }
@@ -289,6 +289,26 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func saveWhileCondStart(){
+        jumpStack.push(quadruples.count)
+    }
+    
+    public func saveWhileBodyStart(){
+        if typeStack.pop() == "bool" {
+            quadruples.append(Quadruple("gotof", operandStack.pop()!, "_", "?"))
+            jumpStack.push(quadruples.count-1)
+        }else{
+            print("Error, se esperaba un tipo bool")
+        }
+    }
+    
+    public func saveWhileBodyEnd(){
+        let end = jumpStack.pop()
+        let begining = jumpStack.pop()
+        quadruples.append(Quadruple("goto", "_", "_", String(begining!)))
+        quadruples[end!].setResult(String(quadruples.count))
+    }
+    
     public func enterTMientras(_ ctx: OnlyLonelyParser.TMientrasContext) {
         
     }
@@ -444,7 +464,15 @@ open class MyCustomListener : OnlyLonelyListener {
             operandStack.push(id)
             typeStack.push(type)
         }else{
-            print("Error, la variable \(id) no ha sido declarada")
+            if (ctx.Numero() != nil) {
+                operandStack.push(id)
+                typeStack.push("entero")
+            }else if (ctx.NumFlotante() != nil){
+                operandStack.push(id)
+                typeStack.push("flotante")
+            }else{
+                print("Error, la variable \(id) no ha sido declarada")
+            }
         }
         if (operatorStack.top() == "*" || operatorStack.top() == "/"){
             let rightOperand = operandStack.pop()!

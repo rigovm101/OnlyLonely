@@ -88,7 +88,7 @@ estDesicion : (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentes
 
 tSino : (Sino AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
-tMientras : Mientras AbreParentesis exp CierraParentesis Hacer AbreLlave cuerpo CierraLlave;
+tMientras : Mientras AbreParentesis {myListener.saveWhileCondStart()} exp CierraParentesis Hacer AbreLlave {myListener.saveWhileBodyStart()} cuerpo CierraLlave {myListener.saveWhileBodyEnd()};
 
 tDesde : Desde Id Asignacion exp Hasta exp Hacer AbreLlave cuerpo CierraLlave;
 
