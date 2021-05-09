@@ -12,3 +12,7 @@ secuenciales. Ya se generan los cuádruplos respectivos. Agregué algunas clases
 del cubo semántico y un generador de variables temporales, que más adelante se adaptará para el
 uso de memoria. También quedó implementado la generación de código intermedio del estatuto de condición simple,
 así como la condición con "else".
+
+## Avance 8 de mayo
+En este avance ya quedaron listos la implementación de los ciclos "while"  y "for", así como las condiciones. Empecé
+a revisar lo que se hará con funciones, pero no se ha implementado nada todavia.
