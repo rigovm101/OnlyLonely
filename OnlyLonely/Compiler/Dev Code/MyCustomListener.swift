@@ -10,7 +10,7 @@ import Antlr4
 
 open class MyCustomListener : OnlyLonelyListener {
     
-    var functionTable : [String: [String : [String : String]]]
+    var functionTable : [String: [String : String]]
     var variableTable : [String: String]
     let semanticCube : SemanticCube
     var quadruples : [Quadruple]
@@ -19,6 +19,9 @@ open class MyCustomListener : OnlyLonelyListener {
     var operatorStack : Stack<String>
     var jumpStack : Stack<Int>
     let myTempVarGenerator : TemporalVariableGenerator
+    var currFuncName : String
+    var localVariableTable : [String : String]
+    var localVariableCounter : Int
     
     init() {
         functionTable = [:]
@@ -30,6 +33,9 @@ open class MyCustomListener : OnlyLonelyListener {
         operatorStack = Stack<String>()
         myTempVarGenerator = TemporalVariableGenerator()
         jumpStack = Stack<Int>()
+        currFuncName = String()
+        localVariableTable = [:]
+        localVariableCounter = 0
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -39,8 +45,10 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
         print("Diccionario de Funciones")
         print(functionTable)
-        print("Diccionario de Variables")
+        print("Diccionario de Variables Globales")
         print(variableTable)
+        print("Diccionario de Variables")
+        print(localVariableTable)
         //        print("Pila de Operandos")
         //        while (operandStack.top() != nil) {
         //            print(operandStack.pop()!)
@@ -92,6 +100,22 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) {
+        let values = ctx.listaVTipo()?.getText()
+        let types = (values?.split(separator: ";"))!
+        for type in types {
+            let tType = type.split(separator: ":")
+            let ids = tType[0].split(separator: ",")
+            for id in ids {
+                if localVariableTable[String(id)] == nil{
+                    localVariableTable[String(id)] = String(tType[1])
+                    localVariableCounter += 1
+                }else{
+                    print("Error, variable \(id) ya ha sido declarada en este contexto")
+                }
+            }
+        }
+        functionTable[currFuncName]!["numLocalVars"] = String(localVariableCounter)
+        functionTable[currFuncName]!["startPosition"] = String(quadruples.count)
     }
     
     public func enterListaIds(_ ctx: OnlyLonelyParser.ListaIdsContext) {
@@ -118,15 +142,24 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func saveFunctionName(_ id: String, _ returnType: String){
+        functionTable[id] = ["tRetorno": returnType]
+        functionTable[id]!["params"] = ""
+        functionTable[id]!["numParams"] = "0"
+        currFuncName = id
+    }
+    
     public func enterTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
         
     }
     
     public func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
-        if let idFunc = ctx.Id() {
-            let tipoRet = ctx.tipoRet()?.getChild(0)
-            functionTable[idFunc.description] = [tipoRet!.toStringTree() : [:]]
-        }
+        localVariableCounter = 0
+        localVariableTable = [:]
+        functionTable[currFuncName]!["temporalsUsed"] = String(myTempVarGenerator.counter)
+        quadruples.append(Quadruple("ENDFunc", "_", "_", "_"))
+        myTempVarGenerator.reset()
+        currFuncName = ""
     }
     
     public func enterCuerpo(_ ctx: OnlyLonelyParser.CuerpoContext) {
@@ -135,6 +168,20 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitCuerpo(_ ctx: OnlyLonelyParser.CuerpoContext) {
         
+    }
+    
+    public func saveParameter(_ id: String, _ type: String) {
+        if localVariableTable[id] == nil{
+            var paramSequence = functionTable[currFuncName]!["params"]
+            var numParams = Int(functionTable[currFuncName]!["numParams"]!)
+            localVariableTable[id] = type
+            paramSequence?.append("\(type) ")
+            functionTable[currFuncName]!["params"] = paramSequence
+            numParams = numParams! + 1
+            functionTable[currFuncName]!["numParams"] = String(numParams!)
+        }else{
+            print("Error, parametro \(id) ya existe")
+        }
     }
     
     public func enterParametros(_ ctx: OnlyLonelyParser.ParametrosContext) {
@@ -183,13 +230,24 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitTAsignacion(_ ctx: OnlyLonelyParser.TAsignacionContext) {
         let id = ctx.Id()?.description
-        let type = variableTable[id!]
-        if let resultType = semanticCube.chekCube(leftType: type!, rightType: typeStack.top()!, myOperator: "=") {
-            quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
-            variableTable[id!] = resultType
-            typeStack.simplePop()
-        }else{
-            print("Error, tipos \(type!) y \(typeStack.pop()!) no son compatibles")
+        if let type = localVariableTable[id!]{
+            if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
+                quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
+                localVariableTable[id!] = resultType
+                typeStack.simplePop()
+            }else{
+                print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+            }
+        }else if let type = variableTable[id!]{
+            if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
+                quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
+                variableTable[id!] = resultType
+                typeStack.simplePop()
+            }else{
+                print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+            }
+        } else{
+            print("Error, la variable \(id!) no ha sido declarada en este contexto")
         }
     }
     
@@ -225,7 +283,9 @@ open class MyCustomListener : OnlyLonelyListener {
         let text = ctx.argumentos()?.getText()
         let ids = text?.split(separator: ",")
         for id in ids! {
-            if (variableTable[String(id)] != nil) {
+            if (localVariableTable[String(id)] != nil) {
+                quadruples.append(Quadruple("lee", "_", "_", String(id)))
+            }else if (variableTable[String(id)] != nil) {
                 quadruples.append(Quadruple("lee", "_", "_", String(id)))
             }else{
                 print("Error, la variable \(String(id)) no se ha declarado")
@@ -488,7 +548,10 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitFactor(_ ctx: OnlyLonelyParser.FactorContext) {
         let id = ctx.getText()
-        if let type = variableTable[id] {
+        if let type = localVariableTable[id] {
+            operandStack.push(id)
+            typeStack.push(type)
+        }else if let type = variableTable[id] {
             operandStack.push(id)
             typeStack.push(type)
         }else{

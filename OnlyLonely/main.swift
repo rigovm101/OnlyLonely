@@ -11,16 +11,16 @@ import Antlr4
 let input = """
 programa TheOnlyLonely;
 variables
-a,b,c,d,e,f,g : entero;
-h,i,j,k : flotante;
-miChar : char;
+a,b,c : entero;
+
+void funcion miFunc(chiva : entero, perro : flotante)
+variables miVar : entero;{
+chiva = perro + a;
+}
 
 principal(){
-k = 2.2;
-desde a = 2 hasta 9 hacer {
-i = i + 1;
-}
-h = 2.233;
+a = 12 + 12.34 + a;
+b = 1.1 * 1;
 }
 """
 

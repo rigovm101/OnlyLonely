@@ -56,13 +56,13 @@ variable : Id | (Id AbreCorchete exp CierraCorchete);
 
 decFunc : tFuncion*;
 
-tFuncion : tipoRet Funcion (Id | IdFunc) AbreParentesis parametros CierraParentesis decVarLocal AbreLlave cuerpo CierraLlave;
+tFuncion : tipoRet Funcion Id {myListener.saveFunctionName($Id.text , $tipoRet.text)} AbreParentesis parametros CierraParentesis decVarLocal AbreLlave cuerpo CierraLlave;
 
 decVarLocal : Variables listaVTipo |;
 
 cuerpo : estatuto*;
 
-parametros : (Id DosPuntos tipo) | (Id DosPuntos tipo Coma parametros) |;
+parametros : (Id DosPuntos tipo {myListener.saveParameter($Id.text , $tipo.text)}) | (Id DosPuntos tipo {myListener.saveParameter($Id.text , $tipo.text)} Coma parametros) |;
 
 tPrincipal : Principal AbreParentesis CierraParentesis AbreLlave cuerpo CierraLlave;
 
