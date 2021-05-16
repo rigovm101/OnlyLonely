@@ -16,3 +16,7 @@ así como la condición con "else".
 ## Avance 8 de mayo
 En este avance ya quedaron listos la implementación de los ciclos "while"  y "for", así como las condiciones. Empecé
 a revisar lo que se hará con funciones, pero no se ha implementado nada todavia.
+
+## Avance 15 de mayo
+Quedó listo la generación de código para la declaración de funciones.  Me quedé a medias con la llamada de
+funciones, pero quedará lista antes de la siguiente entrega.
