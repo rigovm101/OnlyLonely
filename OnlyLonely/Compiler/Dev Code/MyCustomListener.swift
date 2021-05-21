@@ -22,6 +22,7 @@ open class MyCustomListener : OnlyLonelyListener {
     var currFuncName : String
     var localVariableTable : [String : String]
     var localVariableCounter : Int
+    var currParam : Int
     
     init() {
         functionTable = [:]
@@ -36,6 +37,7 @@ open class MyCustomListener : OnlyLonelyListener {
         currFuncName = String()
         localVariableTable = [:]
         localVariableCounter = 0
+        currParam = 0
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -49,18 +51,22 @@ open class MyCustomListener : OnlyLonelyListener {
         print(variableTable)
         print("Diccionario de Variables")
         print(localVariableTable)
-        //        print("Pila de Operandos")
-        //        while (operandStack.top() != nil) {
-        //            print(operandStack.pop()!)
-        //        }
-        //        print("Pila de Tipos")
-        //        while (typeStack.top() != nil) {
-        //            print(typeStack.pop()!)
-        //        }
-        //        print("Pila de Operadores")
-        //        while (operatorStack.top() != nil) {
-        //            print(operatorStack.pop()!)
-        //        }
+        print("Pila de Operandos")
+        while (operandStack.top() != nil) {
+            print(operandStack.pop()!)
+        }
+        print("Pila de Tipos")
+        while (typeStack.top() != nil) {
+            print(typeStack.pop()!)
+        }
+        print("Pila de Operadores")
+        while (operatorStack.top() != nil) {
+            print(operatorStack.pop()!)
+        }
+        print("Pila de Saltos")
+        while (jumpStack.top() != nil) {
+            print(jumpStack.pop()!)
+        }
         print("Cuadruplos")
         for quad in quadruples{
             print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
@@ -156,7 +162,7 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
         localVariableCounter = 0
         localVariableTable = [:]
-        functionTable[currFuncName]!["temporalsUsed"] = String(myTempVarGenerator.counter)
+        functionTable[currFuncName]!["temporalesUsados"] = String(myTempVarGenerator.counter)
         quadruples.append(Quadruple("ENDFunc", "_", "_", "_"))
         myTempVarGenerator.reset()
         currFuncName = ""
@@ -255,8 +261,41 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
+    public func verifyFuncExists(_ funcName : String){
+        if functionTable[funcName] == nil{
+            print("Error, la funcion \(funcName) no existe")
+        }
+    }
+    
+    public func generateEra(_ funcName : String){
+        quadruples.append(Quadruple("ERA", funcName, "_", "_"))
+        currFuncName = funcName
+    }
+    
+    public func processArgument(){
+        let argument = operandStack.pop()
+        let argumentType = typeStack.pop()
+        let list = functionTable[currFuncName]!["params"]?.split(separator: " ")
+        if list!.count == 0{
+            print("Error, esta funcion no tiene parámetros")
+        }else{
+            if String(list![currParam]) == argumentType{
+                quadruples.append(Quadruple("PARAMETER", argument!, "_", "param\(currParam)"))
+                currParam = currParam + 1
+            }else{
+                print("Error, el arumento es de tipo incorrecto")
+            }
+        }
+    }
+    
     public func exitLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext) {
-        
+        if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
+            quadruples.append(Quadruple("GOSUB", currFuncName, "_", functionTable[currFuncName]!["startPosition"]!))
+            currFuncName = ""
+            currParam = 0
+        }else{
+            print("Error, no se pasaron los argumentos necesarios para la función")
+        }
     }
     
     public func enterArgumentos(_ ctx: OnlyLonelyParser.ArgumentosContext) {

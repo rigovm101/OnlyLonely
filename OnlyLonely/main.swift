@@ -12,15 +12,15 @@ let input = """
 programa TheOnlyLonely;
 variables
 a,b,c : entero;
+i : flotante;
 
-void funcion miFunc(chiva : entero, perro : flotante)
+void funcion miFunc(a : entero, i : char, b : entero)
 variables miVar : entero;{
-chiva = perro + a;
+
 }
 
 principal(){
-a = 12 + 12.34 + a;
-b = 1.1 * 1;
+miFunc(a, i);
 }
 """
 

@@ -70,13 +70,13 @@ tipoRet : Void | Entero | Flotante | Char;
 
 tipo : Entero | Flotante | Char;
 
-estatuto : tAsignacion | retornoFunc | lectura | escritura | estDesicion | tMientras | tDesde;
+estatuto : tAsignacion | retornoFunc | lectura | escritura | estDesicion | tMientras | tDesde | llamadaVoid;
 
 tAsignacion : (Id Asignacion exp PuntoComa) | (Id AbreCorchete exp CierraCorchete Asignacion exp PuntoComa) | (Id Asignacion IdFunc PuntoComa);
 
-llamadaVoid : ((Id | IdFunc) AbreParentesis CierraParentesis PuntoComa) | ((Id | IdFunc) AbreParentesis argumentos CierraParentesis PuntoComa);
+llamadaVoid : (Id {myListener.verifyFuncExists($Id.text)} AbreParentesis {myListener.generateEra($Id.text)} argumentos CierraParentesis PuntoComa);
 
-argumentos : Id | (Id Coma argumentos);
+argumentos : exp {myListener.processArgument()} | (exp {myListener.processArgument()} Coma argumentos) |;
 
 retornoFunc : Regresa AbreParentesis exp CierraParentesis PuntoComa;
 
