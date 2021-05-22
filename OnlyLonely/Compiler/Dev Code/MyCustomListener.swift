@@ -11,7 +11,7 @@ import Antlr4
 open class MyCustomListener : OnlyLonelyListener {
     
     var functionTable : [String: [String : String]]
-    var variableTable : [String: String]
+    var variableTable : [String: [String : String]]
     let semanticCube : SemanticCube
     var quadruples : [Quadruple]
     var operandStack : Stack<String>
@@ -20,7 +20,7 @@ open class MyCustomListener : OnlyLonelyListener {
     var jumpStack : Stack<Int>
     let myTempVarGenerator : TemporalVariableGenerator
     var currFuncName : String
-    var localVariableTable : [String : String]
+    var localVariableTable : [String : [String : String]]
     var localVariableCounter : Int
     var currParam : Int
     
@@ -86,7 +86,8 @@ open class MyCustomListener : OnlyLonelyListener {
             let ids = tType[0].split(separator: ",")
             for id in ids {
                 if variableTable[String(id)] == nil{
-                    variableTable[String(id)] = String(tType[1])
+                    variableTable[String(id)] = [:]
+                    variableTable[String(id)]!["tipo"] = String(tType[1])
                 }else{
                     print("Error, variable \(id) ya ha sido declarada en este contexto")
                 }
@@ -113,7 +114,8 @@ open class MyCustomListener : OnlyLonelyListener {
             let ids = tType[0].split(separator: ",")
             for id in ids {
                 if localVariableTable[String(id)] == nil{
-                    localVariableTable[String(id)] = String(tType[1])
+                    localVariableTable[String(id)] = [:]
+                    localVariableTable[String(id)]!["tipo"] = String(tType[1])
                     localVariableCounter += 1
                 }else{
                     print("Error, variable \(id) ya ha sido declarada en este contexto")
@@ -155,7 +157,8 @@ open class MyCustomListener : OnlyLonelyListener {
         currFuncName = id
         
         if returnType != "void" {
-            variableTable[id] = returnType
+            variableTable[id] = [:]
+            variableTable[id]!["tipo"] = returnType
         }
     }
     
@@ -192,7 +195,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if localVariableTable[id] == nil{
             var paramSequence = functionTable[currFuncName]!["params"]
             var numParams = Int(functionTable[currFuncName]!["numParams"]!)
-            localVariableTable[id] = type
+            localVariableTable[id]!["tipo"] = type
             paramSequence?.append("\(type) ")
             functionTable[currFuncName]!["params"] = paramSequence
             numParams = numParams! + 1
@@ -248,18 +251,18 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitTAsignacion(_ ctx: OnlyLonelyParser.TAsignacionContext) {
         let id = ctx.Id()?.description
-        if let type = localVariableTable[id!]{
+        if let type = localVariableTable[id!]?["tipo"]{
             if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
                 quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
-                localVariableTable[id!] = resultType
+                localVariableTable[id!]!["tipo"] = resultType
                 typeStack.simplePop()
             }else{
                 print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
             }
-        }else if let type = variableTable[id!]{
+        }else if let type = variableTable[id!]!["tipo"]{
             if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
                 quadruples.append(Quadruple("=", id!, "_", operandStack.pop()!))
-                variableTable[id!] = resultType
+                variableTable[id!]!["tipo"] = resultType
                 typeStack.simplePop()
             }else{
                 print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
@@ -629,10 +632,10 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitFactor(_ ctx: OnlyLonelyParser.FactorContext) {
         if ctx.llamada()?.getText() == nil {
             let id = ctx.getText()
-            if let type = localVariableTable[id] {
+            if let type = localVariableTable[id]?["tipo"] {
                 operandStack.push(id)
                 typeStack.push(type)
-            }else if let type = variableTable[id] {
+            }else if let type = variableTable[id]?["tipo"] {
                 operandStack.push(id)
                 typeStack.push(type)
             }else{
