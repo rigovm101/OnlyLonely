@@ -223,6 +223,19 @@ open class OnlyLonelyBaseListener: OnlyLonelyListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	open func enterLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	open func enterArgumentos(_ ctx: OnlyLonelyParser.ArgumentosContext) { }
 	/**
 	 * {@inheritDoc}

@@ -14,13 +14,14 @@ variables
 a,b,c : entero;
 i : flotante;
 
-void funcion miFunc(a : entero, i : char, b : entero)
+entero funcion miFunc()
 variables miVar : entero;{
-
+b = miFunc() + 2;
+regresa(a);
 }
 
 principal(){
-miFunc(a, i);
+a = miFunc() + 12;
 }
 """
 

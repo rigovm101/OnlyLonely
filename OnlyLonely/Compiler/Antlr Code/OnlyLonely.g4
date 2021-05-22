@@ -56,7 +56,7 @@ variable : Id | (Id AbreCorchete exp CierraCorchete);
 
 decFunc : tFuncion*;
 
-tFuncion : tipoRet Funcion Id {myListener.saveFunctionName($Id.text , $tipoRet.text)} AbreParentesis parametros CierraParentesis decVarLocal AbreLlave cuerpo CierraLlave;
+tFuncion : tipoRet Funcion Id {myListener.saveFunctionName($Id.text , $tipoRet.text)} AbreParentesis parametros CierraParentesis decVarLocal AbreLlave cuerpo {myListener.checkIfReturn()} CierraLlave;
 
 decVarLocal : Variables listaVTipo |;
 
@@ -75,6 +75,8 @@ estatuto : tAsignacion | retornoFunc | lectura | escritura | estDesicion | tMien
 tAsignacion : (Id Asignacion exp PuntoComa) | (Id AbreCorchete exp CierraCorchete Asignacion exp PuntoComa) | (Id Asignacion IdFunc PuntoComa);
 
 llamadaVoid : (Id {myListener.verifyFuncExists($Id.text)} AbreParentesis {myListener.generateEra($Id.text)} argumentos CierraParentesis PuntoComa);
+
+llamada : (Id {myListener.verifyNoVoidFuncExists($Id.text)} AbreParentesis {myListener.generateEra($Id.text)} argumentos CierraParentesis);
 
 argumentos : exp {myListener.processArgument()} | (exp {myListener.processArgument()} Coma argumentos) |;
 
@@ -100,4 +102,4 @@ expArit : termino | (termino (Suma {myListener.foundSuma()} | Resta {myListener.
 
 termino : factor | (factor (Multiplicacion {myListener.foundMultiplicacion()} | Division {myListener.foundDivision()}) termino);
 
-factor : Id | (Id AbreCorchete exp CierraCorchete) | NumFlotante | Numero | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});
+factor : llamada | Id | (Id AbreCorchete exp CierraCorchete) | NumFlotante | Numero | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});

@@ -153,6 +153,18 @@ open class MyCustomListener : OnlyLonelyListener {
         functionTable[id]!["params"] = ""
         functionTable[id]!["numParams"] = "0"
         currFuncName = id
+        
+        if returnType != "void" {
+            variableTable[id] = returnType
+        }
+    }
+    
+    public func checkIfReturn(){
+        if functionTable[currFuncName]!["tRetorno"] != "void" {
+            if functionTable[currFuncName]!["hasReturnStatement"] != "true"{
+                print("Error, la función \(currFuncName) no tiene un estatuto de retorno")
+            }
+        }
     }
     
     public func enterTFuncion(_ ctx: OnlyLonelyParser.TFuncionContext) {
@@ -267,6 +279,12 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    public func verifyNoVoidFuncExists(_ funcName : String){
+        if functionTable[funcName] == nil{
+            print("Error, la funcion \(funcName) no existe")
+        }
+    }
+    
     public func generateEra(_ funcName : String){
         quadruples.append(Quadruple("ERA", funcName, "_", "_"))
         currFuncName = funcName
@@ -291,7 +309,23 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext) {
         if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
             quadruples.append(Quadruple("GOSUB", currFuncName, "_", functionTable[currFuncName]!["startPosition"]!))
-            currFuncName = ""
+            currParam = 0
+        }else{
+            print("Error, no se pasaron los argumentos necesarios para la función")
+        }
+    }
+    
+    public func enterLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) {
+        
+    }
+    
+    public func exitLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) {
+        if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
+            quadruples.append(Quadruple("GOSUB", currFuncName, "_", functionTable[currFuncName]!["startPosition"]!))
+            let tempVar = myTempVarGenerator.getTemporalVariable()
+            quadruples.append(Quadruple("=", currFuncName, "_", tempVar))
+            operandStack.push(tempVar)
+            typeStack.push(functionTable[currFuncName]!["tRetorno"]!)
             currParam = 0
         }else{
             print("Error, no se pasaron los argumentos necesarios para la función")
@@ -311,7 +345,14 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitRetornoFunc(_ ctx: OnlyLonelyParser.RetornoFuncContext) {
-        
+        let operand = operandStack.pop()!
+        let operandType = typeStack.pop()!
+        if functionTable[currFuncName]!["tRetorno"] != operandType {
+            print("Error, \(String(describing: operand)) es de tipo \(String(describing: operandType)), y debe de ser \(functionTable[currFuncName]!["tRetorno"]!)")
+        }else{
+            functionTable[currFuncName]!["hasReturnStatement"] = "true"
+            quadruples.append(Quadruple("return", operand, "_", "_"))
+        }
     }
     
     public func enterLectura(_ ctx: OnlyLonelyParser.LecturaContext) {
@@ -586,22 +627,24 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitFactor(_ ctx: OnlyLonelyParser.FactorContext) {
-        let id = ctx.getText()
-        if let type = localVariableTable[id] {
-            operandStack.push(id)
-            typeStack.push(type)
-        }else if let type = variableTable[id] {
-            operandStack.push(id)
-            typeStack.push(type)
-        }else{
-            if (ctx.Numero() != nil) {
+        if ctx.llamada()?.getText() == nil {
+            let id = ctx.getText()
+            if let type = localVariableTable[id] {
                 operandStack.push(id)
-                typeStack.push("entero")
-            }else if (ctx.NumFlotante() != nil){
+                typeStack.push(type)
+            }else if let type = variableTable[id] {
                 operandStack.push(id)
-                typeStack.push("flotante")
+                typeStack.push(type)
             }else{
-                print("Error, la variable \(id) no ha sido declarada")
+                if (ctx.Numero() != nil) {
+                    operandStack.push(id)
+                    typeStack.push("entero")
+                }else if (ctx.NumFlotante() != nil){
+                    operandStack.push(id)
+                    typeStack.push("flotante")
+                }else{
+                    print("Error, la variable \(id) no ha sido declarada")
+                }
             }
         }
         if (operatorStack.top() == "*" || operatorStack.top() == "/"){

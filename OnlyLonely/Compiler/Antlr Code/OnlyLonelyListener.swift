@@ -199,6 +199,18 @@ public protocol OnlyLonelyListener: ParseTreeListener {
 	 */
 	func exitLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext)
 	/**
+	 * Enter a parse tree produced by {@link OnlyLonelyParser#llamada}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterLlamada(_ ctx: OnlyLonelyParser.LlamadaContext)
+	/**
+	 * Exit a parse tree produced by {@link OnlyLonelyParser#llamada}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitLlamada(_ ctx: OnlyLonelyParser.LlamadaContext)
+	/**
 	 * Enter a parse tree produced by {@link OnlyLonelyParser#argumentos}.
 	 - Parameters:
 	   - ctx: the parse tree
