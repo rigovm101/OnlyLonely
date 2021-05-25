@@ -41,7 +41,8 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
-        
+        jumpStack.push(quadruples.count)
+        quadruples.append(Quadruple("goto", "_", "_", "_"))
     }
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -244,7 +245,8 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func enterTPrincipal(_ ctx: OnlyLonelyParser.TPrincipalContext) {
-        
+        let position = jumpStack.pop()
+        quadruples[position!].setResult(String(quadruples.count))
     }
     
     public func exitTPrincipal(_ ctx: OnlyLonelyParser.TPrincipalContext) {
