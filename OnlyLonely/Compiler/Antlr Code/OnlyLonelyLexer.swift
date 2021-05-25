@@ -22,8 +22,7 @@ open class OnlyLonelyLexer: Lexer {
             DiferenteQue=25, Suma=26, Resta=27, Multiplicacion=28, Division=29, 
             AbreParentesis=30, CierraParentesis=31, AbreLlave=32, CierraLlave=33, 
             AbreCorchete=34, CierraCorchete=35, DosPuntos=36, PuntoComa=37, 
-            Coma=38, Numero=39, NumFlotante=40, String=41, Id=42, IdFunc=43, 
-            WS=44
+            Coma=38, Numero=39, NumFlotante=40, String=41, Id=42, WS=43
 
 	public
 	static let channelNames: [String] = [
@@ -43,7 +42,7 @@ open class OnlyLonelyLexer: Lexer {
 		"Asignacion", "IgualQue", "DiferenteQue", "Suma", "Resta", "Multiplicacion", 
 		"Division", "AbreParentesis", "CierraParentesis", "AbreLlave", "CierraLlave", 
 		"AbreCorchete", "CierraCorchete", "DosPuntos", "PuntoComa", "Coma", "Numero", 
-		"NumFlotante", "String", "Id", "IdFunc", "WS"
+		"NumFlotante", "String", "Id", "WS"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
@@ -60,7 +59,7 @@ open class OnlyLonelyLexer: Lexer {
 		"MenorQue", "Asignacion", "IgualQue", "DiferenteQue", "Suma", "Resta", 
 		"Multiplicacion", "Division", "AbreParentesis", "CierraParentesis", "AbreLlave", 
 		"CierraLlave", "AbreCorchete", "CierraCorchete", "DosPuntos", "PuntoComa", 
-		"Coma", "Numero", "NumFlotante", "String", "Id", "IdFunc", "WS"
+		"Coma", "Numero", "NumFlotante", "String", "Id", "WS"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)

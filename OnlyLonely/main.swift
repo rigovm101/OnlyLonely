@@ -9,19 +9,25 @@ import Foundation
 import Antlr4
 
 let input = """
-programa TheOnlyLonely;
+programa theOnlyLonely;
 variables
-a,b,c : entero;
-i : flotante;
+i,j,p : entero;
+valor : flotante;
 
-entero funcion miFunc()
-variables miVar : entero;{
-b = miFunc() + 2;
-regresa(a);
+entero funcion fact (j : entero)
+variables i : entero;
+{
+i = j + (p - j * 2 + j);
+si (j == 1) entonces {
+regresa(j);}
+sino
+{regresa (j * fact(j-1));}
 }
 
 principal(){
-a = miFunc() + 12;
+mientras (i < 10) hacer{
+p = fact(j);
+}
 }
 """
 

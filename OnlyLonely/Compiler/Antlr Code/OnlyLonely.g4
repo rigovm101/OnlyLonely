@@ -41,10 +41,9 @@ Numero : [0-9]+;
 NumFlotante : Numero'.'[0-9]+;
 String : '"'([a-z]|[A-Z]|[0-9]|[ ])*'"';
 Id : [a-z]([a-z]|[A-Z]|[0-9])*;
-IdFunc : [A-Z]([a-z]|[A-Z]|[0-9])*;
 WS : [ \t\r\n]+ -> skip;
 
-root : Programa IdFunc PuntoComa decVar decFunc tPrincipal;
+root : Programa Id PuntoComa decVar decFunc tPrincipal;
 
 decVar : Variables listaVTipo |;
 
@@ -52,7 +51,7 @@ listaVTipo : (listaIds DosPuntos tipo PuntoComa listaVTipo) | (listaIds DosPunto
 
 listaIds : variable | (variable Coma listaIds);
 
-variable : Id | (Id AbreCorchete exp CierraCorchete);
+variable : (Id AbreCorchete Numero {myListener.createArray($Numero.text , $Id.text)} CierraCorchete) | Id;
 
 decFunc : tFuncion*;
 
@@ -72,7 +71,7 @@ tipo : Entero | Flotante | Char;
 
 estatuto : tAsignacion | retornoFunc | lectura | escritura | estDesicion | tMientras | tDesde | llamadaVoid;
 
-tAsignacion : (Id Asignacion exp PuntoComa) | (Id AbreCorchete exp CierraCorchete Asignacion exp PuntoComa) | (Id Asignacion IdFunc PuntoComa);
+tAsignacion : (Id {myListener.checkIsNotArray($Id.text)} Asignacion exp PuntoComa) | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete Asignacion exp PuntoComa);
 
 llamadaVoid : (Id {myListener.verifyFuncExists($Id.text)} AbreParentesis {myListener.generateEra($Id.text)} argumentos CierraParentesis PuntoComa);
 
@@ -102,4 +101,4 @@ expArit : termino | (termino (Suma {myListener.foundSuma()} | Resta {myListener.
 
 termino : factor | (factor (Multiplicacion {myListener.foundMultiplicacion()} | Division {myListener.foundDivision()}) termino);
 
-factor : llamada | Id | (Id AbreCorchete exp CierraCorchete) | NumFlotante | Numero | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});
+factor : llamada | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete) | Id | NumFlotante | Numero | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});
