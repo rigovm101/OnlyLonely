@@ -702,18 +702,20 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitFactor(_ ctx: OnlyLonelyParser.FactorContext) {
         if ctx.llamada()?.getText() == nil {
             if let id = ctx.Id()?.getText() {
-                if variableTable[id] != nil{
-                    let type = variableTable[id]?["tipo"]
-                    let virtualAddress = variableTable[id]!["virtualAddress"]
-                    operandStack.push(Int(virtualAddress!)!)
-                    typeStack.push(type!)
-                }else if localVariableTable[id] != nil{
-                    let type = localVariableTable[id]?["tipo"]
-                    let virtualAddress = localVariableTable[id]!["virtualAddress"]
-                    operandStack.push(Int(virtualAddress!)!)
-                    typeStack.push(type!)
-                }else{
-                    print("Error, la variable \(id) no ha sido declarada")
+                if ctx.AbreCorchete()?.getText() == nil {
+                    if variableTable[id] != nil{
+                        let type = variableTable[id]?["tipo"]
+                        let virtualAddress = variableTable[id]!["virtualAddress"]
+                        operandStack.push(Int(virtualAddress!)!)
+                        typeStack.push(type!)
+                    }else if localVariableTable[id] != nil{
+                        let type = localVariableTable[id]?["tipo"]
+                        let virtualAddress = localVariableTable[id]!["virtualAddress"]
+                        operandStack.push(Int(virtualAddress!)!)
+                        typeStack.push(type!)
+                    }else{
+                        print("Error, la variable \(id) no ha sido declarada")
+                    }
                 }
             }else{
                 if (ctx.Numero() != nil) {

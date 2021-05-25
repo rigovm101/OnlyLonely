@@ -19,7 +19,7 @@ variables i, arr[10] : entero;
 {
 i = j + (p - j * 2 + j);
 si (j == 1) entonces {
-regresa(j);}
+regresa(j + arr[21]);}
 sino
 {regresa (j * fact(j-1+arr[2]));}
 }
