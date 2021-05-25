@@ -23,6 +23,7 @@ open class MyCustomListener : OnlyLonelyListener {
     var localVariableTable : [String : [String : String]]
     var localVariableCounter : Int
     var currParam : Int
+    var constTable : [String : [String : String]]
     
     init() {
         functionTable = [:]
@@ -38,6 +39,7 @@ open class MyCustomListener : OnlyLonelyListener {
         localVariableTable = [:]
         localVariableCounter = 0
         currParam = 0
+        constTable = [:]
     }
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
@@ -52,6 +54,8 @@ open class MyCustomListener : OnlyLonelyListener {
         print(variableTable)
         print("Diccionario de Variables")
         print(localVariableTable)
+        print("Tabla de Constantes")
+        print(constTable)
         print("Pila de Operandos")
         while (operandStack.top() != nil) {
             print(operandStack.pop()!)
@@ -712,12 +716,33 @@ open class MyCustomListener : OnlyLonelyListener {
             }else{
                 if (ctx.Numero() != nil) {
                     let num = ctx.Numero()?.getText()
-                    operandStack.push(num!)
-                    typeStack.push("entero")
+                    if constTable[num!] != nil {
+                        let virtualAddress = constTable[num!]!["virtualAddress"]
+                        operandStack.push(virtualAddress!)
+                        typeStack.push("entero")
+                    }else{
+                        let virtualAddress = myTempVarGenerator.getConst("entero")
+                        constTable[num!] = [:]
+                        constTable[num!]!["tipo"] = "entero"
+                        constTable[num!]!["virtualAddress"] = String(virtualAddress)
+                        operandStack.push(String(virtualAddress))
+                        typeStack.push("entero")
+                    }
+                    
                 }else if (ctx.NumFlotante() != nil){
                     let num = ctx.NumFlotante()?.getText()
-                    operandStack.push(num!)
-                    typeStack.push("flotante")
+                    if constTable[num!] != nil {
+                        let virtualAddress = constTable[num!]!["virtualAddress"]
+                        operandStack.push(virtualAddress!)
+                        typeStack.push("flotante")
+                    }else{
+                        let virtualAddress = myTempVarGenerator.getConst("flotante")
+                        constTable[num!] = [:]
+                        constTable[num!]!["tipo"] = "flotante"
+                        constTable[num!]!["virtualAddress"] = String(virtualAddress)
+                        operandStack.push(String(virtualAddress))
+                        typeStack.push("flotante")
+                    }
                 }
             }
         }

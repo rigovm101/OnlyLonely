@@ -23,6 +23,10 @@ class TemporalVariableGenerator{
     var tempChar : Int
     var tempBool : Int
     
+    var constInt : Int
+    var constFloat : Int
+    var constChar : Int
+    
     init() {
         counter = 0
         
@@ -38,6 +42,10 @@ class TemporalVariableGenerator{
         tempFloat = 0
         tempChar = 0
         tempBool = 0
+        
+        constInt = 0
+        constFloat = 0
+        constChar = 0
     }
     
     //Global Variables
@@ -170,10 +178,33 @@ class TemporalVariableGenerator{
         }
     }
     
-    func getTemporalVariable() -> String {
-        let varName = "t\(counter)"
-        counter += 1
-        return varName
+    //Constants
+    func getConstInt() -> Int{
+        constInt = constInt + 1
+        return 25000 + constInt
+    }
+    
+    func getConstFloat() -> Int{
+        constFloat = constFloat + 1
+        return 26600 + constFloat
+    }
+    
+    func getConstChar() -> Int{
+        constChar = constChar + 1
+        return 28300 + constChar
+    }
+    
+    func getConst(_ type : String) -> Int{
+        switch type {
+        case "entero":
+            return getConstInt()
+        case "flotante":
+            return getConstFloat()
+        case "char":
+            return getConstChar()
+        default:
+            return -1
+        }
     }
     
     func reset() {

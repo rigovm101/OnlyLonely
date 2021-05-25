@@ -15,17 +15,17 @@ i,j,p : entero;
 valor : flotante;
 
 entero funcion fact (j : entero)
-variables i : entero;
+variables i, arr[10] : entero;
 {
 i = j + (p - j * 2 + j);
 si (j == 1) entonces {
 regresa(j);}
 sino
-{regresa (j * fact(j-1));}
+{regresa (j * fact(j-1+arr[2]));}
 }
 
 principal(){
-mientras (i < 10) hacer{
+mientras (i < 10 * 1.1) hacer{
 p = fact(j);
 }
 }
