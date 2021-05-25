@@ -20,3 +20,7 @@ a revisar lo que se hará con funciones, pero no se ha implementado nada todavia
 ## Avance 15 de mayo
 Quedó listo la generación de código para la declaración de funciones.  Me quedé a medias con la llamada de
 funciones, pero quedará lista antes de la siguiente entrega.
+
+## Avance 24 de mayo
+Están listos las llamadas a funciones, así como todo lo relacionado con Arreglos, tanto declaración
+como acceso. Mi enfoque ahora es acabar la máquina virtual, afinar errores y realizar pruebas.
