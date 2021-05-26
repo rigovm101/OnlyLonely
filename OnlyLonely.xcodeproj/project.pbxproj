@@ -17,6 +17,7 @@
 		952142E62633959500F8E696 /* Antlr4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952142C72633955700F8E696 /* Antlr4.framework */; };
 		952142F02633A23400F8E696 /* MyCustomListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142EF2633A23400F8E696 /* MyCustomListener.swift */; };
 		95773DFF2634E738008E0419 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95773DFE2634E738008E0419 /* SwiftExtensions.swift */; };
+		95ABC48B265DE68F003AE1F6 /* VirtualMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */; };
 		95FFF045263C628E00F3E54D /* SemanticCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FFF044263C628E00F3E54D /* SemanticCube.swift */; };
 		95FFF04A263C792700F3E54D /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FFF049263C792700F3E54D /* Stack.swift */; };
 		95FFF04C263CB47900F3E54D /* Quadruple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FFF04B263CB47900F3E54D /* Quadruple.swift */; };
@@ -77,6 +78,7 @@
 		952142EF2633A23400F8E696 /* MyCustomListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomListener.swift; sourceTree = "<group>"; };
 		952142F32633D2B200F8E696 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		95773DFE2634E738008E0419 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
+		95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachine.swift; sourceTree = "<group>"; };
 		95FFF044263C628E00F3E54D /* SemanticCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticCube.swift; sourceTree = "<group>"; };
 		95FFF049263C792700F3E54D /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		95FFF04B263CB47900F3E54D /* Quadruple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quadruple.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				95773DFE2634E738008E0419 /* SwiftExtensions.swift */,
 				95FFF049263C792700F3E54D /* Stack.swift */,
 				95FFF04B263CB47900F3E54D /* Quadruple.swift */,
+				95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */,
 			);
 			path = "Dev Code";
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				952142E12633957C00F8E696 /* OnlyLonelyListener.swift in Sources */,
 				952142DE2633957C00F8E696 /* OnlyLonelyParserATN.swift in Sources */,
 				95FFF04A263C792700F3E54D /* Stack.swift in Sources */,
+				95ABC48B265DE68F003AE1F6 /* VirtualMachine.swift in Sources */,
 				952142B82633954600F8E696 /* main.swift in Sources */,
 				952142E02633957C00F8E696 /* OnlyLonelyLexer.swift in Sources */,
 				952142DF2633957C00F8E696 /* OnlyLonelyBaseListener.swift in Sources */,

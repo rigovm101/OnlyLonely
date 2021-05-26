@@ -42,6 +42,18 @@ open class MyCustomListener : OnlyLonelyListener {
         constTable = [:]
     }
     
+    public func getFunctionTable() -> [String: [String : String]]{
+        return functionTable
+    }
+    
+    public func getConstTable() -> [String: [String : String]]{
+        return constTable
+    }
+    
+    public func getQuadruples() -> [Quadruple]{
+        return quadruples
+    }
+    
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
         jumpStack.push(quadruples.count)
         quadruples.append(Quadruple("goto", -1, -1, "-1"))

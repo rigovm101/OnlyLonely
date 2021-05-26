@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Quadruple {
+public class Quadruple {
     var operationCode : String
     var leftOperand : Int
     var rightOperand : Int

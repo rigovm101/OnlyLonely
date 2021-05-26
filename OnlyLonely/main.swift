@@ -39,3 +39,5 @@ let parser = try OnlyLonelyParser(tokenStream)
 let myListener = MyCustomListener()
 parser.addParseListener(myListener)
 let expressionContext = try parser.root()
+
+let virtualMachine = VirtualMachine(myListener.getFunctionTable(), myListener.getConstTable(), myListener.getQuadruples())
