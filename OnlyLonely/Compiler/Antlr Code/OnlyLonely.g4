@@ -55,7 +55,7 @@ variable : (Id AbreCorchete Numero {myListener.createArray($Numero.text , $Id.te
 
 decFunc : tFuncion*;
 
-tFuncion : tipoRet Funcion Id {myListener.saveFunctionName($Id.text , $tipoRet.text)} AbreParentesis parametros CierraParentesis decVarLocal AbreLlave cuerpo {myListener.checkIfReturn()} CierraLlave;
+tFuncion : tipoRet Funcion Id {myListener.saveFunctionName($Id.text , $tipoRet.text)} AbreParentesis parametros CierraParentesis decVarLocal {myListener.saveFuncStartingPoint()} AbreLlave cuerpo {myListener.checkIfReturn()} CierraLlave;
 
 decVarLocal : Variables listaVTipo |;
 

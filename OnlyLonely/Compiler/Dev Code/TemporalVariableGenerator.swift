@@ -213,5 +213,9 @@ class TemporalVariableGenerator{
         tempFloat = 0
         tempChar = 0
         tempBool = 0
+        
+        localInt = 0
+        localFloat = 0
+        localChar = 0
     }
 }

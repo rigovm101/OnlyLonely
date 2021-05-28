@@ -64,35 +64,34 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
         quadruples.append(Quadruple("armin", -1, -1, "-1"))
-        print("Diccionario de Funciones")
-        print(functionTable)
-        print("Diccionario de Variables Globales")
-        print(variableTable)
-        print("Diccionario de Variables")
-        print(localVariableTable)
-        print("Tabla de Constantes")
-        print(constTable)
-        print("Pila de Operandos")
-        while (operandStack.top() != nil) {
-            print(operandStack.pop()!)
-        }
-        print("Pila de Tipos")
-        while (typeStack.top() != nil) {
-            print(typeStack.pop()!)
-        }
-        print("Pila de Operadores")
-        while (operatorStack.top() != nil) {
-            print(operatorStack.pop()!)
-        }
-        print("Pila de Saltos")
-        while (jumpStack.top() != nil) {
-            print(jumpStack.pop()!)
-        }
-        print("Cuadruplos")
-        for quad in quadruples{
-            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
-        }
-        
+//        print("Diccionario de Funciones")
+//        print(functionTable)
+//        print("Diccionario de Variables Globales")
+//        print(variableTable)
+//        print("Diccionario de Variables")
+//        print(localVariableTable)
+//        print("Tabla de Constantes")
+//        print(constTable)
+//        print("Pila de Operandos")
+//        while (operandStack.top() != nil) {
+//            print(operandStack.pop()!)
+//        }
+//        print("Pila de Tipos")
+//        while (typeStack.top() != nil) {
+//            print(typeStack.pop()!)
+//        }
+//        print("Pila de Operadores")
+//        while (operatorStack.top() != nil) {
+//            print(operatorStack.pop()!)
+//        }
+//        print("Pila de Saltos")
+//        while (jumpStack.top() != nil) {
+//            print(jumpStack.pop()!)
+//        }
+//        print("Cuadruplos")
+//        for quad in quadruples{
+//            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
+//        }
     }
     
     public func enterDecVar(_ ctx: OnlyLonelyParser.DecVarContext) {
@@ -171,9 +170,12 @@ open class MyCustomListener : OnlyLonelyListener {
                     }
                 }
             }
-            functionTable[currFuncName]!["numLocalVars"] = String(localVariableCounter)
-            functionTable[currFuncName]!["startPosition"] = String(quadruples.count)
         }
+    }
+    
+    public func saveFuncStartingPoint(){
+        functionTable[currFuncName]!["startPosition"] = String(quadruples.count)
+        functionTable[currFuncName]!["numLocalVars"] = String(localVariableCounter)
     }
     
     public func enterListaIds(_ ctx: OnlyLonelyParser.ListaIdsContext) {
@@ -252,6 +254,7 @@ open class MyCustomListener : OnlyLonelyListener {
             paramSequence?.append("\(type) ")
             functionTable[currFuncName]!["params"] = paramSequence
             numParams = numParams! + 1
+            localVariableCounter += 1
             functionTable[currFuncName]!["numParams"] = String(numParams!)
         }else{
             print("Error, parametro \(id) ya existe")
@@ -309,7 +312,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 localVariableTable[String(id)] = [:]
                 localVariableTable[String(id)]!["esArreglo"] = "true"
                 localVariableTable[String(id)]!["size"] = number
-                localVariableCounter += 1
+                localVariableCounter += Int(number)! - 1
             }else{
                 print("Error, variable \(id) ya ha sido declarada en este contexto")
             }

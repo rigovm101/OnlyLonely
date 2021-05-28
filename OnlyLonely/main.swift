@@ -10,15 +10,13 @@ import Antlr4
 
 let input = """
 programa theOnlyLonely;
-variables
-i,j,p : entero;
-valor : flotante;
 
 principal(){
 
-desde f = -1 hasta 5 hacer{
+desde f = 0 hasta 10 hacer{
 escribe(f);
 }
+escribe(99 / 23 + 1);
 }
 """
 
