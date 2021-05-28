@@ -37,7 +37,7 @@ CierraCorchete : ']';
 DosPuntos : ':';
 PuntoComa : ';';
 Coma : ',';
-Numero : [0-9]+;
+Numero : '-'?[0-9]+;
 NumFlotante : Numero'.'[0-9]+;
 String : '"'([a-z]|[A-Z]|[0-9]|[ ])*'"';
 Id : [a-z]([a-z]|[A-Z]|[0-9])*;
@@ -71,6 +71,12 @@ tipo : Entero | Flotante | Char;
 
 estatuto : tAsignacion | retornoFunc | lectura | escritura | estDesicion | tMientras | tDesde | llamadaVoid;
 
+lectura : Lee AbreParentesis argumentos CierraParentesis PuntoComa;
+
+escritura : (Escribe AbreParentesis escrituraAux CierraParentesis PuntoComa);
+
+escrituraAux : ((exp | String) Coma) | (exp | String) |;
+
 tAsignacion : (Id {myListener.checkIsNotArray($Id.text)} Asignacion exp PuntoComa) | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete Asignacion exp PuntoComa);
 
 llamadaVoid : (Id {myListener.verifyFuncExists($Id.text)} AbreParentesis {myListener.generateEra($Id.text)} argumentos CierraParentesis PuntoComa);
@@ -81,17 +87,13 @@ argumentos : exp {myListener.processArgument()} | (exp {myListener.processArgume
 
 retornoFunc : Regresa AbreParentesis exp CierraParentesis PuntoComa;
 
-lectura : Lee AbreParentesis argumentos CierraParentesis PuntoComa;
-
-escritura : (Escribe AbreParentesis exp CierraParentesis PuntoComa) | (Escribe AbreParentesis String CierraParentesis PuntoComa);
-
 estDesicion : (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentesis Entonces AbreLlave cuerpo CierraLlave {myListener.writeElseSavePoint()} tSino) | (Si AbreParentesis exp {myListener.saveJumpPoint()} CierraParentesis Entonces AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
 tSino : (Sino AbreLlave cuerpo CierraLlave {myListener.writeSavePoint()});
 
 tMientras : Mientras AbreParentesis {myListener.saveWhileCondStart()} exp CierraParentesis Hacer AbreLlave {myListener.saveWhileBodyStart()} cuerpo CierraLlave {myListener.saveWhileBodyEnd()};
 
-tDesde : Desde Id Asignacion exp {myListener.varDeclarationForLoop($Id.text)} Hasta exp {myListener.conditionForLoop()} Hacer AbreLlave cuerpo CierraLlave {myListener.endForLoop()};
+tDesde : Desde Id Asignacion exp {myListener.varDeclarationForLoop($Id.text)} Hasta exp {myListener.conditionForLoop()} Hacer AbreLlave cuerpo CierraLlave {myListener.endForLoop($Id.text)};
 
 exp : expRel | (expRel (TokenOr {myListener.foundTokenOr()} | TokenAnd {myListener.foundTokenAnd()}) exp);
 

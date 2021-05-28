@@ -175,6 +175,42 @@ public protocol OnlyLonelyListener: ParseTreeListener {
 	 */
 	func exitEstatuto(_ ctx: OnlyLonelyParser.EstatutoContext)
 	/**
+	 * Enter a parse tree produced by {@link OnlyLonelyParser#lectura}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterLectura(_ ctx: OnlyLonelyParser.LecturaContext)
+	/**
+	 * Exit a parse tree produced by {@link OnlyLonelyParser#lectura}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitLectura(_ ctx: OnlyLonelyParser.LecturaContext)
+	/**
+	 * Enter a parse tree produced by {@link OnlyLonelyParser#escritura}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterEscritura(_ ctx: OnlyLonelyParser.EscrituraContext)
+	/**
+	 * Exit a parse tree produced by {@link OnlyLonelyParser#escritura}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitEscritura(_ ctx: OnlyLonelyParser.EscrituraContext)
+	/**
+	 * Enter a parse tree produced by {@link OnlyLonelyParser#escrituraAux}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext)
+	/**
+	 * Exit a parse tree produced by {@link OnlyLonelyParser#escrituraAux}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext)
+	/**
 	 * Enter a parse tree produced by {@link OnlyLonelyParser#tAsignacion}.
 	 - Parameters:
 	   - ctx: the parse tree
@@ -234,30 +270,6 @@ public protocol OnlyLonelyListener: ParseTreeListener {
 	   - ctx: the parse tree
 	 */
 	func exitRetornoFunc(_ ctx: OnlyLonelyParser.RetornoFuncContext)
-	/**
-	 * Enter a parse tree produced by {@link OnlyLonelyParser#lectura}.
-	 - Parameters:
-	   - ctx: the parse tree
-	 */
-	func enterLectura(_ ctx: OnlyLonelyParser.LecturaContext)
-	/**
-	 * Exit a parse tree produced by {@link OnlyLonelyParser#lectura}.
-	 - Parameters:
-	   - ctx: the parse tree
-	 */
-	func exitLectura(_ ctx: OnlyLonelyParser.LecturaContext)
-	/**
-	 * Enter a parse tree produced by {@link OnlyLonelyParser#escritura}.
-	 - Parameters:
-	   - ctx: the parse tree
-	 */
-	func enterEscritura(_ ctx: OnlyLonelyParser.EscrituraContext)
-	/**
-	 * Exit a parse tree produced by {@link OnlyLonelyParser#escritura}.
-	 - Parameters:
-	   - ctx: the parse tree
-	 */
-	func exitEscritura(_ ctx: OnlyLonelyParser.EscrituraContext)
 	/**
 	 * Enter a parse tree produced by {@link OnlyLonelyParser#estDesicion}.
 	 - Parameters:

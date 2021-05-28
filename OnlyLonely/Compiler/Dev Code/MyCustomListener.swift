@@ -40,6 +40,9 @@ open class MyCustomListener : OnlyLonelyListener {
         localVariableCounter = 0
         currParam = 0
         constTable = [:]
+        constTable["1"] = [:]
+        constTable["1"]!["tipo"] = "entero"
+        constTable["1"]!["virtualAddress"] = String(myTempVarGenerator.getConst("entero"))
     }
     
     public func getFunctionTable() -> [String: [String : String]]{
@@ -60,6 +63,7 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
+        quadruples.append(Quadruple("armin", -1, -1, "-1"))
         print("Diccionario de Funciones")
         print(functionTable)
         print("Diccionario de Variables Globales")
@@ -139,35 +143,37 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) {
         let values = ctx.listaVTipo()?.getText()
-        let types = (values?.split(separator: ";"))!
-        for type in types {
-            let tType = type.split(separator: ":")
-            let ids = tType[0].split(separator: ",")
-            for id in ids {
-                if id.contains("["){
-                    let temp = id.split(separator: "[")
-                    let trueId = temp[0]
-                    if localVariableTable[String(trueId)]!["esArreglo"] == "true"{
-                        localVariableTable[String(trueId)]!["tipo"] = String(tType[1])
-                        localVariableTable[String(trueId)]!["virtualAddress"] = String(myTempVarGenerator.getLocalArray(String(tType[1]), localVariableTable[String(trueId)]!["size"]!))
-                        localVariableCounter += 1
+        if values != nil {
+            let types = (values?.split(separator: ";"))!
+            for type in types {
+                let tType = type.split(separator: ":")
+                let ids = tType[0].split(separator: ",")
+                for id in ids {
+                    if id.contains("["){
+                        let temp = id.split(separator: "[")
+                        let trueId = temp[0]
+                        if localVariableTable[String(trueId)]!["esArreglo"] == "true"{
+                            localVariableTable[String(trueId)]!["tipo"] = String(tType[1])
+                            localVariableTable[String(trueId)]!["virtualAddress"] = String(myTempVarGenerator.getLocalArray(String(tType[1]), localVariableTable[String(trueId)]!["size"]!))
+                            localVariableCounter += 1
+                        }else{
+                            print("Error, variable \(id) ya ha sido declarada en este contexto")
+                        }
                     }else{
-                        print("Error, variable \(id) ya ha sido declarada en este contexto")
-                    }
-                }else{
-                    if localVariableTable[String(id)] == nil{
-                        localVariableTable[String(id)] = [:]
-                        localVariableTable[String(id)]!["tipo"] = String(tType[1])
-                        localVariableTable[String(id)]!["virtualAddress"] = String(myTempVarGenerator.getLocalVar(String(tType[1])))
-                        localVariableCounter += 1
-                    }else{
-                        print("Error, variable \(id) ya ha sido declarada en este contexto")
+                        if localVariableTable[String(id)] == nil{
+                            localVariableTable[String(id)] = [:]
+                            localVariableTable[String(id)]!["tipo"] = String(tType[1])
+                            localVariableTable[String(id)]!["virtualAddress"] = String(myTempVarGenerator.getLocalVar(String(tType[1])))
+                            localVariableCounter += 1
+                        }else{
+                            print("Error, variable \(id) ya ha sido declarada en este contexto")
+                        }
                     }
                 }
             }
+            functionTable[currFuncName]!["numLocalVars"] = String(localVariableCounter)
+            functionTable[currFuncName]!["startPosition"] = String(quadruples.count)
         }
-        functionTable[currFuncName]!["numLocalVars"] = String(localVariableCounter)
-        functionTable[currFuncName]!["startPosition"] = String(quadruples.count)
     }
     
     public func enterListaIds(_ ctx: OnlyLonelyParser.ListaIdsContext) {
@@ -323,7 +329,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if let type = localVariableTable[id!]?["tipo"]{
             if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
                 let virtualAddress = Int(localVariableTable[id!]!["virtualAddress"]!)
-                quadruples.append(Quadruple("=", virtualAddress!, -1, String(operandStack.pop()!)))
+                quadruples.append(Quadruple("=", operandStack.pop()!, -1, String(virtualAddress!)))
                 localVariableTable[id!]!["tipo"] = resultType
                 typeStack.simplePop()
             }else{
@@ -332,7 +338,7 @@ open class MyCustomListener : OnlyLonelyListener {
         }else if let type = variableTable[id!]!["tipo"]{
             if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
                 let virtualAddress = Int(variableTable[id!]!["virtualAddress"]!)
-                quadruples.append(Quadruple("=", virtualAddress!, -1, String(operandStack.pop()!)))
+                quadruples.append(Quadruple("=", operandStack.pop()!, -1, String(virtualAddress!)))
                 variableTable[id!]!["tipo"] = resultType
                 typeStack.simplePop()
             }else{
@@ -375,16 +381,20 @@ open class MyCustomListener : OnlyLonelyListener {
     public func processArgument(){
         let argument = operandStack.pop()
         let argumentType = typeStack.pop()
-        let list = functionTable[currFuncName]!["params"]?.split(separator: " ")
-        if list!.count == 0{
-            print("Error, esta funcion no tiene parámetros")
-        }else{
-            if String(list![currParam]) == argumentType{
-                quadruples.append(Quadruple("PARAMETER", argument!, -1, "\(currParam)"))
-                currParam = currParam + 1
+        if currFuncName != "" {
+            let list = functionTable[currFuncName]!["params"]?.split(separator: " ")
+            if list!.count == 0{
+                print("Error, esta funcion no tiene parámetros")
             }else{
-                print("Error, el arumento es de tipo incorrecto")
+                if String(list![currParam]) == argumentType{
+                    quadruples.append(Quadruple("PARAMETER", argument!, -1, "\(currParam)"))
+                    currParam = currParam + 1
+                }else{
+                    print("Error, el arumento es de tipo incorrecto")
+                }
             }
+        }else{
+            
         }
     }
     
@@ -407,7 +417,7 @@ open class MyCustomListener : OnlyLonelyListener {
             let returnType = functionTable[currFuncName]!["tRetorno"]!
             let tempVar = myTempVarGenerator.getTempVar(returnType)
             let virtualAddress = variableTable[currFuncName]!["virtualAddress"]
-            quadruples.append(Quadruple("=", Int(virtualAddress!)!, -1, String(tempVar)))
+            quadruples.append(Quadruple("=", tempVar, -1, virtualAddress!))
             operandStack.push(tempVar)
             typeStack.push(returnType)
             currParam = 0
@@ -448,9 +458,11 @@ open class MyCustomListener : OnlyLonelyListener {
         let ids = text?.split(separator: ",")
         for id in ids! {
             if (localVariableTable[String(id)] != nil) {
-                quadruples.append(Quadruple("lee", -1, -1, String(id)))
+                let virtualAddress = localVariableTable[String(id)]!["virtualAddress"]
+                quadruples.append(Quadruple("lee", -1, -1, virtualAddress!))
             }else if (variableTable[String(id)] != nil) {
-                quadruples.append(Quadruple("lee", -1, -1, String(id)))
+                let virtualAddress = variableTable[String(id)]!["virtualAddress"]
+                quadruples.append(Quadruple("lee", -1, -1, virtualAddress!))
             }else{
                 print("Error, la variable \(String(id)) no se ha declarado")
             }
@@ -462,14 +474,22 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func exitEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) {
+        
+    }
+    
+    public func enterEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) {
+        
+    }
+    
+    public func exitEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) {
         if (ctx.String() != nil) {
             let str = ctx.String()?.description
-            quadruples.append(Quadruple("escribe", -1, -1, str!))
+            quadruples.append(Quadruple("print", -1, -1, str!))
         }else{
             let operand = operandStack.pop()
             typeStack.simplePop()
             if operand != nil {
-                quadruples.append(Quadruple("escribe", -1, -1, String(operand!)))
+                quadruples.append(Quadruple("print", -1, -1, String(operand!)))
             }
         }
     }
@@ -544,7 +564,10 @@ open class MyCustomListener : OnlyLonelyListener {
     public func varDeclarationForLoop(_ id: String){
         if typeStack.pop() == "entero" {
             let virtualAddress = myTempVarGenerator.getTempInt()
-            quadruples.append(Quadruple("=", virtualAddress, -1, String(operandStack.pop()!)))
+            localVariableTable[id] = [:]
+            localVariableTable[id]!["tipo"] = "entero"
+            localVariableTable[id]!["virtualAddress"] = String(virtualAddress)
+            quadruples.append(Quadruple("=", operandStack.pop()!, -1, String(virtualAddress)))
             operandStack.push(virtualAddress)
             typeStack.push("entero")
         }
@@ -560,14 +583,21 @@ open class MyCustomListener : OnlyLonelyListener {
             jumpStack.push(quadruples.count-1)
             typeStack.simplePop()
             quadruples.append(Quadruple("gotof", temp, -1, "-1"))
+            operandStack.push(left!)
+            typeStack.push("entero")
         }
     }
     
-    public func endForLoop(){
+    public func endForLoop(_ id : String){
+        let address = operandStack.pop()
+        typeStack.simplePop()
+        let oneAddress = constTable["1"]!["virtualAddress"]
+        quadruples.append(Quadruple("+", address!, Int(oneAddress!)!, String(address!)))
         let begin = jumpStack.pop()
         quadruples.append(Quadruple("goto", -1, -1, String(begin!)))
         let trail = jumpStack.pop()
         quadruples[trail!].setResult(String(quadruples.count))
+        localVariableTable[id] = nil
     }
     
     public func enterTDesde(_ ctx: OnlyLonelyParser.TDesdeContext) {

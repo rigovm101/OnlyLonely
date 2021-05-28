@@ -46,8 +46,9 @@ class SemanticCube {
         cube["entero"]!["entero"]![">"] = "bool"
         cube["entero"]!["entero"]!["<"] = "bool"
         cube["entero"]!["entero"]!["=="] = "bool"
-        cube["entero"]!["entero"]!["&"] = "bool"
-        cube["entero"]!["entero"]!["|"] = "bool"
+        cube["entero"]!["entero"]!["!="] = "bool"
+        cube["entero"]!["entero"]!["&"] = nil
+        cube["entero"]!["entero"]!["|"] = nil
         cube["entero"]!["entero"]!["="] = "entero"
         
         //Entero Flotante
@@ -58,8 +59,9 @@ class SemanticCube {
         cube["entero"]!["flotante"]![">"] = "bool"
         cube["entero"]!["flotante"]!["<"] = "bool"
         cube["entero"]!["flotante"]!["=="] = "bool"
-        cube["entero"]!["flotante"]!["&"] = "bool"
-        cube["entero"]!["flotante"]!["|"] = "bool"
+        cube["entero"]!["flotante"]!["!="] = "bool"
+        cube["entero"]!["flotante"]!["&"] = nil
+        cube["entero"]!["flotante"]!["|"] = nil
         cube["entero"]!["flotante"]!["="] = "flotante"
         
         cube["flotante"]!["entero"]!["+"] = "flotante"
@@ -69,8 +71,9 @@ class SemanticCube {
         cube["flotante"]!["entero"]![">"] = "bool"
         cube["flotante"]!["entero"]!["<"] = "bool"
         cube["flotante"]!["entero"]!["=="] = "bool"
-        cube["flotante"]!["entero"]!["&"] = "bool"
-        cube["flotante"]!["entero"]!["|"] = "bool"
+        cube["flotante"]!["entero"]!["!="] = "bool"
+        cube["flotante"]!["entero"]!["&"] = nil
+        cube["flotante"]!["entero"]!["|"] = nil
         cube["flotante"]!["entero"]!["="] = "flotante"
         
         //Entero Char
@@ -81,6 +84,7 @@ class SemanticCube {
         cube["entero"]!["char"]![">"] = nil
         cube["entero"]!["char"]!["<"] = nil
         cube["entero"]!["char"]!["=="] = nil
+        cube["entero"]!["char"]!["!="] = nil
         cube["entero"]!["char"]!["&"] = nil
         cube["entero"]!["char"]!["|"] = nil
         cube["entero"]!["char"]!["="] = nil
@@ -92,6 +96,7 @@ class SemanticCube {
         cube["char"]!["entero"]![">"] = nil
         cube["char"]!["entero"]!["<"] = nil
         cube["char"]!["entero"]!["=="] = nil
+        cube["char"]!["entero"]!["!="] = nil
         cube["char"]!["entero"]!["&"] = nil
         cube["char"]!["entero"]!["|"] = nil
         cube["char"]!["entero"]!["="] = nil
@@ -104,6 +109,7 @@ class SemanticCube {
         cube["entero"]!["bool"]![">"] = nil
         cube["entero"]!["bool"]!["<"] = nil
         cube["entero"]!["bool"]!["=="] = nil
+        cube["entero"]!["bool"]!["!="] = nil
         cube["entero"]!["bool"]!["&"] = nil
         cube["entero"]!["bool"]!["|"] = nil
         cube["entero"]!["bool"]!["="] = nil
@@ -115,6 +121,7 @@ class SemanticCube {
         cube["bool"]!["entero"]![">"] = nil
         cube["bool"]!["entero"]!["<"] = nil
         cube["bool"]!["entero"]!["=="] = nil
+        cube["bool"]!["entero"]!["!="] = nil
         cube["bool"]!["entero"]!["&"] = nil
         cube["bool"]!["entero"]!["|"] = nil
         cube["bool"]!["entero"]!["="] = nil
@@ -127,8 +134,9 @@ class SemanticCube {
         cube["flotante"]!["flotante"]![">"] = "bool"
         cube["flotante"]!["flotante"]!["<"] = "bool"
         cube["flotante"]!["flotante"]!["=="] = "bool"
-        cube["flotante"]!["flotante"]!["&"] = "bool"
-        cube["flotante"]!["flotante"]!["|"] = "bool"
+        cube["flotante"]!["flotante"]!["!="] = "bool"
+        cube["flotante"]!["flotante"]!["&"] = nil
+        cube["flotante"]!["flotante"]!["|"] = nil
         cube["flotante"]!["flotante"]!["="] = "flotante"
         
         //Flotante Char
@@ -139,6 +147,7 @@ class SemanticCube {
         cube["flotante"]!["char"]![">"] = nil
         cube["flotante"]!["char"]!["<"] = nil
         cube["flotante"]!["char"]!["=="] = nil
+        cube["flotante"]!["char"]!["!="] = nil
         cube["flotante"]!["char"]!["&"] = nil
         cube["flotante"]!["char"]!["|"] = nil
         cube["flotante"]!["char"]!["="] = nil
@@ -150,6 +159,7 @@ class SemanticCube {
         cube["char"]!["flotante"]![">"] = nil
         cube["char"]!["flotante"]!["<"] = nil
         cube["char"]!["flotante"]!["=="] = nil
+        cube["char"]!["flotante"]!["!="] = nil
         cube["char"]!["flotante"]!["&"] = nil
         cube["char"]!["flotante"]!["|"] = nil
         cube["char"]!["flotante"]!["="] = nil
@@ -162,6 +172,7 @@ class SemanticCube {
         cube["flotante"]!["bool"]![">"] = nil
         cube["flotante"]!["bool"]!["<"] = nil
         cube["flotante"]!["bool"]!["=="] = nil
+        cube["flotante"]!["bool"]!["!="] = nil
         cube["flotante"]!["bool"]!["&"] = nil
         cube["flotante"]!["bool"]!["|"] = nil
         cube["flotante"]!["bool"]!["="] = nil
@@ -173,6 +184,7 @@ class SemanticCube {
         cube["bool"]!["flotante"]![">"] = nil
         cube["bool"]!["flotante"]!["<"] = nil
         cube["bool"]!["flotante"]!["=="] = nil
+        cube["bool"]!["flotante"]!["!="] = nil
         cube["bool"]!["flotante"]!["&"] = nil
         cube["bool"]!["flotante"]!["|"] = nil
         cube["bool"]!["flotante"]!["="] = nil
@@ -185,6 +197,7 @@ class SemanticCube {
         cube["char"]!["char"]![">"] = nil
         cube["char"]!["char"]!["<"] = nil
         cube["char"]!["char"]!["=="] = "bool"
+        cube["char"]!["char"]!["!="] = "bool"
         cube["char"]!["char"]!["&"] = nil
         cube["char"]!["char"]!["|"] = nil
         cube["char"]!["char"]!["="] = "char"
@@ -197,6 +210,7 @@ class SemanticCube {
         cube["char"]!["bool"]![">"] = nil
         cube["char"]!["bool"]!["<"] = nil
         cube["char"]!["bool"]!["=="] = nil
+        cube["char"]!["bool"]!["!="] = nil
         cube["char"]!["bool"]!["&"] = nil
         cube["char"]!["bool"]!["|"] = nil
         cube["char"]!["bool"]!["="] = nil
@@ -208,6 +222,7 @@ class SemanticCube {
         cube["bool"]!["char"]![">"] = nil
         cube["bool"]!["char"]!["<"] = nil
         cube["bool"]!["char"]!["=="] = nil
+        cube["bool"]!["char"]!["!="] = nil
         cube["bool"]!["char"]!["&"] = nil
         cube["bool"]!["char"]!["|"] = nil
         cube["bool"]!["char"]!["="] = nil
@@ -219,7 +234,8 @@ class SemanticCube {
         cube["bool"]!["bool"]!["/"] = nil
         cube["bool"]!["bool"]![">"] = nil
         cube["bool"]!["bool"]!["<"] = nil
-        cube["bool"]!["bool"]!["=="] = "bool"
+        cube["bool"]!["bool"]!["=="] = nil
+        cube["bool"]!["bool"]!["!="] = nil
         cube["bool"]!["bool"]!["&"] = "bool"
         cube["bool"]!["bool"]!["|"] = "bool"
         cube["bool"]!["bool"]!["="] = "bool"

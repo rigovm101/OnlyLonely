@@ -197,6 +197,45 @@ open class OnlyLonelyBaseListener: OnlyLonelyListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	open func enterLectura(_ ctx: OnlyLonelyParser.LecturaContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitLectura(_ ctx: OnlyLonelyParser.LecturaContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func enterEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func enterEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	open func enterTAsignacion(_ ctx: OnlyLonelyParser.TAsignacionContext) { }
 	/**
 	 * {@inheritDoc}
@@ -256,32 +295,6 @@ open class OnlyLonelyBaseListener: OnlyLonelyListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	open func exitRetornoFunc(_ ctx: OnlyLonelyParser.RetornoFuncContext) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	open func enterLectura(_ ctx: OnlyLonelyParser.LecturaContext) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	open func exitLectura(_ ctx: OnlyLonelyParser.LecturaContext) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	open func enterEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	open func exitEscritura(_ ctx: OnlyLonelyParser.EscrituraContext) { }
 
 	/**
 	 * {@inheritDoc}
