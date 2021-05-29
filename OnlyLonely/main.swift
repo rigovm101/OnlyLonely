@@ -10,6 +10,8 @@ import Antlr4
 
 let input = """
 programa theOnlyLonely;
+variables i, j, p : entero;
+valor : flotante;
 
 entero funcion funcFibo(i : entero){
 si (i < 2) entonces{
