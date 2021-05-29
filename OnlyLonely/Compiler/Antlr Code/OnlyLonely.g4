@@ -76,7 +76,7 @@ lectura : Lee AbreParentesis argumentos CierraParentesis PuntoComa;
 
 escritura : (Escribe AbreParentesis escrituraAux CierraParentesis PuntoComa);
 
-escrituraAux : ((exp | String) Coma escrituraAux) | (exp | String) |;
+escrituraAux : ((exp | String) {myListener.processPrint($String.text)} Coma escrituraAux) | ((exp | String){myListener.processPrint($String.text)});
 
 tAsignacion : (Id {myListener.checkIsNotArray($Id.text)} Asignacion exp PuntoComa) | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete Asignacion exp PuntoComa);
 

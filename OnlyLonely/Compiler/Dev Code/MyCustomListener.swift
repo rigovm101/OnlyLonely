@@ -531,14 +531,18 @@ open class MyCustomListener : OnlyLonelyListener {
         
     }
     
-    public func exitEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) {
-        if (ctx.String() != nil) {
-            let str = ctx.String()?.description
-            let virtualAddress = myTempVarGenerator.getConstString()
-            constTable[str!] = [:]
-            constTable[str!]!["virtualAddress"] = virtualAddress
-            constTable[str!]!["type"] = "string"
-            quadruples.append(Quadruple("print", "-1", "-1", virtualAddress))
+    public func processPrint(_ text : String){
+        if text != "" {
+            if constTable[text] != nil {
+                let virtualAddress = constTable[text]!["virtualAddress"]
+                quadruples.append(Quadruple("print", "-1", "-1", virtualAddress!))
+            }else{
+                let virtualAddress = myTempVarGenerator.getConstString()
+                constTable[text] = [:]
+                constTable[text]!["virtualAddress"] = virtualAddress
+                constTable[text]!["type"] = "string"
+                quadruples.append(Quadruple("print", "-1", "-1", virtualAddress))
+            }
         }else{
             let operand = operandStack.pop()
             typeStack.simplePop()
@@ -546,6 +550,10 @@ open class MyCustomListener : OnlyLonelyListener {
                 quadruples.append(Quadruple("print", "-1", "-1", operand!))
             }
         }
+    }
+    
+    public func exitEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) {
+        
     }
     
     public func saveJumpPoint(){
