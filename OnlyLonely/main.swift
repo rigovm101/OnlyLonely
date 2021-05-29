@@ -11,12 +11,26 @@ import Antlr4
 let input = """
 programa theOnlyLonely;
 
+entero funcion funcFibo(i : entero){
+si (i < 2) entonces{
+regresa(i);
+}sino{
+regresa(funcFibo(i - 1) + funcFibo(i - 2));
+}
+}
+
+entero funcion factorial(i : entero){
+si (i == 0) entonces{
+regresa(1);
+}sino{
+regresa(i * factorial(i - 1));
+}
+
+}
+
 principal(){
 
-desde f = 0 hasta 10 hacer{
-escribe(f);
-}
-escribe(99 / 23 + 1);
+escribe(factorial(5));
 }
 """
 

@@ -64,34 +64,34 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
         quadruples.append(Quadruple("armin", -1, -1, "-1"))
-//        print("Diccionario de Funciones")
-//        print(functionTable)
-//        print("Diccionario de Variables Globales")
-//        print(variableTable)
-//        print("Diccionario de Variables")
-//        print(localVariableTable)
-//        print("Tabla de Constantes")
-//        print(constTable)
-//        print("Pila de Operandos")
-//        while (operandStack.top() != nil) {
-//            print(operandStack.pop()!)
-//        }
-//        print("Pila de Tipos")
-//        while (typeStack.top() != nil) {
-//            print(typeStack.pop()!)
-//        }
-//        print("Pila de Operadores")
-//        while (operatorStack.top() != nil) {
-//            print(operatorStack.pop()!)
-//        }
-//        print("Pila de Saltos")
-//        while (jumpStack.top() != nil) {
-//            print(jumpStack.pop()!)
-//        }
-//        print("Cuadruplos")
-//        for quad in quadruples{
-//            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
-//        }
+        print("Diccionario de Funciones")
+        print(functionTable)
+        print("Diccionario de Variables Globales")
+        print(variableTable)
+        print("Diccionario de Variables")
+        print(localVariableTable)
+        print("Tabla de Constantes")
+        print(constTable)
+        print("Pila de Operandos")
+        while (operandStack.top() != nil) {
+            print(operandStack.pop()!)
+        }
+        print("Pila de Tipos")
+        while (typeStack.top() != nil) {
+            print(typeStack.pop()!)
+        }
+        print("Pila de Operadores")
+        while (operatorStack.top() != nil) {
+            print(operatorStack.pop()!)
+        }
+        print("Pila de Saltos")
+        while (jumpStack.top() != nil) {
+            print(jumpStack.pop()!)
+        }
+        print("Cuadruplos")
+        for quad in quadruples{
+            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
+        }
     }
     
     public func enterDecVar(_ ctx: OnlyLonelyParser.DecVarContext) {
@@ -211,7 +211,9 @@ open class MyCustomListener : OnlyLonelyListener {
         if returnType != "void" {
             variableTable[id] = [:]
             variableTable[id]!["tipo"] = returnType
-            variableTable[id]!["virtualAddress"] = String(myTempVarGenerator.getGlobalVar(returnType))
+            let address = String(myTempVarGenerator.getGlobalVar(returnType))
+            variableTable[id]!["virtualAddress"] = address
+            functionTable[id]!["globalVariableAddress"] = address
         }
     }
     
@@ -231,7 +233,7 @@ open class MyCustomListener : OnlyLonelyListener {
         localVariableCounter = 0
         localVariableTable = [:]
         functionTable[currFuncName]!["temporalesUsados"] = String(myTempVarGenerator.counter)
-        quadruples.append(Quadruple("ENDFunc", -1, -1, "-1"))
+        quadruples.append(Quadruple("endfunc", -1, -1, "-1"))
         myTempVarGenerator.reset()
         currFuncName = ""
     }
@@ -377,7 +379,7 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func generateEra(_ funcName : String){
-        quadruples.append(Quadruple("ERA", -1, -1, funcName))
+        quadruples.append(Quadruple("era", -1, -1, funcName))
         currFuncName = funcName
     }
     
@@ -390,7 +392,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 print("Error, esta funcion no tiene parámetros")
             }else{
                 if String(list![currParam]) == argumentType{
-                    quadruples.append(Quadruple("PARAMETER", argument!, -1, "\(currParam)"))
+                    quadruples.append(Quadruple("parameter", argument!, currParam, currFuncName))
                     currParam = currParam + 1
                 }else{
                     print("Error, el arumento es de tipo incorrecto")
@@ -403,7 +405,7 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext) {
         if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
-            quadruples.append(Quadruple("GOSUB", Int(functionTable[currFuncName]!["startPosition"]!)!, -1, currFuncName))
+            quadruples.append(Quadruple("gosub", -1, -1, currFuncName))
             currParam = 0
         }else{
             print("Error, no se pasaron los argumentos necesarios para la función")
@@ -411,19 +413,20 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func enterLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) {
-        
+        operatorStack.push("(")
     }
     
     public func exitLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) {
         if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
-            quadruples.append(Quadruple("GOSUB", Int(functionTable[currFuncName]!["startPosition"]!)!, -1, currFuncName))
+            quadruples.append(Quadruple("gosub", -1, -1, currFuncName))
             let returnType = functionTable[currFuncName]!["tRetorno"]!
             let tempVar = myTempVarGenerator.getTempVar(returnType)
             let virtualAddress = variableTable[currFuncName]!["virtualAddress"]
-            quadruples.append(Quadruple("=", tempVar, -1, virtualAddress!))
+            quadruples.append(Quadruple("=", Int(virtualAddress!)!, -1, String(tempVar)))
             operandStack.push(tempVar)
             typeStack.push(returnType)
             currParam = 0
+            operatorStack.simplePop()
         }else{
             print("Error, no se pasaron los argumentos necesarios para la función")
         }
@@ -448,7 +451,7 @@ open class MyCustomListener : OnlyLonelyListener {
             print("Error, \(String(describing: operand)) es de tipo \(String(describing: operandType)), y debe de ser \(functionTable[currFuncName]!["tRetorno"]!)")
         }else{
             functionTable[currFuncName]!["hasReturnStatement"] = "true"
-            quadruples.append(Quadruple("return", operand, -1, "-1"))
+            quadruples.append(Quadruple("return", operand, -1, currFuncName))
         }
     }
     

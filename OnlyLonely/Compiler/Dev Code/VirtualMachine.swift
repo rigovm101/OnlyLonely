@@ -18,7 +18,10 @@ class VirtualMachine {
     var functionTable : [String : [String : String]]
     var constTable : [String : [String : String]]
     var quadruples : [Quadruple]
+    
     var instructionPointerStack : Stack<Int>
+    var savedScopes : Stack<[String : [String : String]]>
+    var localActivationRecord : [String : String]
     
     init() {
         globalMemory = [:]
@@ -31,6 +34,8 @@ class VirtualMachine {
         constMemory = [:]
         quadruples = []
         instructionPointerStack = Stack<Int>()
+        savedScopes = Stack<[String : [String : String]]>()
+        localActivationRecord = [:]
     }
     
     init(_ functionTable : [String : [String : String]], _ constTable : [String : [String : String]], _ quadruples : [Quadruple]){
@@ -43,6 +48,8 @@ class VirtualMachine {
         self.constTable = constTable
         self.quadruples = quadruples
         instructionPointerStack = Stack<Int>()
+        savedScopes = Stack<[String : [String : String]]>()
+        localActivationRecord = [:]
         
         for (value, info) in constTable{
             let address = info["virtualAddress"]!
@@ -68,6 +75,38 @@ class VirtualMachine {
                     let jump = Int(quad.result)! - 1
                     instructionPointer = jump
                 }
+            case "gosub":
+                let funcName = quad.result
+                let jumpDestination = Int(functionTable[funcName]!["startPosition"]!)!
+                instructionPointerStack.push(instructionPointer)
+                instructionPointer = jumpDestination - 1
+                localMemory = localActivationRecord
+                temporalMemory = [:]
+                localActivationRecord = [:]
+            case "era":
+                let localContext = localMemory
+                let tempContext = temporalMemory
+                let currContext = ["localContext": localContext, "tempContext" : tempContext]
+                savedScopes.push(currContext)
+            case "parameter":
+                let leftAddress = String(quad.leftOperand)
+                let paramNumber = quad.rightOperand
+                let funcName = quad.result
+                let paramAddress = getAddressOfParam(paramNumber, funcName)
+                let leftContent = accessMemory(leftAddress)
+                localActivationRecord[paramAddress] = leftContent
+            case "endfunc":
+                let previousAddress = instructionPointerStack.pop()
+                let previousContext = savedScopes.pop()!
+                localMemory = previousContext["localContext"]!
+                temporalMemory = previousContext["tempContext"]!
+                instructionPointer = previousAddress!
+            case "return":
+                let leftAddress = String(quad.leftOperand)
+                let leftContent = accessMemory(leftAddress)
+                let funcName = quad.result
+                let resultAddress = functionTable[funcName]!["globalVariableAddress"]!
+                writeMemory(resultAddress, leftContent)
             case "=":
                 let leftAddress = String(quad.leftOperand)
                 let resultAddress = quad.result
@@ -282,6 +321,35 @@ class VirtualMachine {
             return "flotante"
         }
         return "char"
+    }
+    
+    public func determineScope(_ address : String) -> String{
+        let numAddress = Int(address)!
+        
+        if numAddress < 10000{
+            return "global"
+        }else if numAddress < 20000{
+            return "local"
+        }else if numAddress < 25000{
+            return "temporal"
+        }else{
+            return "constant"
+        }
+    }
+    
+    public func getAddressOfParam(_ paramNumber : Int, _ funcName : String) -> String{
+        let paramSequence = functionTable[funcName]!["params"]!.split(separator: " ")
+        let type = String(paramSequence[paramNumber])
+        if type == "entero" {
+            let pos = 10000 + paramNumber + 1
+            return String(pos)
+        }else if type == "flotante"{
+            let pos = 13300 + paramNumber + 1
+            return String(pos)
+        }else {
+            let pos = 16600 + paramNumber + 1
+            return String(pos)
+        }
     }
     
     public func accessMemory(_ address : String) -> String{
