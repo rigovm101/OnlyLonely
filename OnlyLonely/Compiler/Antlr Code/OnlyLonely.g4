@@ -39,6 +39,7 @@ PuntoComa : ';';
 Coma : ',';
 Numero : '-'?[0-9]+;
 NumFlotante : Numero'.'[0-9]+;
+Caracter : '"'([a-z]|[A-Z])'"';
 String : '"'([a-z]|[A-Z]|[0-9]|[ ])*'"';
 Id : [a-z]([a-z]|[A-Z]|[0-9])*;
 WS : [ \t\r\n]+ -> skip;
@@ -75,7 +76,7 @@ lectura : Lee AbreParentesis argumentos CierraParentesis PuntoComa;
 
 escritura : (Escribe AbreParentesis escrituraAux CierraParentesis PuntoComa);
 
-escrituraAux : ((exp | String) Coma) | (exp | String) |;
+escrituraAux : ((exp | String) Coma escrituraAux) | (exp | String) |;
 
 tAsignacion : (Id {myListener.checkIsNotArray($Id.text)} Asignacion exp PuntoComa) | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete Asignacion exp PuntoComa);
 
@@ -103,4 +104,4 @@ expArit : termino | (termino (Suma {myListener.foundSuma()} | Resta {myListener.
 
 termino : factor | (factor (Multiplicacion {myListener.foundMultiplicacion()} | Division {myListener.foundDivision()}) termino);
 
-factor : llamada | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete) | Id | NumFlotante | Numero | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});
+factor : llamada | (Id AbreCorchete {myListener.prepareArrayAccess()} exp {myListener.verifyArray($Id.text)} CierraCorchete) | Id | NumFlotante | Numero | Caracter | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});

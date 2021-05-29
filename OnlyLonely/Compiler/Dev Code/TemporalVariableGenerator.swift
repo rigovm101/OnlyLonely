@@ -26,6 +26,7 @@ class TemporalVariableGenerator{
     var constInt : Int
     var constFloat : Int
     var constChar : Int
+    var constString : Int
     
     init() {
         counter = 0
@@ -46,25 +47,26 @@ class TemporalVariableGenerator{
         constInt = 0
         constFloat = 0
         constChar = 0
+        constString = 0
     }
     
     //Global Variables
-    func getGlobalInt() -> Int{
+    func getGlobalInt() -> String{
         globalInt = globalInt + 1
-        return globalInt
+        return String(globalInt)
     }
     
-    func getGlobalFloat() -> Int{
+    func getGlobalFloat() -> String{
         globalFloat = globalFloat + 1
-        return 3300 + globalFloat
+        return String(3300 + globalFloat)
     }
     
-    func getGlobalChar() -> Int{
+    func getGlobalChar() -> String{
         globalChar = globalChar + 1
-        return 6600 + globalChar
+        return String(6600 + globalChar)
     }
     
-    func getGlobalVar(_ type : String) -> Int{
+    func getGlobalVar(_ type : String) -> String{
         switch type {
         case "entero":
             return getGlobalInt()
@@ -73,11 +75,11 @@ class TemporalVariableGenerator{
         case "char":
             return getGlobalChar()
         default:
-            return -1
+            return "-1"
         }
     }
     
-    func getGlobalArray(_ type : String, _ size : String) -> Int{
+    func getGlobalArray(_ type : String, _ size : String) -> String{
         let tSize = Int(size)
         let startPos = getGlobalVar(type)
         switch type {
@@ -94,22 +96,22 @@ class TemporalVariableGenerator{
     }
     
     //Local Variables
-    func getLocalInt() -> Int{
+    func getLocalInt() -> String{
         localInt = localInt + 1
-        return 10000 + localInt
+        return String(10000 + localInt)
     }
     
-    func getLocalFloat() -> Int{
+    func getLocalFloat() -> String{
         localFloat = localFloat + 1
-        return 13300 + localFloat
+        return String(13300 + localFloat)
     }
     
-    func getLocalChar() -> Int{
+    func getLocalChar() -> String{
         localChar = localChar + 1
-        return 16600 + localChar
+        return String(16600 + localChar)
     }
     
-    func getLocalVar(_ type : String) -> Int{
+    func getLocalVar(_ type : String) -> String{
         switch type {
         case "entero":
             return getLocalInt()
@@ -118,11 +120,11 @@ class TemporalVariableGenerator{
         case "char":
             return getLocalChar()
         default:
-            return -1
+            return "-1"
         }
     }
     
-    func getLocalArray(_ type : String, _ size : String) -> Int{
+    func getLocalArray(_ type : String, _ size : String) -> String{
         let tSize = Int(size)
         let startPos = getLocalVar(type)
         switch type {
@@ -139,31 +141,31 @@ class TemporalVariableGenerator{
     }
     
     //Temporal Variables
-    func getTempInt() -> Int{
+    func getTempInt() -> String{
         counter += 1
         tempInt = tempInt + 1
-        return 20000 + tempInt
+        return String(20000 + tempInt)
     }
     
-    func getTempFloat() -> Int{
+    func getTempFloat() -> String{
         counter += 1
         tempFloat = tempFloat + 1
-        return 21250 + tempFloat
+        return String(21250 + tempFloat)
     }
     
-    func getTempChar() -> Int{
+    func getTempChar() -> String{
         counter += 1
         tempChar = tempChar + 1
-        return 22500 + tempChar
+        return String(22500 + tempChar)
     }
     
-    func getTempBool() -> Int{
+    func getTempBool() -> String{
         counter += 1
         tempBool = tempBool + 1
-        return 23750 + tempBool
+        return String(23750 + tempBool)
     }
     
-    func getTempVar(_ type : String) -> Int{
+    func getTempVar(_ type : String) -> String{
         switch type {
         case "entero":
             return getTempInt()
@@ -174,27 +176,32 @@ class TemporalVariableGenerator{
         case "bool":
             return getTempBool()
         default:
-            return -1
+            return "-1"
         }
     }
     
     //Constants
-    func getConstInt() -> Int{
+    func getConstInt() -> String{
         constInt = constInt + 1
-        return 25000 + constInt
+        return String(25000 + constInt)
     }
     
-    func getConstFloat() -> Int{
+    func getConstFloat() -> String{
         constFloat = constFloat + 1
-        return 26600 + constFloat
+        return String(26600 + constFloat)
     }
     
-    func getConstChar() -> Int{
+    func getConstChar() -> String{
         constChar = constChar + 1
-        return 28300 + constChar
+        return String(28300 + constChar)
     }
     
-    func getConst(_ type : String) -> Int{
+    func getConstString() -> String{
+        constString = constString + 1
+        return String(30000 + constString)
+    }
+    
+    func getConst(_ type : String) -> String{
         switch type {
         case "entero":
             return getConstInt()
@@ -202,8 +209,10 @@ class TemporalVariableGenerator{
             return getConstFloat()
         case "char":
             return getConstChar()
+        case "string":
+            return getConstString()
         default:
-            return -1
+            return "-1"
         }
     }
     

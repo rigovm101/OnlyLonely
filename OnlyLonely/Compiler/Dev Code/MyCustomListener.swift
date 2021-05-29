@@ -14,7 +14,7 @@ open class MyCustomListener : OnlyLonelyListener {
     var variableTable : [String: [String : String]]
     let semanticCube : SemanticCube
     var quadruples : [Quadruple]
-    var operandStack : Stack<Int>
+    var operandStack : Stack<String>
     var typeStack : Stack<String>
     var operatorStack : Stack<String>
     var jumpStack : Stack<Int>
@@ -30,7 +30,7 @@ open class MyCustomListener : OnlyLonelyListener {
         variableTable = [:]
         semanticCube = SemanticCube()
         quadruples = []
-        operandStack = Stack<Int>()
+        operandStack = Stack<String>()
         typeStack = Stack<String>()
         operatorStack = Stack<String>()
         myTempVarGenerator = TemporalVariableGenerator()
@@ -59,39 +59,39 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func enterRoot(_ ctx: OnlyLonelyParser.RootContext) {
         jumpStack.push(quadruples.count)
-        quadruples.append(Quadruple("goto", -1, -1, "-1"))
+        quadruples.append(Quadruple("goto", "-1", "-1", "-1"))
     }
     
     public func exitRoot(_ ctx: OnlyLonelyParser.RootContext) {
-        quadruples.append(Quadruple("armin", -1, -1, "-1"))
-        print("Diccionario de Funciones")
-        print(functionTable)
-        print("Diccionario de Variables Globales")
-        print(variableTable)
-        print("Diccionario de Variables")
-        print(localVariableTable)
-        print("Tabla de Constantes")
-        print(constTable)
-        print("Pila de Operandos")
-        while (operandStack.top() != nil) {
-            print(operandStack.pop()!)
-        }
-        print("Pila de Tipos")
-        while (typeStack.top() != nil) {
-            print(typeStack.pop()!)
-        }
-        print("Pila de Operadores")
-        while (operatorStack.top() != nil) {
-            print(operatorStack.pop()!)
-        }
-        print("Pila de Saltos")
-        while (jumpStack.top() != nil) {
-            print(jumpStack.pop()!)
-        }
-        print("Cuadruplos")
-        for quad in quadruples{
-            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
-        }
+        quadruples.append(Quadruple("armin", "-1", "-1", "-1"))
+//        print("Diccionario de Funciones")
+//        print(functionTable)
+//        print("Diccionario de Variables Globales")
+//        print(variableTable)
+//        print("Diccionario de Variables")
+//        print(localVariableTable)
+//        print("Tabla de Constantes")
+//        print(constTable)
+//        print("Pila de Operandos")
+//        while (operandStack.top() != nil) {
+//            print(operandStack.pop()!)
+//        }
+//        print("Pila de Tipos")
+//        while (typeStack.top() != nil) {
+//            print(typeStack.pop()!)
+//        }
+//        print("Pila de Operadores")
+//        while (operatorStack.top() != nil) {
+//            print(operatorStack.pop()!)
+//        }
+//        print("Pila de Saltos")
+//        while (jumpStack.top() != nil) {
+//            print(jumpStack.pop()!)
+//        }
+//        print("Cuadruplos")
+//        for quad in quadruples{
+//            print("\(quad.operationCode)\t\(quad.leftOperand)\t\(quad.rightOperand)\t\(quad.result)")
+//        }
     }
     
     public func enterDecVar(_ ctx: OnlyLonelyParser.DecVarContext) {
@@ -142,6 +142,9 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitDecVarLocal(_ ctx: OnlyLonelyParser.DecVarLocalContext) {
         let values = ctx.listaVTipo()?.getText()
+        var amountInt = 0
+        var amountFloat = 0
+        var amountChar = 0
         if values != nil {
             let types = (values?.split(separator: ";"))!
             for type in types {
@@ -152,24 +155,41 @@ open class MyCustomListener : OnlyLonelyListener {
                         let temp = id.split(separator: "[")
                         let trueId = temp[0]
                         if localVariableTable[String(trueId)]!["esArreglo"] == "true"{
-                            localVariableTable[String(trueId)]!["tipo"] = String(tType[1])
-                            localVariableTable[String(trueId)]!["virtualAddress"] = String(myTempVarGenerator.getLocalArray(String(tType[1]), localVariableTable[String(trueId)]!["size"]!))
-                            localVariableCounter += 1
+                            let stringType = String(tType[1])
+                            localVariableTable[String(trueId)]!["tipo"] = stringType
+                            localVariableTable[String(trueId)]!["virtualAddress"] = String(myTempVarGenerator.getLocalArray(stringType, localVariableTable[String(trueId)]!["size"]!))
+                            localVariableCounter += Int(localVariableTable[String(trueId)]!["size"]!)!
+                            if stringType == "entero" {
+                                amountInt += Int(localVariableTable[String(trueId)]!["size"]!)!
+                            }else if stringType == "flotante"{
+                                amountFloat += Int(localVariableTable[String(trueId)]!["size"]!)!
+                            }else if stringType == "char"{
+                                amountChar += Int(localVariableTable[String(trueId)]!["size"]!)!
+                            }
                         }else{
-                            print("Error, variable \(id) ya ha sido declarada en este contexto")
+                            print("Error, variable \(id) no es un arreglo")
                         }
                     }else{
                         if localVariableTable[String(id)] == nil{
+                            let stringType = String(tType[1])
                             localVariableTable[String(id)] = [:]
-                            localVariableTable[String(id)]!["tipo"] = String(tType[1])
-                            localVariableTable[String(id)]!["virtualAddress"] = String(myTempVarGenerator.getLocalVar(String(tType[1])))
+                            localVariableTable[String(id)]!["tipo"] = stringType
+                            localVariableTable[String(id)]!["virtualAddress"] = String(myTempVarGenerator.getLocalVar(stringType))
                             localVariableCounter += 1
+                            if stringType == "entero" {
+                                amountInt += 1
+                            }else if stringType == "flotante"{
+                                amountFloat += 1
+                            }else if stringType == "char"{
+                                amountChar += 1
+                            }
                         }else{
                             print("Error, variable \(id) ya ha sido declarada en este contexto")
                         }
                     }
                 }
             }
+            functionTable[currFuncName]!["size"] = "\(amountInt) entero, \(amountFloat) flotante, \(amountChar) char"
         }
     }
     
@@ -211,7 +231,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if returnType != "void" {
             variableTable[id] = [:]
             variableTable[id]!["tipo"] = returnType
-            let address = String(myTempVarGenerator.getGlobalVar(returnType))
+            let address = myTempVarGenerator.getGlobalVar(returnType)
             variableTable[id]!["virtualAddress"] = address
             functionTable[id]!["globalVariableAddress"] = address
         }
@@ -233,7 +253,7 @@ open class MyCustomListener : OnlyLonelyListener {
         localVariableCounter = 0
         localVariableTable = [:]
         functionTable[currFuncName]!["temporalesUsados"] = String(myTempVarGenerator.counter)
-        quadruples.append(Quadruple("endfunc", -1, -1, "-1"))
+        quadruples.append(Quadruple("endfunc", "-1", "-1", "-1"))
         myTempVarGenerator.reset()
         currFuncName = ""
     }
@@ -252,7 +272,7 @@ open class MyCustomListener : OnlyLonelyListener {
             var numParams = Int(functionTable[currFuncName]!["numParams"]!)
             localVariableTable[id] = [:]
             localVariableTable[id]!["tipo"] = type
-            localVariableTable[id]!["virtualAddress"] = String(myTempVarGenerator.getLocalVar(type))
+            localVariableTable[id]!["virtualAddress"] = myTempVarGenerator.getLocalVar(type)
             paramSequence?.append("\(type) ")
             functionTable[currFuncName]!["params"] = paramSequence
             numParams = numParams! + 1
@@ -310,19 +330,19 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func createArray(_ number : String, _ id : String) {
         if currFuncName != "" {
-            if localVariableTable[String(id)] == nil{
-                localVariableTable[String(id)] = [:]
-                localVariableTable[String(id)]!["esArreglo"] = "true"
-                localVariableTable[String(id)]!["size"] = number
+            if localVariableTable[id] == nil{
+                localVariableTable[id] = [:]
+                localVariableTable[id]!["esArreglo"] = "true"
+                localVariableTable[id]!["size"] = number
                 localVariableCounter += Int(number)! - 1
             }else{
                 print("Error, variable \(id) ya ha sido declarada en este contexto")
             }
         }else {
-            if variableTable[String(id)] == nil{
-                variableTable[String(id)] = [:]
-                variableTable[String(id)]!["esArreglo"] = "true"
-                variableTable[String(id)]!["size"] = number
+            if variableTable[id] == nil{
+                variableTable[id] = [:]
+                variableTable[id]!["esArreglo"] = "true"
+                variableTable[id]!["size"] = number
             }else{
                 print("Error, variable \(id) ya ha sido declarada en este contexto")
             }
@@ -331,26 +351,50 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitTAsignacion(_ ctx: OnlyLonelyParser.TAsignacionContext) {
         let id = ctx.Id()?.description
-        if let type = localVariableTable[id!]?["tipo"]{
-            if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
-                let virtualAddress = Int(localVariableTable[id!]!["virtualAddress"]!)
-                quadruples.append(Quadruple("=", operandStack.pop()!, -1, String(virtualAddress!)))
-                localVariableTable[id!]!["tipo"] = resultType
-                typeStack.simplePop()
-            }else{
-                print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+        if variableTable[id!]?["esArreglo"] == nil && localVariableTable[id!]?["esArreglo"] == nil {
+            if let type = localVariableTable[id!]?["tipo"]{
+                if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
+                    let virtualAddress = localVariableTable[id!]!["virtualAddress"]
+                    quadruples.append(Quadruple("=", operandStack.pop()!, "-1", virtualAddress!))
+                    localVariableTable[id!]!["tipo"] = resultType
+                    typeStack.simplePop()
+                }else{
+                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                }
+            }else if let type = variableTable[id!]!["tipo"]{
+                if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
+                    let virtualAddress = variableTable[id!]!["virtualAddress"]
+                    quadruples.append(Quadruple("=", operandStack.pop()!, "-1", virtualAddress!))
+                    variableTable[id!]!["tipo"] = resultType
+                    typeStack.simplePop()
+                }else{
+                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                }
+            } else{
+                print("Error, la variable \(id!) no ha sido declarada en este contexto")
             }
-        }else if let type = variableTable[id!]!["tipo"]{
-            if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
-                let virtualAddress = Int(variableTable[id!]!["virtualAddress"]!)
-                quadruples.append(Quadruple("=", operandStack.pop()!, -1, String(virtualAddress!)))
-                variableTable[id!]!["tipo"] = resultType
-                typeStack.simplePop()
-            }else{
-                print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+        }else{
+            if let type = localVariableTable[id!]?["tipo"]{
+                if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
+                    quadruples.append(Quadruple("=", operandStack.pop()!, "-1", operandStack.pop()!))
+                    localVariableTable[id!]!["tipo"] = resultType
+                    typeStack.simplePop()
+                    typeStack.simplePop()
+                }else{
+                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                }
+            }else if let type = variableTable[id!]!["tipo"]{
+                if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
+                    quadruples.append(Quadruple("=", operandStack.pop()!, "-1", operandStack.pop()!))
+                    variableTable[id!]!["tipo"] = resultType
+                    typeStack.simplePop()
+                    typeStack.simplePop()
+                }else{
+                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                }
+            } else{
+                print("Error, la variable \(id!) no ha sido declarada en este contexto")
             }
-        } else{
-            print("Error, la variable \(id!) no ha sido declarada en este contexto")
         }
     }
     
@@ -379,7 +423,7 @@ open class MyCustomListener : OnlyLonelyListener {
     }
     
     public func generateEra(_ funcName : String){
-        quadruples.append(Quadruple("era", -1, -1, funcName))
+        quadruples.append(Quadruple("era", "-1", "-1", funcName))
         currFuncName = funcName
     }
     
@@ -392,7 +436,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 print("Error, esta funcion no tiene parámetros")
             }else{
                 if String(list![currParam]) == argumentType{
-                    quadruples.append(Quadruple("parameter", argument!, currParam, currFuncName))
+                    quadruples.append(Quadruple("parameter", argument!, String(currParam), currFuncName))
                     currParam = currParam + 1
                 }else{
                     print("Error, el arumento es de tipo incorrecto")
@@ -405,7 +449,7 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext) {
         if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
-            quadruples.append(Quadruple("gosub", -1, -1, currFuncName))
+            quadruples.append(Quadruple("gosub", "-1", "-1", currFuncName))
             currParam = 0
         }else{
             print("Error, no se pasaron los argumentos necesarios para la función")
@@ -418,11 +462,11 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func exitLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) {
         if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
-            quadruples.append(Quadruple("gosub", -1, -1, currFuncName))
+            quadruples.append(Quadruple("gosub", "-1", "-1", currFuncName))
             let returnType = functionTable[currFuncName]!["tRetorno"]!
             let tempVar = myTempVarGenerator.getTempVar(returnType)
             let virtualAddress = variableTable[currFuncName]!["virtualAddress"]
-            quadruples.append(Quadruple("=", Int(virtualAddress!)!, -1, String(tempVar)))
+            quadruples.append(Quadruple("=", virtualAddress!, "-1", String(tempVar)))
             operandStack.push(tempVar)
             typeStack.push(returnType)
             currParam = 0
@@ -451,7 +495,7 @@ open class MyCustomListener : OnlyLonelyListener {
             print("Error, \(String(describing: operand)) es de tipo \(String(describing: operandType)), y debe de ser \(functionTable[currFuncName]!["tRetorno"]!)")
         }else{
             functionTable[currFuncName]!["hasReturnStatement"] = "true"
-            quadruples.append(Quadruple("return", operand, -1, currFuncName))
+            quadruples.append(Quadruple("return", operand, "-1", currFuncName))
         }
     }
     
@@ -465,12 +509,12 @@ open class MyCustomListener : OnlyLonelyListener {
         for id in ids! {
             if (localVariableTable[String(id)] != nil) {
                 let virtualAddress = localVariableTable[String(id)]!["virtualAddress"]
-                quadruples.append(Quadruple("lee", -1, -1, virtualAddress!))
+                quadruples.append(Quadruple("lee", "-1", "-1", virtualAddress!))
             }else if (variableTable[String(id)] != nil) {
                 let virtualAddress = variableTable[String(id)]!["virtualAddress"]
-                quadruples.append(Quadruple("lee", -1, -1, virtualAddress!))
+                quadruples.append(Quadruple("lee", "-1", "-1", virtualAddress!))
             }else{
-                print("Error, la variable \(String(id)) no se ha declarado")
+                print("Error, la variable \(id) no se ha declarado")
             }
         }
     }
@@ -490,19 +534,23 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitEscrituraAux(_ ctx: OnlyLonelyParser.EscrituraAuxContext) {
         if (ctx.String() != nil) {
             let str = ctx.String()?.description
-            quadruples.append(Quadruple("print", -1, -1, str!))
+            let virtualAddress = myTempVarGenerator.getConstString()
+            constTable[str!] = [:]
+            constTable[str!]!["virtualAddress"] = virtualAddress
+            constTable[str!]!["type"] = "string"
+            quadruples.append(Quadruple("print", "-1", "-1", virtualAddress))
         }else{
             let operand = operandStack.pop()
             typeStack.simplePop()
             if operand != nil {
-                quadruples.append(Quadruple("print", -1, -1, String(operand!)))
+                quadruples.append(Quadruple("print", "-1", "-1", operand!))
             }
         }
     }
     
     public func saveJumpPoint(){
         if typeStack.pop() == "bool" {
-            quadruples.append(Quadruple("gotof", operandStack.pop()!, -1, "-1"))
+            quadruples.append(Quadruple("gotof", operandStack.pop()!, "-1", "-1"))
             jumpStack.push(quadruples.count-1)
         }else{
             print("Error, se espera una expresión de tipo bool")
@@ -513,7 +561,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if let position = jumpStack.pop(){
             quadruples[position].setResult(String(quadruples.count+1))
         }
-        quadruples.append(Quadruple("goto", -1, -1, "-1"))
+        quadruples.append(Quadruple("goto", "-1", "-1", "-1"))
         jumpStack.push(quadruples.count-1)
     }
     
@@ -545,7 +593,7 @@ open class MyCustomListener : OnlyLonelyListener {
     
     public func saveWhileBodyStart(){
         if typeStack.pop() == "bool" {
-            quadruples.append(Quadruple("gotof", operandStack.pop()!, -1, "-1"))
+            quadruples.append(Quadruple("gotof", operandStack.pop()!, "-1", "-1"))
             jumpStack.push(quadruples.count-1)
         }else{
             print("Error, se esperaba un tipo bool")
@@ -555,7 +603,7 @@ open class MyCustomListener : OnlyLonelyListener {
     public func saveWhileBodyEnd(){
         let end = jumpStack.pop()
         let begining = jumpStack.pop()
-        quadruples.append(Quadruple("goto", -1, -1, String(begining!)))
+        quadruples.append(Quadruple("goto", "-1", "-1", String(begining!)))
         quadruples[end!].setResult(String(quadruples.count))
     }
     
@@ -572,8 +620,8 @@ open class MyCustomListener : OnlyLonelyListener {
             let virtualAddress = myTempVarGenerator.getTempInt()
             localVariableTable[id] = [:]
             localVariableTable[id]!["tipo"] = "entero"
-            localVariableTable[id]!["virtualAddress"] = String(virtualAddress)
-            quadruples.append(Quadruple("=", operandStack.pop()!, -1, String(virtualAddress)))
+            localVariableTable[id]!["virtualAddress"] = virtualAddress
+            quadruples.append(Quadruple("=", operandStack.pop()!, "-1", virtualAddress))
             operandStack.push(virtualAddress)
             typeStack.push("entero")
         }
@@ -588,7 +636,7 @@ open class MyCustomListener : OnlyLonelyListener {
             quadruples.append(Quadruple("<", left!, right!, String(temp)))
             jumpStack.push(quadruples.count-1)
             typeStack.simplePop()
-            quadruples.append(Quadruple("gotof", temp, -1, "-1"))
+            quadruples.append(Quadruple("gotof", temp, "-1", "-1"))
             operandStack.push(left!)
             typeStack.push("entero")
         }
@@ -598,9 +646,9 @@ open class MyCustomListener : OnlyLonelyListener {
         let address = operandStack.pop()
         typeStack.simplePop()
         let oneAddress = constTable["1"]!["virtualAddress"]
-        quadruples.append(Quadruple("+", address!, Int(oneAddress!)!, String(address!)))
+        quadruples.append(Quadruple("+", address!, oneAddress!, address!))
         let begin = jumpStack.pop()
-        quadruples.append(Quadruple("goto", -1, -1, String(begin!)))
+        quadruples.append(Quadruple("goto", "-1", "-1", String(begin!)))
         let trail = jumpStack.pop()
         quadruples[trail!].setResult(String(quadruples.count))
         localVariableTable[id] = nil
@@ -754,12 +802,12 @@ open class MyCustomListener : OnlyLonelyListener {
                     if variableTable[id] != nil{
                         let type = variableTable[id]?["tipo"]
                         let virtualAddress = variableTable[id]!["virtualAddress"]
-                        operandStack.push(Int(virtualAddress!)!)
+                        operandStack.push(virtualAddress!)
                         typeStack.push(type!)
                     }else if localVariableTable[id] != nil{
                         let type = localVariableTable[id]?["tipo"]
                         let virtualAddress = localVariableTable[id]!["virtualAddress"]
-                        operandStack.push(Int(virtualAddress!)!)
+                        operandStack.push(virtualAddress!)
                         typeStack.push(type!)
                     }else{
                         print("Error, la variable \(id) no ha sido declarada")
@@ -770,13 +818,13 @@ open class MyCustomListener : OnlyLonelyListener {
                     let num = ctx.Numero()?.getText()
                     if constTable[num!] != nil {
                         let virtualAddress = constTable[num!]!["virtualAddress"]
-                        operandStack.push(Int(virtualAddress!)!)
+                        operandStack.push(virtualAddress!)
                         typeStack.push("entero")
                     }else{
                         let virtualAddress = myTempVarGenerator.getConst("entero")
                         constTable[num!] = [:]
                         constTable[num!]!["tipo"] = "entero"
-                        constTable[num!]!["virtualAddress"] = String(virtualAddress)
+                        constTable[num!]!["virtualAddress"] = virtualAddress
                         operandStack.push(virtualAddress)
                         typeStack.push("entero")
                     }
@@ -785,15 +833,29 @@ open class MyCustomListener : OnlyLonelyListener {
                     let num = ctx.NumFlotante()?.getText()
                     if constTable[num!] != nil {
                         let virtualAddress = constTable[num!]!["virtualAddress"]
-                        operandStack.push(Int(virtualAddress!)!)
+                        operandStack.push(virtualAddress!)
                         typeStack.push("flotante")
                     }else{
                         let virtualAddress = myTempVarGenerator.getConst("flotante")
                         constTable[num!] = [:]
                         constTable[num!]!["tipo"] = "flotante"
-                        constTable[num!]!["virtualAddress"] = String(virtualAddress)
+                        constTable[num!]!["virtualAddress"] = virtualAddress
                         operandStack.push(virtualAddress)
                         typeStack.push("flotante")
+                    }
+                }else if (ctx.Caracter() != nil){
+                    let car = ctx.Caracter()?.getText()
+                    if constTable[car!] != nil{
+                        let virtualAddress = constTable[car!]!["virtualAddress"]
+                        operandStack.push(virtualAddress!)
+                        typeStack.push("char")
+                    }else{
+                        let virtualAddress = myTempVarGenerator.getConst("char")
+                        constTable[car!] = [:]
+                        constTable[car!]!["tipo"] = "char"
+                        constTable[car!]!["virtualAddress"] = virtualAddress
+                        operandStack.push(virtualAddress)
+                        typeStack.push("char")
                     }
                 }
             }
@@ -816,6 +878,10 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    public func prepareArrayAccess(){
+        operatorStack.push("(")
+    }
+    
     public func verifyArray(_ arrayName : String){
         if localVariableTable[arrayName]?["esArreglo"] == "true" {
             let operand = operandStack.pop()
@@ -823,12 +889,14 @@ open class MyCustomListener : OnlyLonelyListener {
             let size = localVariableTable[arrayName]!["size"]
             let virtualAddress = localVariableTable[arrayName]!["virtualAddress"]!
             if type == "entero"{
-                quadruples.append(Quadruple("verify", operand!, 0, size!))
+                quadruples.append(Quadruple("verify", operand!, "0", size!))
                 let arrayType = localVariableTable[arrayName]!["tipo"]
                 let next = myTempVarGenerator.getTempVar(arrayType!)
-                quadruples.append(Quadruple("+", operand!, Int(virtualAddress)!, String(next)))
-                operandStack.push(next)
+                quadruples.append(Quadruple("+", operand!, virtualAddress, next))
+                let pointer = "(" + next + ")"
+                operandStack.push(pointer)
                 typeStack.push(arrayType!)
+                operatorStack.simplePop()
             }else{
                 print("Error, la expresión debe de ser de tipo entero, no \(type!)")
             }
@@ -838,12 +906,14 @@ open class MyCustomListener : OnlyLonelyListener {
             let size = variableTable[arrayName]!["size"]
             let virtualAddress = variableTable[arrayName]!["virtualAddress"]!
             if type == "entero"{
-                quadruples.append(Quadruple("verify", operand!, 0, size!))
+                quadruples.append(Quadruple("verify", operand!, "0", size!))
                 let arrayType = variableTable[arrayName]!["tipo"]
                 let next = myTempVarGenerator.getTempVar(arrayType!)
-                quadruples.append(Quadruple("+", operand!, Int(virtualAddress)!, String(next)))
-                operandStack.push(next)
+                quadruples.append(Quadruple("+", operand!, virtualAddress, next))
+                let pointer = "(" + next + ")"
+                operandStack.push(pointer)
                 typeStack.push(arrayType!)
+                operatorStack.simplePop()
             }else{
                 print("Error, la expresión debe de ser de tipo entero, no \(type!)")
             }

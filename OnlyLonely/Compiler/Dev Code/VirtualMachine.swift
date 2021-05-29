@@ -60,7 +60,8 @@ class VirtualMachine {
     
     public func run(){
         while quadruples[instructionPointer].operationCode != "armin" {
-            let quad = quadruples[instructionPointer]
+            let uncheckedQuad = quadruples[instructionPointer]
+            let quad = processQuad(uncheckedQuad)
             
             switch quad.operationCode {
             case "goto":
@@ -267,6 +268,15 @@ class VirtualMachine {
                 if Int(accessMemory(address))! >= upperLimit || Int(accessMemory(address))! < 0{
                     print("Error de dimensiones del arreglo")
                 }
+                instructionPointer += 1
+                let nextUnverifiedQuad = quadruples[instructionPointer]
+                let nextQuad = processQuad(nextUnverifiedQuad)
+                let leftAddress = nextQuad.leftOperand
+                let leftContent = Int(accessMemory(leftAddress))!
+                let displacement = Int(nextQuad.rightOperand)!
+                let resultAddress = nextQuad.result
+                let resultContent = leftContent + displacement
+                writeMemory(resultAddress, String(resultContent))
             default:
                 continue
             }
@@ -337,7 +347,8 @@ class VirtualMachine {
         }
     }
     
-    public func getAddressOfParam(_ paramNumber : Int, _ funcName : String) -> String{
+    public func getAddressOfParam(_ paramNumberString : String, _ funcName : String) -> String{
+        let paramNumber = Int(paramNumberString)!
         let paramSequence = functionTable[funcName]!["params"]!.split(separator: " ")
         let type = String(paramSequence[paramNumber])
         if type == "entero" {
@@ -350,6 +361,35 @@ class VirtualMachine {
             let pos = 16600 + paramNumber + 1
             return String(pos)
         }
+    }
+    
+    public func processQuad(_ quad : Quadruple) -> Quadruple{
+        var leftOperand = quad.leftOperand
+        var rightOperand = quad.rightOperand
+        var result = quad.result
+        
+        while leftOperand.contains("(") {
+            leftOperand.removeFirst()
+            leftOperand.removeLast()
+            let actualAddress = accessMemory(leftOperand)
+            leftOperand = actualAddress
+        }
+        while rightOperand.contains("("){
+            rightOperand.removeFirst()
+            rightOperand.removeLast()
+            let actualAddress = accessMemory(rightOperand)
+            rightOperand = actualAddress
+        }
+        while result.contains("(") {
+            result.removeFirst()
+            result.removeLast()
+            let actualAddress = accessMemory(result)
+            result = actualAddress
+        }
+        
+        let revisedQuad = Quadruple(quad.operationCode, leftOperand, rightOperand, result)
+        return revisedQuad
+        
     }
     
     public func accessMemory(_ address : String) -> String{

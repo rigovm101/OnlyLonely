@@ -9,11 +9,11 @@ import Foundation
 
 public class Quadruple {
     var operationCode : String
-    var leftOperand : Int
-    var rightOperand : Int
+    var leftOperand : String
+    var rightOperand : String
     var result : String
     
-    init(_ operationCode: String, _ leftOperand: Int, _ rightOperand: Int, _ result: String) {
+    init(_ operationCode: String, _ leftOperand: String, _ rightOperand: String, _ result: String) {
         self.operationCode = operationCode
         self.leftOperand = leftOperand
         self.rightOperand = rightOperand

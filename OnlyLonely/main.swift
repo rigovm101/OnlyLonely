@@ -30,7 +30,7 @@ regresa(i * factorial(i - 1));
 
 principal(){
 
-escribe(factorial(5));
+escribe(factorial(5), "a dormir");
 }
 """
 
