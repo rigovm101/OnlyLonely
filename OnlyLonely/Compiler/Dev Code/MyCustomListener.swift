@@ -128,7 +128,7 @@ open class MyCustomListener : OnlyLonelyListener {
                             variableTable[String(trueId)]!["tipo"] = String(tType[1])
                             variableTable[String(trueId)]!["virtualAddress"] = String(myTempVarGenerator.getGlobalArray(String(tType[1]), variableTable[String(trueId)]!["size"]!))
                         }else{
-                            print("Error, variable \(id) ya ha sido declarada en este contexto")
+                            fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
                         }
                     }else{
                         if variableTable[String(id)] == nil{
@@ -136,7 +136,7 @@ open class MyCustomListener : OnlyLonelyListener {
                             variableTable[String(id)]!["tipo"] = String(tType[1])
                             variableTable[String(id)]!["virtualAddress"] = String(myTempVarGenerator.getGlobalVar(String(tType[1])))
                         }else{
-                            print("Error, variable \(id) ya ha sido declarada en este contexto")
+                            fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
                         }
                     }
                 }
@@ -185,7 +185,7 @@ open class MyCustomListener : OnlyLonelyListener {
                                 amountChar += Int(localVariableTable[String(trueId)]!["size"]!)!
                             }
                         }else{
-                            print("Error, variable \(id) no es un arreglo")
+                            fatalError("Error, variable \(id) no es un arreglo")
                         }
                     }else{
                         if localVariableTable[String(id)] == nil{
@@ -202,7 +202,7 @@ open class MyCustomListener : OnlyLonelyListener {
                                 amountChar += 1
                             }
                         }else{
-                            print("Error, variable \(id) ya ha sido declarada en este contexto")
+                            fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
                         }
                     }
                 }
@@ -314,7 +314,7 @@ open class MyCustomListener : OnlyLonelyListener {
             localVariableCounter += 1
             functionTable[currFuncName]!["numParams"] = String(numParams!)
         }else{
-            print("Error, parametro \(id) ya existe")
+            fatalError("Error, parametro \(id) ya existe")
         }
     }
     
@@ -379,7 +379,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 localVariableTable[id]!["size"] = number
                 localVariableCounter += Int(number)! - 1
             }else{
-                print("Error, variable \(id) ya ha sido declarada en este contexto")
+                fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
             }
         }else {
             if variableTable[id] == nil{
@@ -387,7 +387,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 variableTable[id]!["esArreglo"] = "true"
                 variableTable[id]!["size"] = number
             }else{
-                print("Error, variable \(id) ya ha sido declarada en este contexto")
+                fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
             }
         }
     }
@@ -405,7 +405,7 @@ open class MyCustomListener : OnlyLonelyListener {
                     localVariableTable[id!]!["tipo"] = resultType
                     typeStack.simplePop()
                 }else{
-                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                    fatalError("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
                 }
             }else if let type = variableTable[id!]!["tipo"]{
                 if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
@@ -414,10 +414,10 @@ open class MyCustomListener : OnlyLonelyListener {
                     variableTable[id!]!["tipo"] = resultType
                     typeStack.simplePop()
                 }else{
-                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                    fatalError("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
                 }
             } else{
-                print("Error, la variable \(id!) no ha sido declarada en este contexto")
+                fatalError("Error, la variable \(id!) no ha sido declarada en este contexto")
             }
         }else{
             if let type = localVariableTable[id!]?["tipo"]{
@@ -427,7 +427,7 @@ open class MyCustomListener : OnlyLonelyListener {
                     typeStack.simplePop()
                     typeStack.simplePop()
                 }else{
-                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                    fatalError("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
                 }
             }else if let type = variableTable[id!]!["tipo"]{
                 if let resultType = semanticCube.chekCube(leftType: type, rightType: typeStack.top()!, myOperator: "=") {
@@ -436,10 +436,10 @@ open class MyCustomListener : OnlyLonelyListener {
                     typeStack.simplePop()
                     typeStack.simplePop()
                 }else{
-                    print("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
+                    fatalError("Error, tipos \(type) y \(typeStack.pop()!) no son compatibles")
                 }
             } else{
-                print("Error, la variable \(id!) no ha sido declarada en este contexto")
+                fatalError("Error, la variable \(id!) no ha sido declarada en este contexto")
             }
         }
     }
@@ -449,9 +449,9 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Description: Checks if a variable is an array when called
     public func checkIsNotArray(_ id : String){
         if localVariableTable[id]?["esArreglo"] != nil {
-            print("Error, la variable \(id) es un arreglo")
+            fatalError("Error, la variable \(id) es un arreglo")
         }else if variableTable[id]?["esArreglo"] != nil{
-            print("Error, la variable \(id) es un arreglo")
+            fatalError("Error, la variable \(id) es un arreglo")
         }
     }
     
@@ -464,7 +464,7 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Description: Checks if the function is declared when called
     public func verifyFuncExists(_ funcName : String){
         if functionTable[funcName] == nil{
-            print("Error, la funcion \(funcName) no existe")
+            fatalError("Error, la funcion \(funcName) no existe")
         }
     }
     
@@ -473,7 +473,7 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Description: Checks if the function is declared when called
     public func verifyNoVoidFuncExists(_ funcName : String){
         if functionTable[funcName] == nil{
-            print("Error, la funcion \(funcName) no existe")
+            fatalError("Error, la funcion \(funcName) no existe")
         }
     }
     
@@ -493,13 +493,13 @@ open class MyCustomListener : OnlyLonelyListener {
         if currFuncName != "" {
             let list = functionTable[currFuncName]!["params"]?.split(separator: " ")
             if list!.count == 0{
-                print("Error, esta funcion no tiene parámetros")
+                fatalError("Error, esta funcion no tiene parámetros")
             }else{
                 if String(list![currParam]) == argumentType{
                     quadruples.append(Quadruple("parameter", argument!, String(currParam), currFuncName))
                     currParam = currParam + 1
                 }else{
-                    print("Error, el arumento es de tipo incorrecto")
+                    fatalError("Error, el arumento es de tipo incorrecto")
                 }
             }
         }else{
@@ -515,7 +515,7 @@ open class MyCustomListener : OnlyLonelyListener {
             quadruples.append(Quadruple("gosub", "-1", "-1", currFuncName))
             currParam = 0
         }else{
-            print("Error, no se pasaron los argumentos necesarios para la función")
+            fatalError("Error, no se pasaron los argumentos necesarios para la función")
         }
     }
     
@@ -541,7 +541,7 @@ open class MyCustomListener : OnlyLonelyListener {
             currParam = 0
             operatorStack.simplePop()
         }else{
-            print("Error, no se pasaron los argumentos necesarios para la función")
+            fatalError("Error, no se pasaron los argumentos necesarios para la función \(currFuncName)")
         }
     }
     
@@ -564,7 +564,7 @@ open class MyCustomListener : OnlyLonelyListener {
         let operand = operandStack.pop()!
         let operandType = typeStack.pop()!
         if functionTable[currFuncName]!["tRetorno"] != operandType {
-            print("Error, \(String(describing: operand)) es de tipo \(String(describing: operandType)), y debe de ser \(functionTable[currFuncName]!["tRetorno"]!)")
+            fatalError("Error, \(String(describing: operand)) es de tipo \(String(describing: operandType)), y debe de ser \(functionTable[currFuncName]!["tRetorno"]!)")
         }else{
             functionTable[currFuncName]!["hasReturnStatement"] = "true"
             quadruples.append(Quadruple("return", operand, "-1", currFuncName))
@@ -589,7 +589,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 let virtualAddress = variableTable[String(id)]!["virtualAddress"]
                 quadruples.append(Quadruple("lee", "-1", "-1", virtualAddress!))
             }else{
-                print("Error, la variable \(id) no se ha declarado")
+                fatalError("Error, la variable \(id) no se ha declarado")
             }
         }
     }
@@ -641,7 +641,7 @@ open class MyCustomListener : OnlyLonelyListener {
             quadruples.append(Quadruple("gotof", operandStack.pop()!, "-1", "-1"))
             jumpStack.push(quadruples.count-1)
         }else{
-            print("Error, se espera una expresión de tipo bool")
+            fatalError("Error, se espera una expresión de tipo bool")
         }
     }
     
@@ -692,7 +692,7 @@ open class MyCustomListener : OnlyLonelyListener {
             quadruples.append(Quadruple("gotof", operandStack.pop()!, "-1", "-1"))
             jumpStack.push(quadruples.count-1)
         }else{
-            print("Error, se esperaba un tipo bool")
+            fatalError("Error, se esperaba un tipo bool")
         }
     }
     
@@ -848,7 +848,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if operatorStack.top() == "(" {
             operatorStack.simplePop()
         }else{
-            print("Error, no se esperaba )")
+            fatalError("Error, no se esperaba )")
         }
     }
     
@@ -873,7 +873,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 operandStack.push(myTempVar)
                 typeStack.push(resultType!)
             }else{
-                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+                fatalError("Error, tipos \(leftType) y \(rightType) no son compatibles")
             }
         }
     }
@@ -899,7 +899,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 operandStack.push(myTempVar)
                 typeStack.push(resultType!)
             }else{
-                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+                fatalError("Error, tipos \(leftType) y \(rightType) no son compatibles")
             }
         }
     }
@@ -925,7 +925,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 operandStack.push(myTempVar)
                 typeStack.push(resultType!)
             }else{
-                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+                fatalError("Error, tipos \(leftType) y \(rightType) no son compatibles")
             }
         }
     }
@@ -952,7 +952,7 @@ open class MyCustomListener : OnlyLonelyListener {
                         operandStack.push(virtualAddress!)
                         typeStack.push(type!)
                     }else{
-                        print("Error, la variable \(id) no ha sido declarada")
+                        fatalError("Error, la variable \(id) no ha sido declarada")
                     }
                 }
             }else{
@@ -1015,7 +1015,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 operandStack.push(myTempVar)
                 typeStack.push(resultType!)
             }else{
-                print("Error, tipos \(leftType) y \(rightType) no son compatibles")
+                fatalError("Error, tipos \(leftType) y \(rightType) no son compatibles")
             }
         }
     }
@@ -1045,7 +1045,7 @@ open class MyCustomListener : OnlyLonelyListener {
                 typeStack.push(arrayType!)
                 operatorStack.simplePop()
             }else{
-                print("Error, la expresión debe de ser de tipo entero, no \(type!)")
+                fatalError("Error, la expresión debe de ser de tipo entero, no \(type!)")
             }
         }else if variableTable[arrayName]?["esArreglo"] == "true"{
             let operand = operandStack.pop()
@@ -1062,10 +1062,10 @@ open class MyCustomListener : OnlyLonelyListener {
                 typeStack.push(arrayType!)
                 operatorStack.simplePop()
             }else{
-                print("Error, la expresión debe de ser de tipo entero, no \(type!)")
+                fatalError("Error, la expresión debe de ser de tipo entero, no \(type!)")
             }
         }else{
-            print("Error, la variable \(arrayName) no es un arreglo")
+            fatalError("Error, la variable \(arrayName) no es un arreglo")
         }
     }
     
