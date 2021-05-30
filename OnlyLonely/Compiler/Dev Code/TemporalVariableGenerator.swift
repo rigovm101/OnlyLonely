@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// TemporalVariableGenerator
+/// - Description: This class serves as a memory allocation tool to asign variables in the compilation process. This class separates the Global, Local, Temporal and Constant variables used in the program
 class TemporalVariableGenerator{
     var counter : Int
     
@@ -28,6 +30,8 @@ class TemporalVariableGenerator{
     var constChar : Int
     var constString : Int
     
+    /// Temporal Variable Generator Initializar
+    /// - Description: Sets the counters of each type of variable to 0
     init() {
         counter = 0
         
@@ -50,22 +54,35 @@ class TemporalVariableGenerator{
         constString = 0
     }
     
-    //Global Variables
+    
+    /// getGlobalInt
+    /// - Returns: Address of the new variable
+    /// - Description: This function gets the address for a Global Int
     func getGlobalInt() -> String{
         globalInt = globalInt + 1
         return String(globalInt)
     }
     
+    /// getGlobalFloat
+    /// - Returns: Address of the new variable
+    /// - Description: This function gets the address for a Global Float
     func getGlobalFloat() -> String{
         globalFloat = globalFloat + 1
         return String(3300 + globalFloat)
     }
     
+    /// getGlobalChar
+    /// - Returns: Address of the new variable
+    /// - Description: This function gets the address for a Global Char
     func getGlobalChar() -> String{
         globalChar = globalChar + 1
         return String(6600 + globalChar)
     }
     
+    /// getGlobalVar
+    /// - Parameter type: Type of value requested
+    /// - Returns: Address of the new variable
+    /// - Description: This function gets the address for a Global variable
     func getGlobalVar(_ type : String) -> String{
         switch type {
         case "entero":
@@ -79,6 +96,12 @@ class TemporalVariableGenerator{
         }
     }
     
+    /// getGlobalArray
+    /// - Parameters:
+    ///   - type: Type of array
+    ///   - size: Size of array
+    /// - Returns: Starting position of the array
+    /// - Description: This function returns the starting position of an array and saves addresses for all the elements in the array
     func getGlobalArray(_ type : String, _ size : String) -> String{
         let tSize = Int(size)
         let startPos = getGlobalVar(type)
@@ -95,22 +118,35 @@ class TemporalVariableGenerator{
         return startPos
     }
     
-    //Local Variables
+    
+    /// getLocalInt
+    /// - Returns: Address of the variable
+    /// - Description: Gets the address for a new Local Integer
     func getLocalInt() -> String{
         localInt = localInt + 1
         return String(10000 + localInt)
     }
     
+    /// getLocalFloat
+    /// - Returns: Address of the variable
+    /// - Description: Gets the address for a new Local Float
     func getLocalFloat() -> String{
         localFloat = localFloat + 1
         return String(13300 + localFloat)
     }
     
+    /// getLocalChar
+    /// - Returns: Address of the variable
+    /// - Description: Gets the address for a new Local Char
     func getLocalChar() -> String{
         localChar = localChar + 1
         return String(16600 + localChar)
     }
     
+    /// getLocalVar
+    /// - Parameter type: Type of the variable to create
+    /// - Returns: Address of the variable
+    /// - Description: Creates a new Local variable
     func getLocalVar(_ type : String) -> String{
         switch type {
         case "entero":
@@ -124,6 +160,12 @@ class TemporalVariableGenerator{
         }
     }
     
+    /// getLocalArray
+    /// - Parameters:
+    ///   - type: Type of the array
+    ///   - size: Size of the array
+    /// - Returns: The starting position of the array
+    /// - Description: Saves the addresses of all the elements in the array and returns the starting position
     func getLocalArray(_ type : String, _ size : String) -> String{
         let tSize = Int(size)
         let startPos = getLocalVar(type)
@@ -140,31 +182,47 @@ class TemporalVariableGenerator{
         return startPos
     }
     
-    //Temporal Variables
+    
+    /// getTempInt
+    /// - Returns: Address of the variable
+    /// - Description: Creates a Temporal Integer variable
     func getTempInt() -> String{
         counter += 1
         tempInt = tempInt + 1
         return String(20000 + tempInt)
     }
     
+    /// getTempFloat
+    /// - Returns: Address of the variable
+    /// - Description: Creates a Temporal Float variable
     func getTempFloat() -> String{
         counter += 1
         tempFloat = tempFloat + 1
         return String(21250 + tempFloat)
     }
     
+    /// getTempChar
+    /// - Returns: Address of the variable
+    /// - Description: Creates a Temporal Char variable
     func getTempChar() -> String{
         counter += 1
         tempChar = tempChar + 1
         return String(22500 + tempChar)
     }
     
+    /// getTempBool
+    /// - Returns: Address of the variable
+    /// - Description: Creates a Temporal Bool variable
     func getTempBool() -> String{
         counter += 1
         tempBool = tempBool + 1
         return String(23750 + tempBool)
     }
     
+    /// getTempVar
+    /// - Parameter type: Type of the variable
+    /// - Returns: Address of the variable
+    /// - Description: Creates a Temporal Variable and returns it's address
     func getTempVar(_ type : String) -> String{
         switch type {
         case "entero":
@@ -180,27 +238,42 @@ class TemporalVariableGenerator{
         }
     }
     
-    //Constants
+    /// getConstInt
+    /// - Returns: Address of the constant
+    /// - Description: Gets an address for a new Integer Cosntant
     func getConstInt() -> String{
         constInt = constInt + 1
         return String(25000 + constInt)
     }
     
+    /// getConstFloat
+    /// - Returns: Address of the constant
+    /// - Description: Gets an address for a new Float Constant
     func getConstFloat() -> String{
         constFloat = constFloat + 1
         return String(26600 + constFloat)
     }
     
+    /// getConstChar
+    /// - Returns: Address of the Constant
+    /// - Description: Gets an address for a new Char Constat
     func getConstChar() -> String{
         constChar = constChar + 1
         return String(28300 + constChar)
     }
     
+    /// getConstString
+    /// - Returns: Address of the constant
+    /// - Description: Gets an address for a new String Constant
     func getConstString() -> String{
         constString = constString + 1
         return String(30000 + constString)
     }
     
+    /// getConst
+    /// - Parameter type: Type of Constant
+    /// - Returns: Address of the constant
+    /// - Description: Gets an address for a new constant
     func getConst(_ type : String) -> String{
         switch type {
         case "entero":
@@ -216,6 +289,8 @@ class TemporalVariableGenerator{
         }
     }
     
+    /// reset
+    /// - Description: Resets the counters of local and temporal variables
     func reset() {
         counter = 0
         tempInt = 0

@@ -5,10 +5,14 @@
 //  Created by Rigoberto Valadez on 30/04/21.
 //
 
+/// Semantic Cube
+/// - Description: This class is used in compilation to check which types are compatible with one another in compilation
 class SemanticCube {
     
     var cube : [String : [String : [String : String]]]
-
+    
+    /// Semantic Cube Initializer
+    /// - Description: The Semantic Cube is initialized with the information of all the data types
     init() {
         cube = [String : [String : [String : String]]]()
         
@@ -242,6 +246,13 @@ class SemanticCube {
         
     }
     
+    /// checkCube
+    /// - Parameters:
+    ///   - leftType: Type of the left operand
+    ///   - rightType: Type of the right operand
+    ///   - myOperator: Operator used in the operation
+    /// - Returns: The type resulting of the operation
+    /// - Description: This function checks when operations are valid and returns the resulting type
     func chekCube(leftType:String, rightType: String, myOperator: String) -> String? {
         return cube[leftType]![rightType]![myOperator]
     }

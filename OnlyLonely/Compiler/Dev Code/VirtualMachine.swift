@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Virtual Machine
+/// - Description: This class takes the Quadruples and runs the program
 class VirtualMachine {
     
     var globalMemory : [String : String]

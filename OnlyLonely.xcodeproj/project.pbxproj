@@ -16,7 +16,6 @@
 		952142E12633957C00F8E696 /* OnlyLonelyListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142DB2633957C00F8E696 /* OnlyLonelyListener.swift */; };
 		952142F02633A23400F8E696 /* MyCustomListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952142EF2633A23400F8E696 /* MyCustomListener.swift */; };
 		952EA0F32662C1DC008DFBB0 /* Antlr4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952EA0EE2662C1B6008DFBB0 /* Antlr4.framework */; };
-		95773DFF2634E738008E0419 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95773DFE2634E738008E0419 /* SwiftExtensions.swift */; };
 		95ABC48B265DE68F003AE1F6 /* VirtualMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */; };
 		95FFF045263C628E00F3E54D /* SemanticCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FFF044263C628E00F3E54D /* SemanticCube.swift */; };
 		95FFF04A263C792700F3E54D /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FFF049263C792700F3E54D /* Stack.swift */; };
@@ -77,7 +76,6 @@
 		952142EF2633A23400F8E696 /* MyCustomListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomListener.swift; sourceTree = "<group>"; };
 		952142F32633D2B200F8E696 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		952EA0E62662C1B6008DFBB0 /* Antlr4.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Antlr4.xcodeproj; path = anltr4/Antlr4.xcodeproj; sourceTree = "<group>"; };
-		95773DFE2634E738008E0419 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
 		95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachine.swift; sourceTree = "<group>"; };
 		95FFF044263C628E00F3E54D /* SemanticCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticCube.swift; sourceTree = "<group>"; };
 		95FFF049263C792700F3E54D /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				952142EF2633A23400F8E696 /* MyCustomListener.swift */,
 				95FFF04D263CEDF700F3E54D /* TemporalVariableGenerator.swift */,
 				95FFF044263C628E00F3E54D /* SemanticCube.swift */,
-				95773DFE2634E738008E0419 /* SwiftExtensions.swift */,
 				95FFF049263C792700F3E54D /* Stack.swift */,
 				95FFF04B263CB47900F3E54D /* Quadruple.swift */,
 				95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */,
@@ -276,7 +273,6 @@
 				952142DF2633957C00F8E696 /* OnlyLonelyBaseListener.swift in Sources */,
 				95FFF04C263CB47900F3E54D /* Quadruple.swift in Sources */,
 				952142DC2633957C00F8E696 /* OnlyLonelyParser.swift in Sources */,
-				95773DFF2634E738008E0419 /* SwiftExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
