@@ -392,6 +392,12 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    /// createMatrix
+    /// - Parameters:
+    ///   - rows: Number of rows of the matrix
+    ///   - columns: Number of columns of the matrix
+    ///   - id: Name of the matrix
+    /// - Description: This funciton creates the matrix and saves space for all it's spaces
     public func createMatrix(_ rows : String, _ columns : String, _ id : String){
         let rowsNumber = Int(rows)!
         let columnsNumber = Int(columns)!
@@ -1107,6 +1113,9 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    /// verifyMatrix
+    /// - Parameter matrixName: Name of the Matrix
+    /// - Description: This function creates the Quadruples to access the Matrix
     public func verifyMatrix(_ matrixName : String){
         if localVariableTable[matrixName]?["esMatriz"] == "true" {
             let rightOperand = operandStack.pop()

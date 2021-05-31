@@ -10,13 +10,33 @@ import Antlr4
 
 let input = """
 programa theOnlyLonely;
-variables i[2][3] : entero;
+variables i[2][2], j[2][2], k[2][2] : entero;
 
 principal(){
-i[0][0] = 1;
-i[0][2] = 2;
+i[0][0] = 6;
+i[0][1] = 1;
+i[1][0] = 2;
+i[1][1] = 6;
 
-escribe(i[0][0] + i[0][2]);
+j[0][0] = 2;
+j[0][1] = 9;
+j[1][0] = 2;
+j[1][1] = 2;
+
+k[0][0] = 0;
+k[0][1] = 0;
+k[1][0] = 0;
+k[1][1] = 0;
+
+desde a = 0 hasta 2 hacer{
+desde b = 0 hasta 2 hacer{
+desde c = 0 hasta 2 hacer{
+k[a][b] = i[a][c] * j[c][b] + k[a][b];
+}
+}
+}
+
+escribe(k[0][0], k[0][1], k[1][0], k[1][1]);
 
 }
 """
