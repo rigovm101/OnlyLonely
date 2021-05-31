@@ -52,7 +52,7 @@ listaVTipo : (listaIds DosPuntos tipo PuntoComa listaVTipo) | (listaIds DosPunto
 
 listaIds : variable | (variable Coma listaIds);
 
-variable : (Id AbreCorchete Numero {myListener.createArray($Numero.text , $Id.text)} CierraCorchete) | Id;
+variable : (Id AbreCorchete Numero {myListener.createArray($Numero.text , $Id.text)} CierraCorchete) | (Id AbreCorchete rows=Numero CierraCorchete AbreCorchete cols=Numero CierraCorchete {myListener.createMatrix($rows.text, $cols.text, $Id.text)}) | Id;
 
 decFunc : tFuncion*;
 
@@ -78,7 +78,7 @@ escritura : (Escribe AbreParentesis escrituraAux CierraParentesis PuntoComa);
 
 escrituraAux : ((exp | String) {myListener.processPrint($String.text)} Coma escrituraAux) | ((exp | String){myListener.processPrint($String.text)});
 
-tAsignacion : (Id {myListener.checkIsNotArray($Id.text)} Asignacion exp PuntoComa) | (Id AbreCorchete exp {myListener.verifyArray($Id.text)} CierraCorchete Asignacion exp PuntoComa);
+tAsignacion : (Id {myListener.checkIsNotArray($Id.text)} Asignacion exp PuntoComa) | (Id AbreCorchete {myListener.prepareArrayAccess()} exp {myListener.verifyArray($Id.text)} CierraCorchete Asignacion exp PuntoComa) | (Id AbreCorchete {myListener.prepareArrayAccess()} exp CierraCorchete AbreCorchete {myListener.prepareArrayAccess()} exp {myListener.verifyMatrix($Id.text)} CierraCorchete Asignacion exp PuntoComa);
 
 llamadaVoid : (Id {myListener.verifyFuncExists($Id.text)} AbreParentesis {myListener.generateEra($Id.text)} argumentos CierraParentesis PuntoComa);
 
@@ -104,4 +104,4 @@ expArit : termino | (termino (Suma {myListener.foundSuma()} | Resta {myListener.
 
 termino : factor | (factor (Multiplicacion {myListener.foundMultiplicacion()} | Division {myListener.foundDivision()}) termino);
 
-factor : llamada | (Id AbreCorchete {myListener.prepareArrayAccess()} exp {myListener.verifyArray($Id.text)} CierraCorchete) | Id | NumFlotante | Numero | Caracter | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});
+factor : llamada | (Id AbreCorchete {myListener.prepareArrayAccess()} exp {myListener.verifyArray($Id.text)} CierraCorchete) | (Id AbreCorchete {myListener.prepareArrayAccess()} exp CierraCorchete AbreCorchete {myListener.prepareArrayAccess()} exp {myListener.verifyMatrix($Id.text)} CierraCorchete) | Id | NumFlotante | Numero | Caracter | (AbreParentesis {myListener.foundAbreParentesis()} exp CierraParentesis {myListener.foundCierraParentesis()});

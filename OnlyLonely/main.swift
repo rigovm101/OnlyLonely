@@ -10,29 +10,14 @@ import Antlr4
 
 let input = """
 programa theOnlyLonely;
-variables i, j, p : entero;
-valor : flotante;
-
-entero funcion funcFibo(i : entero){
-si (i < 2) entonces{
-regresa(i);
-}sino{
-regresa(funcFibo(i - 1) + funcFibo(i - 2));
-}
-}
-
-entero funcion factorial(i : entero){
-si (i == 0) entonces{
-regresa(1);
-}sino{
-regresa(i * factorial(i - 1));
-}
-
-}
+variables i[2][3] : entero;
 
 principal(){
+i[0][0] = 1;
+i[0][2] = 2;
 
-escribe(factorial(5), "a dormir");
+escribe(i[0][0] + i[0][2]);
+
 }
 """
 

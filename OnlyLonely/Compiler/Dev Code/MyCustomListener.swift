@@ -392,6 +392,36 @@ open class MyCustomListener : OnlyLonelyListener {
         }
     }
     
+    public func createMatrix(_ rows : String, _ columns : String, _ id : String){
+        let rowsNumber = Int(rows)!
+        let columnsNumber = Int(columns)!
+        let totalSize = rowsNumber * columnsNumber
+        if currFuncName != "" {
+            if localVariableTable[id] == nil{
+                localVariableTable[id] = [:]
+                localVariableTable[id]!["esArreglo"] = "true"
+                localVariableTable[id]!["esMatriz"] = "true"
+                localVariableTable[id]!["rows"] = rows
+                localVariableTable[id]!["columns"] = columns
+                localVariableTable[id]!["size"] = String(totalSize)
+                localVariableCounter += totalSize - 1
+            }else{
+                fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
+            }
+        }else {
+            if variableTable[id] == nil{
+                variableTable[id] = [:]
+                variableTable[id]!["esArreglo"] = "true"
+                variableTable[id]!["esMatriz"] = "true"
+                variableTable[id]!["rows"] = rows
+                variableTable[id]!["columns"] = columns
+                variableTable[id]!["size"] = String(totalSize)
+            }else{
+                fatalError("Error, variable \(id) ya ha sido declarada en este contexto")
+            }
+        }
+    }
+    
     /// exitTAsignacion
     /// - Parameter ctx: The context provided by the parser
     /// - Description: This function processes the "Assign" statement. Determines scope of the variables and creates the Quadruple
@@ -940,7 +970,7 @@ open class MyCustomListener : OnlyLonelyListener {
     public func exitFactor(_ ctx: OnlyLonelyParser.FactorContext) {
         if ctx.llamada()?.getText() == nil {
             if let id = ctx.Id()?.getText() {
-                if ctx.AbreCorchete()?.getText() == nil {
+                if ctx.AbreCorchete().count == 0 {
                     if localVariableTable[id] != nil{
                         let type = localVariableTable[id]?["tipo"]
                         let virtualAddress = localVariableTable[id]!["virtualAddress"]
@@ -1031,41 +1061,107 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Description: Checks if the variable is actually an array and then generates the appropiate Quadruples to access the array in run-time
     public func verifyArray(_ arrayName : String){
         if localVariableTable[arrayName]?["esArreglo"] == "true" {
-            let operand = operandStack.pop()
-            let type = typeStack.pop()
-            let size = localVariableTable[arrayName]!["size"]
-            let virtualAddress = localVariableTable[arrayName]!["virtualAddress"]!
-            if type == "entero"{
-                quadruples.append(Quadruple("verify", operand!, "0", size!))
-                let arrayType = localVariableTable[arrayName]!["tipo"]
-                let next = myTempVarGenerator.getTempVar(arrayType!)
-                quadruples.append(Quadruple("+", operand!, virtualAddress, next))
-                let pointer = "(" + next + ")"
-                operandStack.push(pointer)
-                typeStack.push(arrayType!)
-                operatorStack.simplePop()
+            if localVariableTable[arrayName]!["esMatriz"] == nil {
+                let operand = operandStack.pop()
+                let type = typeStack.pop()
+                let size = localVariableTable[arrayName]!["size"]
+                let virtualAddress = localVariableTable[arrayName]!["virtualAddress"]!
+                if type == "entero"{
+                    quadruples.append(Quadruple("verify", operand!, "0", size!))
+                    let arrayType = localVariableTable[arrayName]!["tipo"]
+                    let next = myTempVarGenerator.getTempVar(arrayType!)
+                    quadruples.append(Quadruple("+", operand!, virtualAddress, next))
+                    let pointer = "(" + next + ")"
+                    operandStack.push(pointer)
+                    typeStack.push(arrayType!)
+                    operatorStack.simplePop()
+                }else{
+                    fatalError("Error, la expresión debe de ser de tipo entero, no \(type!)")
+                }
             }else{
-                fatalError("Error, la expresión debe de ser de tipo entero, no \(type!)")
+                fatalError("Error, la variable \(arrayName) es una matriz, no un arreglo")
             }
         }else if variableTable[arrayName]?["esArreglo"] == "true"{
-            let operand = operandStack.pop()
-            let type = typeStack.pop()
-            let size = variableTable[arrayName]!["size"]
-            let virtualAddress = variableTable[arrayName]!["virtualAddress"]!
-            if type == "entero"{
-                quadruples.append(Quadruple("verify", operand!, "0", size!))
-                let arrayType = variableTable[arrayName]!["tipo"]
-                let next = myTempVarGenerator.getTempVar(arrayType!)
-                quadruples.append(Quadruple("+", operand!, virtualAddress, next))
-                let pointer = "(" + next + ")"
-                operandStack.push(pointer)
-                typeStack.push(arrayType!)
-                operatorStack.simplePop()
+            if variableTable[arrayName]!["esMatriz"] == nil {
+                let operand = operandStack.pop()
+                let type = typeStack.pop()
+                let size = variableTable[arrayName]!["size"]
+                let virtualAddress = variableTable[arrayName]!["virtualAddress"]!
+                if type == "entero"{
+                    quadruples.append(Quadruple("verify", operand!, "0", size!))
+                    let arrayType = variableTable[arrayName]!["tipo"]
+                    let next = myTempVarGenerator.getTempVar(arrayType!)
+                    quadruples.append(Quadruple("+", operand!, virtualAddress, next))
+                    let pointer = "(" + next + ")"
+                    operandStack.push(pointer)
+                    typeStack.push(arrayType!)
+                    operatorStack.simplePop()
+                }else{
+                    fatalError("Error, la expresión debe de ser de tipo entero, no \(type!)")
+                }
             }else{
-                fatalError("Error, la expresión debe de ser de tipo entero, no \(type!)")
+                fatalError("Error, la variable \(arrayName) es una matriz, no un arreglo")
             }
         }else{
             fatalError("Error, la variable \(arrayName) no es un arreglo")
+        }
+    }
+    
+    public func verifyMatrix(_ matrixName : String){
+        if localVariableTable[matrixName]?["esMatriz"] == "true" {
+            let rightOperand = operandStack.pop()
+            let rightType = typeStack.pop()
+            let leftOperand = operandStack.pop()
+            let leftType = typeStack.pop()
+            let rowsNumber = localVariableTable[matrixName]!["rows"]
+            let columnsNumber = localVariableTable[matrixName]!["columns"]
+            let virtualAddress = localVariableTable[matrixName]!["virtualAddress"]!
+            if rightType == "entero" && leftType == "entero"{
+                quadruples.append(Quadruple("verifyMat", leftOperand!, "0", rowsNumber!))
+                quadruples.append(Quadruple("verifyMat", rightOperand!, "0", columnsNumber!))
+                let matrixType = localVariableTable[matrixName]!["tipo"]
+                let jumpSize = myTempVarGenerator.getTempInt()
+                quadruples.append(Quadruple("*", leftOperand!, columnsNumber!, jumpSize))
+                let finalDisplacement = myTempVarGenerator.getTempInt()
+                quadruples.append(Quadruple("+", rightOperand!, jumpSize, finalDisplacement))
+                let next = myTempVarGenerator.getTempVar(matrixType!)
+                quadruples.append(Quadruple("+", finalDisplacement, virtualAddress, next))
+                let pointer = "(" + next + ")"
+                operandStack.push(pointer)
+                typeStack.push(matrixType!)
+                operatorStack.simplePop()
+                operatorStack.simplePop()
+            }else{
+                fatalError("Error, ambas expresiones debe de ser de tipo entero y son de tipo \(leftType!) y \(rightType!)")
+            }
+        }else if variableTable[matrixName]?["esMatriz"] == "true"{
+            let rightOperand = operandStack.pop()
+            let rightType = typeStack.pop()
+            let leftOperand = operandStack.pop()
+            let leftType = typeStack.pop()
+            let rowsNumber = variableTable[matrixName]!["rows"]
+            let columnsNumber = variableTable[matrixName]!["columns"]
+            let virtualAddress = variableTable[matrixName]!["virtualAddress"]!
+            if rightType == "entero" && leftType == "entero"{
+                quadruples.append(Quadruple("verifyMat", leftOperand!, "0", rowsNumber!))
+                quadruples.append(Quadruple("verifyMat", rightOperand!, "0", columnsNumber!))
+                let matrixType = variableTable[matrixName]!["tipo"]
+                let jumpSize = myTempVarGenerator.getTempInt()
+                quadruples.append(Quadruple("*", leftOperand!, columnsNumber!, jumpSize))
+                let finalDisplacement = myTempVarGenerator.getTempInt()
+                quadruples.append(Quadruple("+", rightOperand!, jumpSize, finalDisplacement))
+                let next = myTempVarGenerator.getTempVar(matrixType!)
+                quadruples.append(Quadruple("+", finalDisplacement, virtualAddress, next))
+                let pointer = "(" + next + ")"
+                operandStack.push(pointer)
+                typeStack.push(matrixType!)
+                operatorStack.simplePop()
+                operatorStack.simplePop()
+            }else{
+                fatalError("Error, ambas expresiones debe de ser de tipo entero y son de tipo \(leftType!) y \(rightType!)")
+            }
+        }else{
+            fatalError("Error, la variable \(matrixName) no es una matriz")
         }
     }
     

@@ -268,7 +268,7 @@ class VirtualMachine {
                 let address = String(quad.leftOperand)
                 let upperLimit = Int(quad.result)!
                 if Int(accessMemory(address))! >= upperLimit || Int(accessMemory(address))! < 0{
-                    print("Error de dimensiones del arreglo")
+                    fatalError("Error de dimensiones del arreglo")
                 }
                 instructionPointer += 1
                 let nextUnverifiedQuad = quadruples[instructionPointer]
@@ -279,6 +279,49 @@ class VirtualMachine {
                 let resultAddress = nextQuad.result
                 let resultContent = leftContent + displacement
                 writeMemory(resultAddress, String(resultContent))
+            case "verifyMat":
+                //Verify 1
+                var address = String(quad.leftOperand)
+                var upperLimit = Int(quad.result)!
+                if Int(accessMemory(address))! >= upperLimit || Int(accessMemory(address))! < 0{
+                    fatalError("Error de dimensiones del arreglo")
+                }
+                instructionPointer += 1
+                //Verify 2
+                var nextUnverifiedQuad = quadruples[instructionPointer]
+                var nextQuad = processQuad(nextUnverifiedQuad)
+                address = String(nextQuad.leftOperand)
+                upperLimit = Int(nextQuad.result)!
+                if Int(accessMemory(address))! >= upperLimit || Int(accessMemory(address))! < 0{
+                    fatalError("Error de dimensiones del arreglo")
+                }
+                instructionPointer += 1
+                //Multiplication
+                nextUnverifiedQuad = quadruples[instructionPointer]
+                nextQuad = processQuad(nextUnverifiedQuad)
+                var leftOperand = Int(accessMemory(nextQuad.leftOperand))!
+                var rightOperand = Int(nextQuad.rightOperand)!
+                var result = leftOperand * rightOperand
+                var resultAddress = nextQuad.result
+                writeMemory(resultAddress, String(result))
+                instructionPointer += 1
+                //Sum 1
+                nextUnverifiedQuad = quadruples[instructionPointer]
+                nextQuad = processQuad(nextUnverifiedQuad)
+                leftOperand = Int(accessMemory(nextQuad.leftOperand))!
+                rightOperand = Int(accessMemory(nextQuad.rightOperand))!
+                result = leftOperand + rightOperand
+                resultAddress = nextQuad.result
+                writeMemory(resultAddress, String(result))
+                instructionPointer += 1
+                //Sum 2
+                nextUnverifiedQuad = quadruples[instructionPointer]
+                nextQuad = processQuad(nextUnverifiedQuad)
+                leftOperand = Int(accessMemory(nextQuad.leftOperand))!
+                rightOperand = Int(nextQuad.rightOperand)!
+                result = leftOperand + rightOperand
+                resultAddress = nextQuad.result
+                writeMemory(resultAddress, String(result))
             default:
                 continue
             }
