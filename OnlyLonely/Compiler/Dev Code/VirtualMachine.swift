@@ -175,11 +175,17 @@ class VirtualMachine {
                 if type == "entero" {
                     let leftOperand = Int(accessMemory(leftAddress))!
                     let rightOperand = Int(accessMemory(rightAddress))!
+                    if (rightOperand == 0){
+                        fatalError("Error, divisíon entre 0")
+                    }
                     let resultOperand = leftOperand / rightOperand
                     writeMemory(resultAddress, String(resultOperand))
                 }else if type == "flotante"{
                     let leftOperand = Float(accessMemory(leftAddress))!
                     let rightOperand = Float(accessMemory(rightAddress))!
+                    if (rightOperand == 0){
+                        fatalError("Error, divisíon entre 0")
+                    }
                     let resultOperand = leftOperand / rightOperand
                     writeMemory(resultAddress, String(resultOperand))
                 }
@@ -440,17 +446,33 @@ class VirtualMachine {
     public func accessMemory(_ address : String) -> String{
         let numAddress = Int(address)!
         if numAddress < 10000{
-            return globalMemory[address]!
+            if let content = globalMemory[address]{
+                return content
+            }else{
+                fatalError("Error, acceso incorrecto a memoria")
+            }
         }
         
         if numAddress < 20000{
-            return localMemory[address]!
+            if let content = localMemory[address]{
+                return content
+            }else{
+                fatalError("Error, acceso incorrecto a memoria")
+            }
         }
         
         if numAddress < 25000 {
-            return temporalMemory[address]!
+            if let content = temporalMemory[address]{
+                return content
+            }else{
+                fatalError("Error, acceso incorrecto a memoria")
+            }
         }
-        return constMemory[address]!
+        if let content = constMemory[address]{
+            return content
+        }else{
+            fatalError("Error, acceso incorrecto a memoria")
+        }
     }
     
     public func writeMemory(_ address : String, _ content : String){

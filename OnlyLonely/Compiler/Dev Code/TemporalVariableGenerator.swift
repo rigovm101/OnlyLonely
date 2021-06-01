@@ -60,6 +60,9 @@ class TemporalVariableGenerator{
     /// - Description: This function gets the address for a Global Int
     func getGlobalInt() -> String{
         globalInt = globalInt + 1
+        if globalInt > 3300 {
+            fatalError("Error, demasiadas variables globales enteras declaradas")
+        }
         return String(globalInt)
     }
     
@@ -68,6 +71,9 @@ class TemporalVariableGenerator{
     /// - Description: This function gets the address for a Global Float
     func getGlobalFloat() -> String{
         globalFloat = globalFloat + 1
+        if globalFloat > 6600 {
+            fatalError("Error, demasiadas variables globales flotantes declaradas")
+        }
         return String(3300 + globalFloat)
     }
     
@@ -76,6 +82,9 @@ class TemporalVariableGenerator{
     /// - Description: This function gets the address for a Global Char
     func getGlobalChar() -> String{
         globalChar = globalChar + 1
+        if globalChar > 10000 {
+            fatalError("Error, demasiadas variables globales char declaradas")
+        }
         return String(6600 + globalChar)
     }
     
@@ -124,6 +133,9 @@ class TemporalVariableGenerator{
     /// - Description: Gets the address for a new Local Integer
     func getLocalInt() -> String{
         localInt = localInt + 1
+        if localInt > 13300 {
+            fatalError("Error, demasiadas variables locales enteras declaradas")
+        }
         return String(10000 + localInt)
     }
     
@@ -132,6 +144,9 @@ class TemporalVariableGenerator{
     /// - Description: Gets the address for a new Local Float
     func getLocalFloat() -> String{
         localFloat = localFloat + 1
+        if localFloat > 16600 {
+            fatalError("Error, demasiadas variables locales flotantes declaradas")
+        }
         return String(13300 + localFloat)
     }
     
@@ -140,6 +155,9 @@ class TemporalVariableGenerator{
     /// - Description: Gets the address for a new Local Char
     func getLocalChar() -> String{
         localChar = localChar + 1
+        if localChar > 20000 {
+            fatalError("Error, demasiadas variables locales char declaradas")
+        }
         return String(16600 + localChar)
     }
     
@@ -189,6 +207,9 @@ class TemporalVariableGenerator{
     func getTempInt() -> String{
         counter += 1
         tempInt = tempInt + 1
+        if tempInt > 21250 {
+            fatalError("Error, demasiadas variables temporales enteras declaradas")
+        }
         return String(20000 + tempInt)
     }
     
@@ -198,6 +219,9 @@ class TemporalVariableGenerator{
     func getTempFloat() -> String{
         counter += 1
         tempFloat = tempFloat + 1
+        if tempFloat > 22500 {
+            fatalError("Error, demasiadas variables temporales flotantes declaradas")
+        }
         return String(21250 + tempFloat)
     }
     
@@ -207,6 +231,9 @@ class TemporalVariableGenerator{
     func getTempChar() -> String{
         counter += 1
         tempChar = tempChar + 1
+        if tempChar > 23750 {
+            fatalError("Error, demasiadas variables temporales char declaradas")
+        }
         return String(22500 + tempChar)
     }
     
@@ -216,6 +243,9 @@ class TemporalVariableGenerator{
     func getTempBool() -> String{
         counter += 1
         tempBool = tempBool + 1
+        if tempBool > 25000 {
+            fatalError("Error, demasiadas variables temporales bool declaradas")
+        }
         return String(23750 + tempBool)
     }
     
@@ -243,6 +273,9 @@ class TemporalVariableGenerator{
     /// - Description: Gets an address for a new Integer Cosntant
     func getConstInt() -> String{
         constInt = constInt + 1
+        if constInt > 26600 {
+            fatalError("Error, demasiadas constantes enteras declaradas")
+        }
         return String(25000 + constInt)
     }
     
@@ -251,6 +284,9 @@ class TemporalVariableGenerator{
     /// - Description: Gets an address for a new Float Constant
     func getConstFloat() -> String{
         constFloat = constFloat + 1
+        if constFloat > 28300 {
+            fatalError("Error, demasiadas constantes flotantes declaradas")
+        }
         return String(26600 + constFloat)
     }
     
@@ -259,6 +295,9 @@ class TemporalVariableGenerator{
     /// - Description: Gets an address for a new Char Constat
     func getConstChar() -> String{
         constChar = constChar + 1
+        if constChar > 30000 {
+            fatalError("Error, demasiadas constantes char declaradas")
+        }
         return String(28300 + constChar)
     }
     

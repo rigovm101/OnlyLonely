@@ -28,6 +28,9 @@ public class Quadruple {
         self.result = result
     }
     
+    /// setResult
+    /// - Parameter result: Address of the result
+    /// - Description: Modifies the last element of the Quadruple
     func setResult(_ result: String){
         self.result = result
     }
