@@ -488,6 +488,10 @@ open class MyCustomListener : OnlyLonelyListener {
             fatalError("Error, la variable \(id) es un arreglo")
         }else if variableTable[id]?["esArreglo"] != nil{
             fatalError("Error, la variable \(id) es un arreglo")
+        }else if localVariableTable[id]?["esMatriz"] != nil {
+            fatalError("Error, la variable \(id) es una matriz")
+        }else if variableTable[id]?["esMatriz"] != nil{
+            fatalError("Error, la variable \(id) es una matriz")
         }
     }
     

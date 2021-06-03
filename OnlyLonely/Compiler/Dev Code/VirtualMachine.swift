@@ -40,6 +40,11 @@ class VirtualMachine {
         localActivationRecord = [:]
     }
     
+    /// VirtualMachine Initializer
+    /// - Parameters:
+    ///   - functionTable: Function table to use
+    ///   - constTable: Constant table to use
+    ///   - quadruples: List of Quadruples to process
     init(_ functionTable : [String : [String : String]], _ constTable : [String : [String : String]], _ quadruples : [Quadruple]){
         globalMemory = [:]
         localMemory = [:]
@@ -60,6 +65,8 @@ class VirtualMachine {
         
     }
     
+    /// run
+    /// - Description: This function processes the Quadruple list
     public func run(){
         while quadruples[instructionPointer].operationCode != "armin" {
             let uncheckedQuad = quadruples[instructionPointer]
@@ -336,6 +343,10 @@ class VirtualMachine {
         }
     }
     
+    /// determineType
+    /// - Parameter address: Address in memory
+    /// - Returns: Type of content in the address
+    /// - Description: Function used to determine the type of value of an address
     public func determineType(_ address : String) -> String {
         let numAddress = Int(address)!
         //Globales
@@ -384,20 +395,11 @@ class VirtualMachine {
         return "char"
     }
     
-    public func determineScope(_ address : String) -> String{
-        let numAddress = Int(address)!
-        
-        if numAddress < 10000{
-            return "global"
-        }else if numAddress < 20000{
-            return "local"
-        }else if numAddress < 25000{
-            return "temporal"
-        }else{
-            return "constant"
-        }
-    }
-    
+    /// getAddressOfParam
+    /// - Parameters:
+    ///   - paramNumberString: Number of the parameter to process when calling a function
+    ///   - funcName: Name of the function being called
+    /// - Returns: Address in the local variable table of the parameter
     public func getAddressOfParam(_ paramNumberString : String, _ funcName : String) -> String{
         let paramNumber = Int(paramNumberString)!
         let paramSequence = functionTable[funcName]!["params"]!.split(separator: " ")
@@ -414,6 +416,10 @@ class VirtualMachine {
         }
     }
     
+    /// processQuad
+    /// - Parameter quad: Quadruple to verify
+    /// - Returns: A usable Quadrplue
+    /// - Description: This function handles addresses which contain another address
     public func processQuad(_ quad : Quadruple) -> Quadruple{
         var leftOperand = quad.leftOperand
         var rightOperand = quad.rightOperand
@@ -443,6 +449,10 @@ class VirtualMachine {
         
     }
     
+    /// accessMemory
+    /// - Parameter address: Address to access
+    /// - Returns: The content of the address
+    /// - Description: This function determines the context of the address and returns it's content
     public func accessMemory(_ address : String) -> String{
         let numAddress = Int(address)!
         if numAddress < 10000{
@@ -475,6 +485,11 @@ class VirtualMachine {
         }
     }
     
+    /// writeMemory
+    /// - Parameters:
+    ///   - address: Address to write upon
+    ///   - content: Content to write in the address
+    /// - Description: This function writes content into it's appropiate context
     public func writeMemory(_ address : String, _ content : String){
         let numAddress = Int(address)!
         if numAddress < 10000{
@@ -488,6 +503,8 @@ class VirtualMachine {
         }
     }
     
+    /// printQuads
+    /// - Description: Print Quadruples for debbuging
     public func printQuads(){
         while quadruples[instructionPointer].operationCode != "armin" {
             print("#\(instructionPointer)\t \(quadruples[instructionPointer].operationCode)\t\(quadruples[instructionPointer].leftOperand)\t\(quadruples[instructionPointer].rightOperand)\t\(quadruples[instructionPointer].result)")

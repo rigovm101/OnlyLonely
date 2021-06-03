@@ -1,0 +1,118 @@
+Ordenar un arreglo
+void funcion ordenarArreglo()
+variables i[5], temp : entero;
+{
+i[0] = 3;
+i[1] = 5;
+i[2] = 2;
+i[3] = 1;
+i[4] = 4;
+
+desde uno = 0 hasta 5 hacer{
+desde dos = uno + 1 hasta 5 hacer{
+si(i[uno] > i[dos]) entonces {
+temp = i[dos];
+i[dos] = i[uno];
+i[uno] = temp;
+}
+}
+}
+escribe(i[0], i[1], i[2], i[3], i[4]);
+}
+
+Buscar en un arreglo
+void funcion buscarArreglo(x : entero)
+variables i[5], y : entero;
+{
+i[0] = 3;
+i[1] = 5;
+i[2] = 2;
+i[3] = 1;
+i[4] = 4;
+y = -1;
+
+desde n = 0 hasta 5 hacer{
+si(i[n] == x) entonces {
+y = n;
+}
+}
+
+si(y != -1) entonces {
+escribe("Si se encontro posicion");
+escribe(y);
+}sino{
+escribe("No se encontro");
+}
+}
+
+
+Factorial Recursivo
+entero funcion factorial(i : entero){
+si (i < 2) entonces{
+regresa(1);
+} sino {
+regresa(i * factorial(i - 1));
+}
+}
+
+Factorial Iterativo
+entero funcion factorial(i : entero)
+variables resultado : entero;
+{
+resultado = 1;
+desde iC = 1 hasta i + 1 hacer{
+resultado = iC * resultado;
+}
+regresa(resultado);
+}
+
+Fibonacci Recursivo
+entero funcion fibonacci(n : entero){
+si(n < 2) entonces {
+regresa(n);
+}sino{
+regresa(fibonacci(n - 1) + fibonacci(n - 2));
+}
+}
+
+Fibonacci Iterativo
+entero funcion fibonacci(n : entero)
+variables anteriorAnterior, anterior, actual : entero;{
+anterior = 0;
+actual = 1;
+desde i = 1 hasta n hacer{
+anteriorAnterior = anterior;
+anterior = actual;
+actual = anteriorAnterior + anterior;
+}
+regresa(actual);
+}
+
+Multiplicacion de Matrices
+void funcion multiplicacionMat()
+variables i[2][2], j[2][2], k[2][2] : entero;
+{
+i[0][0] = 6;
+i[0][1] = 1;
+i[1][0] = 2;
+i[1][1] = 6;
+
+j[0][0] = 2;
+j[0][1] = 9;
+j[1][0] = 2;
+j[1][1] = 2;
+
+k[0][0] = 0;
+k[0][1] = 0;
+k[1][0] = 0;
+k[1][1] = 0;
+
+desde a = 0 hasta 2 hacer{
+desde b = 0 hasta 2 hacer{
+desde c = 0 hasta 2 hacer{
+k[a][b] = i[a][c] * j[c][b] + k[a][b];
+}
+}
+}
+escribe(k[0][0], k[0][1], k[1][0], k[1][1]);
+}

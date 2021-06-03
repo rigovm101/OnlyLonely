@@ -76,6 +76,8 @@
 		952142EF2633A23400F8E696 /* MyCustomListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomListener.swift; sourceTree = "<group>"; };
 		952142F32633D2B200F8E696 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		952EA0E62662C1B6008DFBB0 /* Antlr4.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Antlr4.xcodeproj; path = anltr4/Antlr4.xcodeproj; sourceTree = "<group>"; };
+		95A1A9972666A6A2001DE597 /* tests.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = tests.txt; sourceTree = "<group>"; };
+		95A35D5F2668731F00D66221 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		95ABC48A265DE68F003AE1F6 /* VirtualMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachine.swift; sourceTree = "<group>"; };
 		95FFF044263C628E00F3E54D /* SemanticCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticCube.swift; sourceTree = "<group>"; };
 		95FFF049263C792700F3E54D /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		952142AB2633954600F8E696 = {
 			isa = PBXGroup;
 			children = (
+				95A35D5F2668731F00D66221 /* README.md */,
 				952EA0E62662C1B6008DFBB0 /* Antlr4.xcodeproj */,
 				952142B62633954600F8E696 /* OnlyLonely */,
 				952142B52633954600F8E696 /* Products */,
@@ -119,6 +122,7 @@
 				952142CF2633956900F8E696 /* Compiler */,
 				952142B72633954600F8E696 /* main.swift */,
 				952142F32633D2B200F8E696 /* README.md */,
+				95A1A9972666A6A2001DE597 /* tests.txt */,
 			);
 			path = OnlyLonely;
 			sourceTree = "<group>";
