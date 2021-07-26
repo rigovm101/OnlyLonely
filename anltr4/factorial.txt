@@ -1,0 +1,21 @@
+entero funcion patito(i : entero){
+regresa(i*3);
+}
+
+entero funcion pelos(i : entero){
+regresa(patito(i * 2));
+}
+
+entero funcion factorial(i : entero){
+si (i < 2) entonces{
+regresa(1);
+} sino {
+regresa(i * factorial(i - 1));
+}
+}
+
+principal(){
+escribe(factorial(5));
+escribe(pelos(2));
+escribe(factorial(pelos(1)));
+}

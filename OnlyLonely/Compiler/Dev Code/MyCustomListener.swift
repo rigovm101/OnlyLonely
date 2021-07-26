@@ -25,6 +25,7 @@ open class MyCustomListener : OnlyLonelyListener {
     var localVariableCounter : Int
     var currParam : Int
     var constTable : [String : [String : String]]
+    var currCalledFunc : Stack<String>
     
     /// MyCustomListener initializer
     init() {
@@ -45,6 +46,7 @@ open class MyCustomListener : OnlyLonelyListener {
         constTable["1"] = [:]
         constTable["1"]!["tipo"] = "entero"
         constTable["1"]!["virtualAddress"] = String(myTempVarGenerator.getConst("entero"))
+        currCalledFunc = Stack<String>()
     }
     
     /// getFunctionTable()
@@ -506,6 +508,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if functionTable[funcName] == nil{
             fatalError("Error, la funcion \(funcName) no existe")
         }
+        currCalledFunc.push(funcName)
     }
     
     /// verifyNoVoidFunctionExists()
@@ -515,6 +518,7 @@ open class MyCustomListener : OnlyLonelyListener {
         if functionTable[funcName] == nil{
             fatalError("Error, la funcion \(funcName) no existe")
         }
+        currCalledFunc.push(funcName)
     }
     
     /// generateEra()
@@ -522,7 +526,7 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Description: Creates the Quadruple "era" when a function is called
     public func generateEra(_ funcName : String){
         quadruples.append(Quadruple("era", "-1", "-1", funcName))
-        currFuncName = funcName
+        currCalledFunc.push(funcName)
     }
     
     /// processArgument()
@@ -530,13 +534,13 @@ open class MyCustomListener : OnlyLonelyListener {
     public func processArgument(){
         let argument = operandStack.pop()
         let argumentType = typeStack.pop()
-        if currFuncName != "" {
-            let list = functionTable[currFuncName]!["params"]?.split(separator: " ")
+        if currCalledFunc.top() != nil {
+            let list = functionTable[currCalledFunc.top()!]!["params"]?.split(separator: " ")
             if list!.count == 0{
                 fatalError("Error, esta funcion no tiene parámetros")
             }else{
                 if String(list![currParam]) == argumentType{
-                    quadruples.append(Quadruple("parameter", argument!, String(currParam), currFuncName))
+                    quadruples.append(Quadruple("parameter", argument!, String(currParam), currCalledFunc.top()!))
                     currParam = currParam + 1
                 }else{
                     fatalError("Error, el arumento es de tipo incorrecto")
@@ -551,8 +555,8 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Parameter ctx: The context provided by the parser
     /// - Description: This function checks if all the parameters were sent and creates the Quadruple "gosub"
     public func exitLlamadaVoid(_ ctx: OnlyLonelyParser.LlamadaVoidContext) {
-        if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
-            quadruples.append(Quadruple("gosub", "-1", "-1", currFuncName))
+        if currParam == Int(functionTable[currCalledFunc.top()!]!["numParams"]!) {
+            quadruples.append(Quadruple("gosub", "-1", "-1", currCalledFunc.top()!))
             currParam = 0
         }else{
             fatalError("Error, no se pasaron los argumentos necesarios para la función")
@@ -570,18 +574,19 @@ open class MyCustomListener : OnlyLonelyListener {
     /// - Parameter ctx: The context provided by the parser
     /// - Description: This function checks if all the parameters were sent, creates the "gosub" quadruple and saves the return value
     public func exitLlamada(_ ctx: OnlyLonelyParser.LlamadaContext) {
-        if currParam == Int(functionTable[currFuncName]!["numParams"]!) {
-            quadruples.append(Quadruple("gosub", "-1", "-1", currFuncName))
-            let returnType = functionTable[currFuncName]!["tRetorno"]!
+        if currParam == Int(functionTable[currCalledFunc.top()!]!["numParams"]!) {
+            quadruples.append(Quadruple("gosub", "-1", "-1", currCalledFunc.top()!))
+            let returnType = functionTable[currCalledFunc.top()!]!["tRetorno"]!
             let tempVar = myTempVarGenerator.getTempVar(returnType)
-            let virtualAddress = variableTable[currFuncName]!["virtualAddress"]
+            let virtualAddress = variableTable[currCalledFunc.top()!]!["virtualAddress"]
             quadruples.append(Quadruple("=", virtualAddress!, "-1", String(tempVar)))
             operandStack.push(tempVar)
             typeStack.push(returnType)
             currParam = 0
             operatorStack.simplePop()
+            currCalledFunc.simplePop()
         }else{
-            fatalError("Error, no se pasaron los argumentos necesarios para la función \(currFuncName)")
+            fatalError("Error, no se pasaron los argumentos necesarios para la función \(currCalledFunc.top()!)")
         }
     }
     
